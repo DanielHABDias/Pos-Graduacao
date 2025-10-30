@@ -65,7 +65,7 @@
   - Antes tinha de abrir chamados e esperar, hoje em dia é possivel criar gráficos de forma simples e impressionante, mesmo sendo um usuário mais leigo de tecnologia.
 
 #### Arquitetura de Business Intelligence (BI)
-![OLAP Arquitetura](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Arquitetura.png)
+![OLAP Arquitetura](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/BI_Arquitetura.png)
 
   1. **Fontes de Informação (Information Sources – Tier 0)**
   - **Operational Databases**
@@ -73,7 +73,7 @@
     - Usadas no dia a dia da empresa (ERP, CRM, sistemas de vendas).
   - **External Sources**
     - Dados vindos de arquivos, APIs, planilhas e fontes externas à organização. 
-  2. **Servidor de Data Warehouse (Tier 1)**
+  1. **Servidor de Data Warehouse (Tier 1)**
   - **Data Warehouse**
     - Repositório central de dados integrados de várias fontes.
     - Estruturado para análise e tomada de decisão, não para operações transacionais.
@@ -86,8 +86,8 @@
     - Garante governança e entendimento dos dados.
   - **Data Marts**
     - Subconjuntos do Data Warehouse focados em áreas específicas (ex.: vendas, finanças, logística).
-    - Podem ser dependentes (a partir do DW) ou independentes. 
-  3. **Servidores OLAP (Tier 2)**
+    - Podem ser dependentes (a partir do Data Warehouse) ou independentes. 
+  1. **Servidores OLAP (Tier 2)**
   - **Cubos OLAP**
     - Estruturas multidimensionais que permitem analisar dados em diferentes perspectivas (tempo, região, produto).
     - Suportam operações como drill-down, roll-up, slice e dice.
@@ -97,7 +97,7 @@
       - **MOLAP** (Multidimensional OLAP)
       - **ROLAP** (Relational OLAP)
       - **HOLAP** (Hybrid OLAP)
-  4. **Clientes (Tier 3) – Ferramentas de BI**
+  1. **Clientes (Tier 3) – Ferramentas de BI**
   - **Data Analysis**
     - Ferramentas de visualização e dashboards (ex.: Power BI, Tableau).
     - Usuários podem explorar os cubos OLAP.
@@ -108,14 +108,70 @@
     - Técnicas avançadas para descobrir padrões e predições.
     - Usa algoritmos de inteligência artificial e estatística.
   
-  5. **Fluxo Geral do Processo**
+  1. **Fluxo Geral do Processo**
     1. Dados são coletados das fontes operacionais e externas.
     2. São processados via ETL e armazenados no Data Warehouse.
     3. São organizados em Data Marts e cubos OLAP para consultas rápidas.
     4. Usuários finais acessam os dados por meio de ferramentas analíticas e de mineração.
    
-  6. **Objetivo Final**
+  2. **Objetivo Final**
     **Transformar dados brutos em informações estratégicas** que possibilitam:
     - Melhor **tomada de decisão**;
     - Maior **eficiência** operacional;
     - **Antecipação** de tendências e oportunidades.
+
+#### OLAP Cubes
+![OLAP Cubes](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Cubes.png)
+
+> "Parece uma planilha para acesso rápido do usuário"
+
+**Exemplo:**
+![OLAP Exemplo 1](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Exemplos_1.png)
+![OLAP Exemplo 2](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Exemplos_2.png)
+![OLAP Exemplo 3](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Exemplos_3.png)
+
+#### Arquitetura OLAP
+![OLAP Arquitetura](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Arquitetura.png)
+
+#### Tipos de Operações OLAP
+![OLAP Operações](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Operacoes.png)
+
+**Pivot** é trocar o que é linha para coluna e vice-versa:
+![OLAP Pivot](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Pivot.png)
+
+Exemplo de **ROLL-UP** e **DRILL-DOWN**:
+![Exemplo Roll-UP e Drill-Down](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_ExemplosOperacoes_1.png)
+
+Exemplo de **DICE** e **SLICE**:
+![Exemplo de Dice e Slice](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_ExemplosOperacoes_2.png)
+
+#### Ciclo de Vida Projeto Dados
+![Ciclo de Vida de Projeto de Dados](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/ProjetoDados_CicloVida.png)
+
+#### Passo a Passo de Criação de OLAP
+![Passo a Passo de Criação de OLAP](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_PassoAPasso.png)
+
+Sobre a **Entrevista** com o Usuário Chave:
+![Entrevista para OLAP Usuario Chave](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_EntrevistaUsuario.png)
+
+**Dicas:**
+  - Criar Atas de reunião para registrar tudo e não ter futuros conflitos com o cliente.
+  - Criar interfaces com as cores bem definidas para ajudar na visualização(priorize cores da marca da empresa).
+  - Levantar requisitos corretamente e planejar a interface de forma visual.
+
+#### Resultado OLAP
+![Resultado OLAP](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/OLAP_Resultado.png)
+
+#### Ferramentas OLAP
+
+> Utilizadas para criação de interfaces para análise de dados.
+
+- **COGNOS**
+- **SAP**
+- **ORACLE**
+- **PENTHO**
+- **MicroStrategy**
+- **ThoughtSpot**
+- **QLIK**
+- **TABLEAU**
+- **POWER BI**
