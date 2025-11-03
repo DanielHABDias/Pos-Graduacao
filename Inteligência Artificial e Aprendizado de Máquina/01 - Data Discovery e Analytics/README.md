@@ -1,9 +1,40 @@
 # 01 - Data Discovery e Analytics
 
-## Sumário
-- ![Unidade 01](#unidade-01)
-  - ![Dados para Negócios](#dados-para-negócios)
-  - ![O que são KPIs?](#o-que-são-kpis)
+## 📘 Sumário
+- [01 - Data Discovery e Analytics](#01---data-discovery-e-analytics)
+  - [📘 Sumário](#-sumário)
+  - [UNIDADE 01](#unidade-01)
+    - [Dados para Negócios](#dados-para-negócios)
+    - [KPIs](#kpis)
+      - [O que são KPIs?](#o-que-são-kpis)
+      - [**KPI Finalidade:**](#kpi-finalidade)
+      - [**KPI Benefícios: (Controle da Organização)**](#kpi-benefícios-controle-da-organização)
+      - [**KPI Etapas:**](#kpi-etapas)
+      - [**KPI Exemplos:**](#kpi-exemplos)
+    - [Sistema de Suporte à Decisão (SSD)](#sistema-de-suporte-à-decisão-ssd)
+      - [O que é SSD?](#o-que-é-ssd)
+      - [Modelos de SSD](#modelos-de-ssd)
+    - [OLAP (Online Analytical Processing)](#olap-online-analytical-processing)
+      - [O que é OLAP?](#o-que-é-olap)
+      - [Arquitetura de Business Intelligence (BI)](#arquitetura-de-business-intelligence-bi)
+      - [OLAP Cubes](#olap-cubes)
+      - [Arquitetura OLAP](#arquitetura-olap)
+      - [Tipos de Operações OLAP](#tipos-de-operações-olap)
+      - [Ciclo de Vida Projeto Dados](#ciclo-de-vida-projeto-dados)
+      - [Passo a Passo de Criação de OLAP](#passo-a-passo-de-criação-de-olap)
+      - [Resultado OLAP](#resultado-olap)
+      - [Ferramentas OLAP](#ferramentas-olap)
+    - [🧭 Conclusão da Unidade 1](#-conclusão-da-unidade-1)
+  - [UNIDADE 02](#unidade-02)
+    - [Data-Driven](#data-driven)
+      - [O que é Data-Driven](#o-que-é-data-driven)
+      - [Características de uma empresa Data Driven](#características-de-uma-empresa-data-driven)
+      - [Benefícios de ser Data-Driven:](#benefícios-de-ser-data-driven)
+      - [Exemplo de Sucesso do WalMart](#exemplo-de-sucesso-do-walmart)
+      - [O que não é Data-Driven](#o-que-não-é-data-driven)
+      - [Como criar essa cultura?](#como-criar-essa-cultura)
+      - [Diferenças entre empresas Data-Driven e Não Data-Driven](#diferenças-entre-empresas-data-driven-e-não-data-driven)
+      - [Etapas Data-Driven](#etapas-data-driven)
 
 ## UNIDADE 01
 ### Dados para Negócios
@@ -175,3 +206,102 @@ Sobre a **Entrevista** com o Usuário Chave:
 - **QLIK**
 - **TABLEAU**
 - **POWER BI**
+
+### 🧭 Conclusão da Unidade 1
+
+A **Unidade 1 – Dados para Negócios e Suporte à Decisão** apresentou os **fundamentos essenciais da análise de dados corporativos**, abordando desde a **importância dos dados** até o uso de **ferramentas analíticas** para apoiar decisões estratégicas.
+
+📊 **Primeiramente**, foi destacado o papel dos **dados** como ativos valiosos para as organizações modernas. A coleta, organização e análise eficiente dessas informações permite compreender o desempenho empresarial e antecipar oportunidades e riscos.
+
+🎯 **Em seguida**, exploramos o conceito de **KPIs (Key Performance Indicators)** — indicadores que traduzem os objetivos estratégicos em métricas mensuráveis. Aprendemos que os KPIs não apenas monitoram resultados, mas também **orientam ações corretivas e melhorias contínuas**, sendo a base de qualquer processo de **gestão orientada a dados**.
+
+🧩 **Avançando**, estudamos os **Sistemas de Suporte à Decisão (SSD)**, que integram dados, modelos e interfaces amigáveis para **auxiliar gestores em decisões complexas e não estruturadas**. Eles representam o elo entre os dados operacionais e a inteligência empresarial.
+
+📈 Por fim, aprofundamos o **conceito de OLAP (Online Analytical Processing)** e sua **arquitetura dentro do Business Intelligence (BI)**.  
+O OLAP permite **analisar grandes volumes de dados de forma multidimensional e interativa**, utilizando operações como *drill-down*, *roll-up*, *slice*, *dice* e *pivot*.  
+Essas operações tornam a exploração dos dados rápida e intuitiva, permitindo que os usuários **gerem relatórios e insights sem depender de TI**.
+
+💡 **Em resumo**, a Unidade 1 demonstra que:
+- A **tomada de decisão moderna** depende fortemente de **dados estruturados e bem analisados**;
+- **Indicadores (KPIs)** e **sistemas OLAP/BI** são os pilares do **suporte analítico** às estratégias empresariais;
+- E que o **profissional de dados** deve compreender não apenas as ferramentas, mas também o **contexto de negócio** e as **necessidades dos usuários-chave**.
+
+> **Conclusão final:**  
+> A transformação de dados em conhecimento é o verdadeiro diferencial competitivo nas organizações do século XXI.  
+> Quem domina os dados, domina as decisões.
+
+## UNIDADE 02
+  - A chave está na cultura de dados, não apenas em ferramentas ou bancos.
+  - Pessoas e processos são mais importantes do que a tecnologia em si.
+  - O cientista de dados é uma combinação moderna de estatístico, programador e comunicador, capaz de transformar dados em histórias que geram ação.
+  - Mais do que dominar técnicas, ele precisa fazer as perguntas certas, unindo conhecimento técnico e visão de negócio.
+
+### Data-Driven
+#### O que é Data-Driven
+
+**Data Driven** significa **“orientado por dados”** — é uma abordagem em que as **decisões, estratégias e ações** de uma organização são **baseadas** em **análises e evidências obtidas a partir de dados**, e não apenas em intuição, opinião ou experiência pessoal.
+
+**Em outras palavras:**
+> Ser **Data Driven** é usar **dados** como **guia** para **entender** o **presente**, **prever** o **futuro** e **decidir** com mais **precisão**.
+
+#### Características de uma empresa Data Driven
+  - Coleta e organiza dados continuamente de várias fontes (internas e externas).
+  - Baseia decisões estratégicas em métricas e indicadores (KPIs).
+  - Utiliza ferramentas de Business Intelligence (BI) e análise de dados.
+  - Estimula uma cultura de dados, onde todos os níveis da empresa valorizam informações concretas.
+  - Monitora resultados e ajusta ações com base em análises e evidências.
+
+#### Benefícios de ser Data-Driven:
+  - Decisões mais **assertivas** e **rápidas**;
+  - **Redução de erros e custos**;
+  - **Maior competitividade** e inovação;
+  - **Melhoria contínua** com base em resultados reais.
+  
+#### Exemplo de Sucesso do WalMart
+
+![Exemplo de sucesso do WalMart](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDriven_Exemplo.png)
+
+> Eles **analisaram** utilizando os **dados do DW** (Data Warehouse enorme deles), que após um caso de furacão o maior número de vendas **não foram de itens óbvios** (Lanterna e etc), mas sim de torta de morango para comemorar. Então realizaram um **grande movimento logístico** para os futuros  furacões e **ganharam muito dinheiro**.
+
+#### O que não é Data-Driven
+
+Muitas **empresas morrem**, por conta de passarem pelos seguintes estados:
+![Erro Corporativo](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDriven_ErroCorporativo.png)
+
+> A **falta** de **planejamento**, **trabalho em equipe** e muitos outros fatores podem **levar uma empresa a falência**.
+
+Uma empresa que acerta:
+![Acerto Corporativo](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDriven_AcertoCorporativo.png)
+
+#### Como criar essa cultura?
+  - As **melhore organizações** orientadas a dados se **concentram incansavelmente em manter seus 
+    dados limpos.** 
+  - Os dados devem ser:
+    - **organizados**
+    - **bem documentados**
+    - **livres de erros**
+  - A **limpeza dos dado**s costuma ser a parte mais **desgastante**. Organizações bem-sucedidas 
+    investem pesadamente em ferramentas, processos e auditorias regulares. 
+  - Em resumo... **Investir pesado na Qualidade de Dados**
+  - Uma das **distinções** mais importantes **entre organizações** que são orientadas por 
+    dados e aquelas que não são é **como elas abordam a formulação de hipóteses e a 
+    resolução de problemas**. 
+  - Todas as organizações orientadas por dados seguem alguma variante do método 
+    científico, que chamamos de método científico de dados: 
+    - **Comece com dados.** 
+    - **Desenvolva intuições sobre os dados** e as **perguntas** que eles podem responder.
+    - **Aproveite seus dados atuais** para entender melhor se é a pergunta certa a ser 
+      feita. **Se não, itere até que você tenha uma hipótese testável.**
+
+#### Diferenças entre empresas Data-Driven e Não Data-Driven
+  - Empresas Data-Driven fazem **perguntas** sobre o **futuro**: "Quanto **vamos** vender no Natal?"
+  - Empresas Não Data-Driven fazem **perguntas** somente sobre o **presente** e o **passado**: "Quanto **vendemos** no Natal passado?"
+
+#### Etapas Data-Driven
+
+Empresas Data-Driven segue as seguintes etapas:
+![Etapas Data-Driven 1](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDriven_Etapas_1.png)
+
+![Etapas Data-Driven 2](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDriven_Etapas_2.png)
+
+> **"Ser Data-Drive não é ignorar seus instintos."**
