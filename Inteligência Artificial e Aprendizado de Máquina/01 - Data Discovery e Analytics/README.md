@@ -35,6 +35,16 @@
       - [Como criar essa cultura?](#como-criar-essa-cultura)
       - [Diferenças entre empresas Data-Driven e Não Data-Driven](#diferenças-entre-empresas-data-driven-e-não-data-driven)
       - [Etapas Data-Driven](#etapas-data-driven)
+    - [Data Discovery](#data-discovery)
+      - [O que é Data Discovery?](#o-que-é-data-discovery)
+      - [Etapas de Data Discovery](#etapas-de-data-discovery)
+      - [Análise Descritiva e Diagnóstica](#análise-descritiva-e-diagnóstica)
+      - [Análise Preditiva](#análise-preditiva)
+      - [Análise Prescritiva](#análise-prescritiva)
+      - [Tradicional BI x Data Discovery](#tradicional-bi-x-data-discovery)
+        - [Fluxo do BI Tradicional:](#fluxo-do-bi-tradicional)
+        - [Fluxo do Self-Service (Data Discovery):](#fluxo-do-self-service-data-discovery)
+      - [O que é Self Service Analytics?](#o-que-é-self-service-analytics)
 
 ## UNIDADE 01
 ### Dados para Negócios
@@ -305,3 +315,93 @@ Empresas Data-Driven segue as seguintes etapas:
 ![Etapas Data-Driven 2](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDriven_Etapas_2.png)
 
 > **"Ser Data-Drive não é ignorar seus instintos."**
+
+### Data Discovery
+
+#### O que é Data Discovery?
+- Permite que os usuários desenvolvam e refinem visualizações e análises de dados
+  estruturados e não estruturados usando termos de pesquisa.
+- Possibilita que as áreas de negócio utilizem dados relevantes em modo “self-service”e
+  em todo lugar – a ferramenta fornece ao usuário flexibilidade na composição e
+  utilização das informações, acessados de tablets e smartphones, sem a necessidade de
+  relatórios pré-definidos e estáticos, que normalmente demoram muito tempo para
+  serem desenvolvidos e que criam uma alta dependência do setor de TI.
+- Sem a necessidade de criar relatórios pré-definidos, como anteriormente, é possível
+  levar a análise de informações para todos os setores e camadas das empresas.
+
+#### Etapas de Data Discovery
+
+- Visualização de dados
+- Descoberta destas informações
+- Influência nos negócios (momento em que a análise reflete em ações)
+- Análise preditiva
+  
+![Data Discovery Etapas](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDiscovery_Etapas.png)
+
+#### Análise Descritiva e Diagnóstica
+
+- Monitorar e Interpretar KPIs através de dados históricos
+- Normalmente a pergunta é O que?
+  - Ajudar entender o porque estamos neste ponto
+- Permite investigar os dados para detectar a causa raiz do problema.
+- Normalmente a pergunta é Por quê?
+
+#### Análise Preditiva
+
+- Utilização de dados históricos para prever eventos futuros.
+- Normalmente a pergunta é O que vai acontecer?
+
+> Avaliar de forma preditiva significa tomar como referência dados do passado e do presente para, a 
+  partir deles, formular prognósticos.
+  Esse tipo de análise serve para trazer respostas tanto para questões já conhecidas quanto para 
+  aquelas que você nem desconfiava que existiam.
+  Isso porque, ao avaliar o negócio de maneira preditiva, a empresa se habilita a ver ainda mais longe, 
+  se valendo de recursos e técnicas especiais.
+
+#### Análise Prescritiva
+
+- Recomendações de ações a serem tomadas
+- Normalmente a pergunta é O que devo fazer?
+
+#### Tradicional BI x Data Discovery
+
+![Comparação Tradicional BI x Data Discovery](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDiscovery_Comparacao.png)
+
+> **Recomendação da Gartner:**
+  “Usar Business Intelligence e Data Discovery ao mesmo tempo é o ideal.”
+
+| Aspecto | **BI Tradicional (Business Intelligence)** | **Data Discovery (Descoberta de Dados)** |
+|----------|--------------------------------------------|-------------------------------------------|
+| **Objetivo** | Monitorar e reportar **indicadores e métricas já definidas** | Explorar dados para **descobrir padrões, insights e relações** inesperadas |
+| **Abordagem** | **Descritiva** – mostra *o que aconteceu* | **Exploratória e Diagnóstica** – busca entender *por que aconteceu* e *o que pode acontecer* |
+| **Modelo de uso** | Estruturado, com **relatórios fixos e dashboards padronizados** | **Interativo e dinâmico**, o usuário faz perguntas e visualiza respostas em tempo real |
+| **Usuário principal** | **Profissionais de TI e analistas** especializados que constroem relatórios para gestores | **Usuários de negócio** (ex: marketing, finanças) com autonomia para explorar os dados |
+| **Fonte de dados** | Dados já tratados e consolidados em **Data Warehouse** | Pode combinar **múltiplas fontes** (DW, planilhas, APIs, etc.) em tempo real |
+| **Tempo de resposta** | **Lento** — depende da TI para mudanças em relatórios (pode levar 2 a 4 meses uma solicitação de informação nova) | **Rápido** — o usuário faz autoanálise (*self-service BI*) |
+| **Ferramentas típicas** | Cognos, Business Objects, Oracle BI, SSRS | Power BI, Tableau, Qlik Sense, Looker |
+| **Governança** | **Alta** — controle rígido sobre dados e acesso | **Mais flexível** — permite experimentação e análises ad hoc |
+| **Tratamento de dados** | **Muito forte** — dados passam por ETL (Extração, Transformação e Carga) antes de chegar aos relatórios. São **limpos, padronizados e confiáveis**. | **Mais flexível**, mas nem sempre tão limpo — pode trabalhar com dados crus ou **semi-tratados,** permitindo análise imediata, mas com risco de inconsistências. |
+| **Velocidade de análise** | **Mais lento** — porque depende da equipe de TI e de pipelines formais. | **Mais rápido** — o próprio usuário de negócio explora e filtra os dados em tempo real. |
+
+- **BI Tradicional** → Foco em **relatórios consolidados**, úteis para **acompanhamento estratégico** e **indicadores fixos**.  
+- **Data Discovery** → Foco em **exploração livre e visual dos dados**, permitindo **insights rápidos e dinâmicos** sem depender da TI.
+
+##### Fluxo do BI Tradicional:
+![Fluxo do BI Tradicional](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDiscovery_FluxoBI.png)
+
+##### Fluxo do Self-Service (Data Discovery):
+![Fluxo do Self-Service](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/DataDiscovery_FluxoSelfService.png)
+
+#### O que é Self Service Analytics?
+
+Permitir que as **análises de indicadores e manipulação de informações não fique restrita a um pequeno grupo de especialistas.** Ao contrário, o que se deseja é que todos sejam capazes de contribuir como “Analistas de Dados”. Para isso, deve-se criar **interfaces amigáveis** e de **fácil usabilidade** para os **relatórios de acompanhamento** por Analytics.
+
+> É uma forma de **análise** na qual profissionais são incentivados a realizar consultas e gerar **insights** por **conta própria**, com **pouco ou nenhum suporte de TI**.
+
+Para criar um com sucesso:
+  - Preparar os Dados
+  - Criação de Dashboards
+  - Possibilitar Interação Visual
+  - Treinar os usuários para análisarem por conta própria montando analises
+
+
