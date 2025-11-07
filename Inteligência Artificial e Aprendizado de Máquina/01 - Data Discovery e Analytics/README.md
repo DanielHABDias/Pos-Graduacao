@@ -45,6 +45,31 @@
         - [Fluxo do BI Tradicional:](#fluxo-do-bi-tradicional)
         - [Fluxo do Self-Service (Data Discovery):](#fluxo-do-self-service-data-discovery)
       - [O que é Self Service Analytics?](#o-que-é-self-service-analytics)
+    - [Análise Descritiva](#análise-descritiva)
+      - [O que é Análise Descritiva?](#o-que-é-análise-descritiva)
+      - [Objetivo da Análise Descritiva](#objetivo-da-análise-descritiva)
+      - [Características da Adequação dos Dados para Análise](#características-da-adequação-dos-dados-para-análise)
+      - [Vantagens e Desvantagens](#vantagens-e-desvantagens)
+      - [Variáveis](#variáveis)
+      - [Taxonomia das Variáveis](#taxonomia-das-variáveis)
+        - [Variáveis Qualitativas (Categóricas)](#variáveis-qualitativas-categóricas)
+        - [Variáveis Quantitativas (Numéricas)](#variáveis-quantitativas-numéricas)
+      - [Distribuição de Frequência](#distribuição-de-frequência)
+        - [Por que usar?](#por-que-usar)
+        - [Distribuição de Frequência para Variáveis Qualitativas](#distribuição-de-frequência-para-variáveis-qualitativas)
+        - [Distribuição de Frequência para Quantitativas Discretas](#distribuição-de-frequência-para-quantitativas-discretas)
+        - [Distribuição de Frequência para Quantitativas Contínuas](#distribuição-de-frequência-para-quantitativas-contínuas)
+      - [Séries Temporarais](#séries-temporarais)
+      - [Etapas da Análise Descritiva](#etapas-da-análise-descritiva)
+    - [Análise Preditiva](#análise-preditiva-1)
+      - [O que é Análise Preditiva?](#o-que-é-análise-preditiva)
+      - [Objetivo da Análise Preditiva](#objetivo-da-análise-preditiva)
+      - [Cuidados com a Análise Preditiva](#cuidados-com-a-análise-preditiva)
+      - [Onde se aplica?](#onde-se-aplica)
+      - [Os 3 V's da Análise Preditiva](#os-3-vs-da-análise-preditiva)
+        - [Variedade](#variedade)
+        - [Veracidade](#veracidade)
+        - [Velocidade](#velocidade)
 
 ## UNIDADE 01
 ### Dados para Negócios
@@ -404,4 +429,162 @@ Para criar um com sucesso:
   - Possibilitar Interação Visual
   - Treinar os usuários para análisarem por conta própria montando analises
 
+### Análise Descritiva
+
+#### O que é Análise Descritiva?
+
+Descreve o momento atual, faz um **diagnóstico geral** encima da **base**, **descrevendo** o que **já aconteceu** e o que **está acontecendo**.
+
+> Muito ligada ao BI Tradicional
+
+Por meio da utilização de um Data Warehouse podem desenvolver relatórios, consultas, alertas e tendências usando ferramentas e técnicas de extração de relatótios.
+
+Muito importante e fundamental a área de visualização para realização da análise.
+
+#### Objetivo da Análise Descritiva
+
+- Apresentar o que está acontecendo na organização e entender tendências e causas subjacentes de tais ocorrências.
+- Envolve consolidação de fontes de dados e a disponibilização de todos os dados julgados.
+
+#### Características da Adequação dos Dados para Análise
+
+- Confiabilidade 
+- Precisão e consistência
+- Acessibilidade 
+- Segurança e privacidade
+- Riqueza de dados 
+- Valor corrente/atualidade dos dados
+- Granularidade
+- Validade
+- Relevância
+
+#### Vantagens e Desvantagens 
+- **Vantagem** principal é ser um instrumento que confere **imparcialidade** a um estudo, evitando que se formem juízos de valor.
+  - Também é o método mais indicado quando se deseja ter uma visão abrangente de um fenômeno e para coletar dados sobre comportamentos.
+- **Desvantagem** é se a **amostra utilizada que, se mal selecionada, pode levar a respostas confusas** ou mesmo **não verdadeiras**, o que pode levar a tomadas de **decisões incorretas.**
+
+#### Variáveis 
+
+- Variáveis representam características observadas em um estudo ou conjunto de dados. 
+- Podem ser usadas para descrever, comparar e analisar fenômenos.
+- Dividem-se em Qualitativas e Quantitativas.
+  
+#### Taxonomia das Variáveis
+
+![Taxonomia dos Dados](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_Taxonomia.png)
+
+##### Variáveis Qualitativas (Categóricas)
+
+- Não possuem valor numérico significativo.
+- Representam categorias ou classificações.
+- Tipos:
+  - Nominais: sem ordem natural.
+  Ex.: sexo, cor dos olhos, fumante/não fumante.
+  - Ordinais: possuem ordem entre as categorias.
+  Ex.: nível de crédito (baixo/médio/alto), escolaridade.
+
+> Observação importante: números usados apenas como códigos (ex.: 1 = masculino, 2 = feminino) não tornam a variável quantitativa. 
+
+##### Variáveis Quantitativas (Numéricas) 
+
+- Representam valores numéricos que fazem sentido matemático.
+- Tipos:
+  - Discretas: assumem valores inteiros, geralmente contagens.
+  Ex.: número de filhos, número de cigarros por dia.
+  - Contínuas: assumem infinitos valores dentro de intervalos (podem ter decimais).
+  Ex.: peso, altura, idade, tempo, pressão arterial.
+
+> Observação: uma variável pode mudar de tipo conforme o modo de coleta (ex.: idade em anos completos → quantitativa; idade por faixas → qualitativa ordinal).
+
+#### Distribuição de Frequência
+
+Distribuição de frequência é uma forma de organizar dados mostrando quantas vezes cada valor/categoria aparece.
+
+##### Por que usar?
+- Facilita análise, interpretação e identificação de padrões.
+- Permite visualizar frequências absolutas, relativas (%) e acumuladas.
+
+##### Distribuição de Frequência para Variáveis Qualitativas
+- Usada para nominais e ordinais.
+- Tabela inclui:
+  - Frequência absoluta (contagem)
+  - Frequência relativa (percentual)
+- Para variáveis ordinais, as categorias devem seguir a ordem natural.
+Ex.: meses do ano, níveis de escolaridade.
+
+![Tabela de Variáveis Qualitativas](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_VariaveisQualitativas.png)
+
+##### Distribuição de Frequência para Quantitativas Discretas
+- Caso assumam poucos valores distintos, tratam-se como classes ordenadas.
+Ex.: número de filhos por família.
+- Podem incluir:
+  - Frequência absoluta
+  - Frequência relativa
+  - Frequência acumulada
+
+![Tabela de Variáveis Discretas](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_VariaveisQuantitativasDiscreta.png)
+
+##### Distribuição de Frequência para Quantitativas Contínuas
+- Exige agrupamento em classes.
+- Classes seguem o padrão:
+  - Ex.: 25 |- 50 (inclui 25.0 até 49.9; 50 entra na classe seguinte).
+- Frequentemente representada por histogramas.
+
+![Tabela de Variáveis Discretas](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_VariaveisQuantitativasContinua.png)
+
+#### Séries Temporarais
+
+- **Série Temporal** é um **conjunto de observações sobre uma variável, ordenado no tempo**: diariamente (preço de ações, relatórios meteorológicos), mensalmente (taxa de desemprego, IPC), trimestralmente
+(PIB).
+- **Um dos objetivos do estudo de séries temporais é conhecer o comportamento da série ao longo do tempo** (aumento, estabilidade ou declínio dos valores). Em alguns estudos, esse conhecimento pode ser usado para se fazer previsões de valores futuros com base no comportamento dos valores passados
+
+![Gráfico com Exemplo de Série Temporal](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_SeriesTemporais.png)
+
+#### Etapas da Análise Descritiva
+
+![Etapas para Análise Descritiva](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_Etapas_1.png)
+
+![Etapas para Análise Descritiva Continuação](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnaliseDescritiva_Etapas_2.png)
+
+### Análise Preditiva
+
+#### O que é Análise Preditiva?
+
+**Prever o futuro** sempre foi um grande desejo da humanidade. A análise de dados preditiva significa tomar como **referência dados do passado** e do **presente** para, a partir deles, **formular prognósticos**. Esse tipo de análise **serve para trazer respostas tanto para questões já conhecidas quanto para aquelas que possam vir a acontecer.**
+
+> Este tipo de Análise se alinha mais com **Data Driven**
+
+![Comparação Análise Preditiva](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_Comparacao.png)
+
+> Segundo o Gartner, a análise preditiva é uma forma de **análise avançada** que **verifica dados** ou conteúdos para responder à pergunta: **o que é provável que aconteça no futuro?**
+
+#### Objetivo da Análise Preditiva
+- Por conhecer os dados do passado é **possível prever o comportamento futuro.**
+- Em um mercado cada vez mais competitivo a empresa que aplica a **análise preditiva (data-driven)** costuma estar **um passo a frente da concorrência.**
+- Utiliza o **máximo dos dados para realizar cáculos para criação de análises** para **prever os futuros comportamentos** e assim realizar **tomadas de decisões estratégicas.**
+
+#### Cuidados com a Análise Preditiva 
+- A validação dos modelos preditivos são um tópico à parte, porém, em simples termos, é **necessário** que o modelo preditivo seja **capaz de acertar pelo menos de 70% a 90% em das tentativas.** 
+- **Caso ele acerte menos de 50%**, seria o mesmo que competir com a predição de **cara ou coroa**. Já se ele **conseguir atingir 100% ou acima de 95%**, pode ser que exista 
+alguma **variável no modelo comprometida.**
+- Algumas limitações típicas de modelos preditivos são a **dificuldade de fazer predições sobre categorias múltiplas ou invés de prever se o cliente vai pagar não.** Digamos que os clientes podem: “Pagar à vista”, “Pagar a prazo”, “Pagar por cartão”, “Pagar por boleto”, “Não vai pagar”.
+- **As taxas de assertividade por categoria podem ser muito discrepantes.** **Para superar essa limitação** é preciso construir **algoritmos específicos** para o problema além de **efetuar transformações na fase de preparação de dados.**
+#### Onde se aplica?
+
+![Onde se aplica 1](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_OndeAplica_1.png)
+![Onde se aplica 2](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_OndeAplica_2.png)
+
+#### Os 3 V's da Análise Preditiva
+
+![Os 3 V's da Análise Preditiva](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_3Vs.png)
+
+##### Variedade
+- É importante ter uma **boa diversidade de fontes e formatos de dados**, que permitirão uma **análise mais profunda**.
+- Apostar em variedade também ajuda a ter **resultados menos “viciados”**, que podem ser causados por uma base de dados única.
+
+##### Veracidade
+- De nada adianta ter em mãos um volume enorme de dados se as informações que eles trazem não são **confiáveis.**
+
+##### Velocidade
+- Tão importante quanto ter dados confiáveis e diversificados é ter **agilidade para processá-los**, já que **muitos insights podem não ser mais úteis se o timing relevante já tiver passado.**
 
