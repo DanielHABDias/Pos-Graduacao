@@ -70,6 +70,26 @@
         - [Variedade](#variedade)
         - [Veracidade](#veracidade)
         - [Velocidade](#velocidade)
+      - [Etapas da Análise Preditiva](#etapas-da-análise-preditiva)
+        - [Como estruturar?](#como-estruturar)
+      - [Técnicas de Regressão](#técnicas-de-regressão)
+        - [O que é Regressão?](#o-que-é-regressão)
+        - [Objetivos da Regressão](#objetivos-da-regressão)
+        - [Regressão Linear Simples](#regressão-linear-simples)
+        - [Regressão Linear Múltipla](#regressão-linear-múltipla)
+        - [Regressão Polinomial](#regressão-polinomial)
+        - [Regressão Logística (Classificação)](#regressão-logística-classificação)
+        - [Regressão Ridge](#regressão-ridge)
+        - [Regressão Lasso](#regressão-lasso)
+        - [Elastic Net](#elastic-net)
+        - [Regressão por Árvore de Decisão](#regressão-por-árvore-de-decisão)
+        - [Regressão com Redes Neurais](#regressão-com-redes-neurais)
+        - [Etapas de Construção de um Modelo de Regressão](#etapas-de-construção-de-um-modelo-de-regressão)
+        - [Pressupostos da Regressão Linear](#pressupostos-da-regressão-linear)
+        - [Aplicações Típicas](#aplicações-típicas)
+        - [Quando Usar Cada Tipo de Regressão](#quando-usar-cada-tipo-de-regressão)
+        - [Vantagens](#vantagens)
+        - [Desvantagens](#desvantagens)
 
 ## UNIDADE 01
 ### Dados para Negócios
@@ -588,3 +608,194 @@ alguma **variável no modelo comprometida.**
 ##### Velocidade
 - Tão importante quanto ter dados confiáveis e diversificados é ter **agilidade para processá-los**, já que **muitos insights podem não ser mais úteis se o timing relevante já tiver passado.**
 
+#### Etapas da Análise Preditiva
+##### Como estruturar?
+
+![Etapa para estruturar Análise Predititva](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_Etapas.png)
+
+1) Definir Objetivo
+  - Antes de tudo, é preciso definir: qual é a finalidade da iniciativa? A utilização de um modelo deve ter objetivos claros e alinhados com a estratégia da empresa.
+  - O passo seguinte é buscar o benefício esperado com  a  análise  preditiva, seja ele a compreensão do consumidor, seja observar tendências e oportunidades.
+  - Existem incontáveis aplicações da tecnologia nos negócios de uma empresa, por isso é importante determinar a abordagem antes de qualquer coisa.
+
+1) Criar um Modelo
+  - Definido o objetivo, é  importante criar o  modelo preditivo  que  será utilizado para alcançá-lo.
+  - O modelo define o modo como os dados selecionados  para o projeto serão trabalhados, então ele é crucial para o sucesso.
+  - Esse passo envolve preparar os dados para que eles possam ser analisados de forma  apropriada, realizar a amostragem experimental e testar qual formato de análise apresenta os melhores resultados.
+
+2) Coletar Dados
+  - Tão fundamentais quanto o modelo são os dados com os quais ele será alimentado. 
+  
+3) Estruturar Dados
+  - Uma vez que as fontes foram definidas e os dados  coletados, o passo seguinte envolve a estruturação.  Ela ajudará a organizar as informações para viabilizar análises mais eficientes.
+  - Esse processo inclui realizar a limpeza dos dados e também organizá-los em conjuntos que facilitem o processo.
+
+4) Analisar Dados
+  - Após os dados estarem prontos, resta realizar a análise propriamente dita, o que deve ser feito com cuidado para alcançar os melhores desfechos.
+  - É nesta fase que são produzidos os insights. Para isso, é necessário ter noções estatísticas a fim de avaliar e interpretar gráficos e as tendências que eles apontam.
+  - Existem três tipos de análise. A primeira é a univariada, em que cada variável é analisada isoladamente antes do cruzamento; outra é a bivariada, que estabelece relações entre duas variáveis, e a última é a multivariada, que estabelece relações entre mais variáveis.
+  
+5) Fazer Modelagem
+  - Após a condução da análise, é hora de criar o modelo preditivo utilizado para interpretar as informações.
+  - Aqui, utilizando técnicas estatísticas, é possível visualizar as relações estabelecidas entre as informações extraídas do banco de dados.
+  - Isso é feito por meio de técnicas estatísticas e matemáticas, que podem retornar os insights desejados.
+
+6) Monitorar Dados
+  - Nem sempre o modelo utilizado é eterno. É importante acompanhar os resultados que ele produz para fazer os ajustes necessários com o tempo para garantir a qualidade da análise.
+
+> **CUIDADO!!!**
+>  - O mercado já comprovou a utilização de técnicas avançadas de análise, como as de machine learning, como ferramentas poderosas para apoiar as organizações nos desafios de retenção de clientes. 
+> - Mas estes não devem, no entanto, ser considerados como a solução para este problema. Apesar dos modelos preditivos fornecerem informações valiosas para direcionar as ações de retenção, a fidelidade dos clientes será realmente mantida por boas experiências e uma real vantagem competitiva enxergada sobre os demais concorrentes.
+
+#### Técnicas de Regressão
+
+A regressão é uma técnica estatística usada para **modelar relações
+entre variáveis**, permitindo **explicar fenômenos**, **medir impactos**
+e **prever valores futuros**. É uma das bases da **Análise Preditiva**.
+
+##### O que é Regressão?
+
+-   Método que estuda a relação entre uma **variável dependente (Y)** e
+    uma ou mais **variáveis independentes (X)**.
+-   Permite:
+    -   Entender como mudanças em X afetam Y.
+    -   Prever o comportamento futuro de Y.
+    -   Identificar padrões e tendências ocultas nos dados.
+-   É fundamental em áreas como negócios, economia, finanças, saúde,
+    engenharia e ciência de dados.
+
+##### Objetivos da Regressão
+
+-   **Explicação:** determinar quais variáveis influenciam Y e em que
+    intensidade.
+-   **Predição:** estimar valores futuros com base em dados históricos.
+-   **Diagnóstico:** identificar variáveis mais relevantes, ruídos e
+    padrões.
+-   **Tomada de decisão:** suportar decisões com base em modelos
+    estatísticos.
+
+##### Regressão Linear Simples
+
+Modelo para **uma variável independente**.
+
+**Equação:**
+
+    Y = a + bX
+
+-   Relação linear entre X e Y.
+-   Fácil interpretação.
+-   Usada em fenômenos com comportamento de tendência simples.
+
+![Regressão Linear](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_RegressaoLinear.png)
+
+##### Regressão Linear Múltipla
+
+Extensão para **múltiplos preditores (X1, X2, ..., Xn)**.
+
+**Equação:**
+
+    Y = a + b1X1 + b2X2 + ... + bnXn
+
+-   Considera vários fatores simultâneos.
+-   Muito utilizada em modelos de negócios.
+
+##### Regressão Polinomial
+
+Captura **relações curvilíneas** entre X e Y.
+
+**Exemplo (2º grau):**
+
+    Y = a + bX + cX²
+
+-   Resolve limitações da regressão linear simples quando o padrão dos
+    dados não é linear.
+-   Deve ser usada com cautela para evitar overfitting.
+
+##### Regressão Logística (Classificação)
+
+Usada quando Y é **categórica** (ex.: 0/1, sim/não, aprovado/reprovado).
+
+-   Modela **probabilidades** (0 a 1).
+-   Baseada na função sigmoide.
+
+![Regressão Logística](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePreditiva_RegressaoLogistica.png)
+
+##### Regressão Ridge
+
+-   Técnica **regularizada** para evitar overfitting.
+-   Penaliza coeficientes grandes.
+
+##### Regressão Lasso
+
+-   Técnica regularizada com capacidade de **zerar coeficientes**,
+    realizando seleção automática de variáveis.
+
+##### Elastic Net
+
+-   Combinação de Ridge + Lasso.
+-   Balanceia estabilização e seleção de variáveis.
+
+##### Regressão por Árvore de Decisão
+
+-   Modelo não linear.
+-   Interpretação fácil.
+-   Capta interações e não exige normalidade.
+
+##### Regressão com Redes Neurais
+
+-   Captura padrões complexos e não lineares.
+-   Usada em grandes volumes de dados.
+
+##### Etapas de Construção de um Modelo de Regressão
+
+1.  Definição da variável dependente (Y).
+2.  Seleção das variáveis independentes (X).
+3.  Coleta e limpeza dos dados.
+4.  Análise exploratória (EDA).
+5.  Divisão treino/teste.
+6.  Treinamento do modelo.
+7.  Avaliação (R², RMSE, MAE, AUC etc.).
+8.  Interpretação dos coeficientes.
+9.  Validação (cross-validation).
+10. Implantação e monitoramento.
+
+##### Pressupostos da Regressão Linear
+
+-   Linearidade.
+-   Resíduos com média zero.
+-   Homocedasticidade.
+-   Ausência de multicolinearidade severa.
+-   Independência dos erros.
+-   Normalidade dos resíduos.
+
+##### Aplicações Típicas
+
+-   Previsão de vendas e demanda.
+-   Estimativas financeiras.
+-   Modelos de risco.
+-   Previsão de churn.
+-   Análise de impacto de variáveis.
+
+##### Quando Usar Cada Tipo de Regressão
+
+  |Tipo             | Quando Usar                             |
+  |-----------------|-----------------------------------------|
+  |Linear Simples   | Relação direta e única entre X → Y      |
+  |Linear Múltipla  | Vários fatores influenciam o resultado  |
+  |Polinomial       | Relação curva ou não linear             |
+  |Logística        | Resultados binários (0/1)               |
+  |Ridge            | Multicolinearidade forte                |
+  |Lasso            | Muitas variáveis, seleção automática    |
+  |Elastic Net      | Multicolinearidade + seleção            |
+  |Árvores          | Relações não lineares                   |
+  |Redes Neurais    | Alta complexidade e muitos dados        |
+
+##### Vantagens
+-   Interpretação simples.
+-   Base estatística sólida.
+-   Versátil e amplamente aplicável.
+
+##### Desvantagens
+-   Sensível a outliers.
+-   Depende de pressupostos.
+-   Pode sofrer com multicolinearidade.
