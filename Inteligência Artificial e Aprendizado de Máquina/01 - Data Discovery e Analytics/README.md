@@ -101,6 +101,12 @@
     - [🧭 Conclusão da Unidade 2](#-conclusão-da-unidade-2)
   - [UNIDADE 03](#unidade-03)
     - [Tableau](#tableau)
+      - [Utilização do Tableau](#utilização-do-tableau)
+      - [Exemplo do Tableau](#exemplo-do-tableau)
+      - [Utilização do Tableau](#utilização-do-tableau-1)
+        - [Fazendo Joins (União, Interceção e etc)](#fazendo-joins-união-interceção-e-etc)
+        - [Nomeclatura das Colunas](#nomeclatura-das-colunas)
+        - [Abas do Tableau](#abas-do-tableau)
 
 ## UNIDADE 01
 ### Dados para Negócios
@@ -925,9 +931,28 @@ Importante: selecionar algoritmo adequado, evitar overfitting, validar com cross
 Essa **unidade é prática**, onde **analisaremos bases de dados** usando **Power BI** e o **Tableau**.
 
 ### Tableau
+#### Utilização do Tableau
 Tableau Public: https://www.tableau.com/pt-br/products/public/download
+  - É grátis de utilizar e pode ser executado online também.
 Tableau Acadêmico: https://www.tableau.com/pt-br/academic/students
   - Utilizar de preferência email da instituição matriculada.
-Tableau Online: https://www.tableau.com/pt-br/academic/students
+Tableau Online: https://online.tableau.com/
 
+#### Exemplo do Tableau
+![Tableau do Tableau](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/Tableau_Exemplo.png)
 
+#### Utilização do Tableau
+##### Fazendo Joins (União, Interceção e etc)
+![Joins entre tabelas](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/Tableau_Joins.png)
+
+##### Nomeclatura das Colunas
+O **nome das colunas é muito importante**, pois a **ferramente** já consegue **inferir um tipo** dependendo do nome, exemplo:
+**Nome da Coluna é "Cidade" o tipo é "cidade".**
+
+##### Abas do Tableau 
+![Abas do Tableau](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/Tableau_Abas.png)
+
+1) Fonte de Dados: Aba principal onde carregamos conexões e fontes de dados.
+2) Primeiro Icone: Criar novas análises de dados com gráficos
+3) Segundo Icone: Criar dashboards (paineis)
+4) Terceiro Icone: Criar histórias (slides)
