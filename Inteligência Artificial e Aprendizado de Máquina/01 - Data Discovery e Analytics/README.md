@@ -90,6 +90,17 @@
         - [Quando Usar Cada Tipo de Regressão](#quando-usar-cada-tipo-de-regressão)
         - [Vantagens](#vantagens)
         - [Desvantagens](#desvantagens)
+    - [Análise Prescritiva](#análise-prescritiva-1)
+      - [O que é Análise Prescritiva?](#o-que-é-análise-prescritiva)
+    - [Aprendizado de Máquina](#aprendizado-de-máquina)
+      - [O que é Aprendizado de Máquina?](#o-que-é-aprendizado-de-máquina)
+      - [Como os sistemas aprendem](#como-os-sistemas-aprendem)
+      - [Relação com outras áreas](#relação-com-outras-áreas)
+      - [Principais métodos](#principais-métodos)
+    - [Cenarização](#cenarização)
+    - [🧭 Conclusão da Unidade 2](#-conclusão-da-unidade-2)
+  - [UNIDADE 03](#unidade-03)
+    - [Tableau](#tableau)
 
 ## UNIDADE 01
 ### Dados para Negócios
@@ -799,3 +810,124 @@ Usada quando Y é **categórica** (ex.: 0/1, sim/não, aprovado/reprovado).
 -   Sensível a outliers.
 -   Depende de pressupostos.
 -   Pode sofrer com multicolinearidade.
+
+### Análise Prescritiva
+#### O que é Análise Prescritiva?
+
+- Fornecer **recomendações inteligentes para ajudar a alterar o futuro.** Enquanto as **análises preditivas preveem futuros possíveis**, as **análises prescritivas criam suas recomendações** específicas para lidar com esse futuro.
+
+- As **análises prescritivas** na maioria das vezes **dependem de um esforço em equipe** para funcionarem. É preciso criar **recomendações alinhadas com o contexto da empresa** e com as condições de cada equipe que irá realizar essas ações.
+
+![Comparação Análise Prescritiva](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/AnalisePrescritiva_Comparacao.png)
+
+> Aqui vale um parênteses sobre a diferença entre predição (prescritiva) e previsão (preditiva). Entenda a previsão como um subconjunto da predição. Enquanto a predição trata de dizer, de forma genérica, como um fato seria antes de sua ocorrência, a previsão parte do mesmo princípio, mas apenas aplica-se a fatos que estão vinculados ao tempo.
+
+Enquanto a **análise preditiva** se limita a dizer **como provavelmente será o futuro**, a **análise prescritiva** fornece subsídios para **tomar decisões que irão alterar o futuro**. Em outras palavras, **o que deve ser feito para que o futuro desejado se realize.**
+
+### Aprendizado de Máquina
+#### O que é Aprendizado de Máquina?
+
+**Aprendizado de máquina (AM) é um ramo da inteligência artificial** que permite que c**omputadores aprendam padrões a partir de dados** e **tomem decisões** com **mínima intervenção humana**. Seu **objetivo central** é fazer com que **sistemas melhorem automaticamente** seu desempenho à medida que **acumulam experiência.**
+
+> Em seu livro pioneiro, T. Mitchell define aprendizagem de máquina (AM) como a área de pesquisa que visa desenvolver programas computacionais capazes de automaticamente melhorar seu desempenho por meio da experiência. A área de AM está baseada em conceitos e resultados de muitas outras áreas, como estatística, inteligência artificial, filosofia, teoria da informação, biologia, ciências cognitivas, complexidade computacional e teoria de controle.
+
+> Seguindo uma linha similar, Alpaydin define a aprendizagem de máquina como a programação de computadores para otimizar um critério de desempenho usando experiências passadas, chamadas de exemplos ou simplesmente dados de entrada. A ideia é que as técnicas envolvidas na AM sejam capazes, de alguma forma, de aprender a resolver os problemas.
+
+#### Como os sistemas aprendem
+
+Sistemas que aprendem são capazes de **adaptar seu comportamento com base em exemplos**. A **aprendizagem** geralmente ocorre de **forma gradual**, por meio de **processos iterativos de ajuste e interação com o ambiente**. Diferentes de **simples memorização**, esses sistemas **modificam características internas para melhorar seu desempenho.**
+
+É importante notar que aprendizagem não exige consciência ou inteligência: animais, insetos e outros seres vivos aprendem estratégias para sobrevivência, indicando que aprender é essencialmente adaptar-se.
+
+#### Relação com outras áreas
+A aprendizagem de máquina está profundamente relacionada a:
+- **Mineração de dados**, por também extrair conhecimento de grandes bases;
+- **Estatística**, pela modelagem de incertezas e padrões;
+- **Inteligência artificial**, por compor métodos de tomada de decisão;
+- **Teoria da computação**, que fundamenta a complexidade e limites dos algoritmos;
+- **Áreas como computação natural, sistemas adaptativos e computação flexível.**
+
+#### Principais métodos
+Entre os **métodos** mais estudados em AM, destacam-se técnicas que operam com **dados nominais**, como:
+
+- **Árvores de decisão**
+- **Regras de associação e classificação**
+- **Tabelas de decisão**
+- **Outros algoritmos simbólicos e estruturados**
+
+Esses métodos ajudam a **modelar dados** de forma **interpretável e eficiente**, permitindo que o **sistema aprenda a partir de exemplos** para **realizar previsões, classificações ou diagnósticos.**
+
+### Cenarização
+
+A **cenarização** é uma técnica de **análise multivariada** usada para **identificar combinações de variáveis** que, **quando atuam juntas**, **levam a um determinado resultado ou comportamento de negócio.** Em vez de observar cada variável isoladamente, a cenarização busca **compreender** como **diferentes fatores interagem de maneira sistêmica para gerar cenários específicos.**
+
+Essa abordagem é especialmente útil para:
+
+- **Explorar padrões complexos em dados;**
+- **Entender caminhos alternativos que levam ao mesmo desfecho;**
+- **Auxiliar na tomada de decisão baseada em múltiplas condições simultâneas;**
+- **Antecipar cenários favoráveis ou críticos em ambientes de incerteza.**
+
+Ela permite **visualizar não apenas o que está acontecendo,** mas **por que está acontecendo**, **revelando combinações de variáveis** que seriam **difíceis de detectar por métodos tradicionais.**
+
+![Exemplo de Cenarização](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/Cenarizacao_Exemplo.png)
+
+### 🧭 Conclusão da Unidade 2
+
+A Unidade 2 mostra como **transformar dados em vantagem competitiva**: **não basta armazenar dados**, é preciso **cultura**, **métodos** e **execução** para **extrair valor**. **Tecnologia é ferramenta**; a diferença vem de processos, pessoas e governança.
+
+🔹 Cultura Data-Driven
+
+- **Decidir com evidências**, não intuição.
+- Requisitos: **dados confiáveis**, **governança**, **acesso democratizado** e **maturidade analítica**.
+- Resultado: **decisões mais rápidas**, menos vieses e **melhor antecipação de problemas**.
+
+🔹 Data Discovery
+
+- **Democratiza a exploração de dados** com **interfaces visuais e self-service.**
+- Empodera áreas de negócio, **reduz gargalos de TI** e **acelera insights** acionáveis.
+
+🔹 Análise Descritiva
+
+- Responde **“o que aconteceu”**.
+- Ferramentas: **distribuição de frequência, séries temporais, taxonomia de variáveis (nominais, ordinais, discretas, contínuas).**
+- Objetivo: **organizar**, **detectar anomalias** e **preparar base** para **análises avançadas**.
+
+🔹 Análise Preditiva
+
+- Responde **“o que provavelmente vai acontecer”.**
+- Baseada em **modelos estatísticos** e de **machine learning (regressões, árvores, ensembles, redes neurais).**
+- Requisitos: **features bem construídas**, **validação robusta** e **monitoramento** (drift).
+
+🔹 Aprendizado de Máquina (Machine Learning)
+
+- Conjunto de técnicas que permite aos **sistemas aprender padrões** a **partir de dados e generalizar para novos casos.**
+- Exemplos: **classificação** (churn, fraude), **regressão** (previsão de demanda), **clustering** (segmentação).
+
+Importante: selecionar algoritmo adequado, evitar overfitting, validar com cross-validation e cuidar de vieses nos dados.
+
+🔹 Cenarização
+
+- Técnica para **identificar combinações de variáveis** que geram **cenários específicos**.
+- Útil para **explorar caminhos múltiplos** que levam ao mesmo desfecho (ex.: causas de churn).
+- **Complementa predição** ao mostrar contextos e condições — **essencial para planejar intervenções direcionadas.**
+
+🔹 Análise Prescritiva
+
+- Responde **“o que fazer” com base nas previsões.**
+- **Traduz modelos e cenários em recomendações operacionais e estratégicas.**
+- Exige **integração** entre **análise**, **negócio** e **execução**.
+
+> Para **extrair valor real** dos dados é preciso cultura **Data-Driven + Data Discovery + Análise Descritiva (base) + Análise Preditiva e Machine Learning (prever) + Cenarização (entender contextos) + Análise Prescritiva (agir)**. Só quando esses elementos trabalham juntos os dados passam a guiar **decisões eficazes e gerar vantagem competitiva.**
+
+## UNIDADE 03
+
+Essa **unidade é prática**, onde **analisaremos bases de dados** usando **Power BI** e o **Tableau**.
+
+### Tableau
+Tableau Public: https://www.tableau.com/pt-br/products/public/download
+Tableau Acadêmico: https://www.tableau.com/pt-br/academic/students
+  - Utilizar de preferência email da instituição matriculada.
+Tableau Online: https://www.tableau.com/pt-br/academic/students
+
+
