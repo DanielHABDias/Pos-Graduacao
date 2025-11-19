@@ -102,8 +102,7 @@
   - [UNIDADE 03](#unidade-03)
     - [Tableau](#tableau)
       - [Utilização do Tableau](#utilização-do-tableau)
-      - [Exemplo do Tableau](#exemplo-do-tableau)
-      - [Utilização do Tableau](#utilização-do-tableau-1)
+        - [Exemplo do Tableau](#exemplo-do-tableau)
         - [Fazendo Joins (União, Interceção e etc)](#fazendo-joins-união-interceção-e-etc)
         - [Nomeclatura das Colunas](#nomeclatura-das-colunas)
         - [Abas do Tableau](#abas-do-tableau)
@@ -932,16 +931,18 @@ Essa **unidade é prática**, onde **analisaremos bases de dados** usando **Powe
 
 ### Tableau
 #### Utilização do Tableau
-Tableau Public: https://www.tableau.com/pt-br/products/public/download
+Tableau Public: https://public.tableau.com/app/discover
   - É grátis de utilizar e pode ser executado online também.
 Tableau Acadêmico: https://www.tableau.com/pt-br/academic/students
   - Utilizar de preferência email da instituição matriculada.
 Tableau Online: https://online.tableau.com/
+  - Diferente do public, é mais chato de realizar login.
 
-#### Exemplo do Tableau
+##### Exemplo do Tableau
 ![Tableau do Tableau](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/Tableau_Exemplo.png)
 
-#### Utilização do Tableau
+Link de Acesso: https://public.tableau.com/authoring/ExemploPs-Graduao/Histria1#1
+
 ##### Fazendo Joins (União, Interceção e etc)
 ![Joins entre tabelas](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/01%20-%20Data%20Discovery%20e%20Analytics/images/Tableau_Joins.png)
 
