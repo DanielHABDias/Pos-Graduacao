@@ -124,3 +124,76 @@ Fórmula:
 z = (x − média) / desvio-padrão  
 
 Ele **permite comparar valores em diferentes escalas** e **identificar pontos fora do padrão (outliers)**.
+
+### MEDIDAS DE DISPERSÃO
+
+As medidas de dispersão q**uantificam o quanto os dados variam em relação à média**. Incluem **amplitude**, **variância**, **desvio padrão** e **coeficiente de variação**.
+
+#### AMPLITUDE
+A amplitude é a **diferença entre o maior e o menor valor** de um **conjunto de dados**.
+
+##### FÓRMULA
+**Amplitude = X_max − X_min**
+
+##### EXEMPLO
+Dados: 50, 60, 70, 85, 90  
+Amplitude = 90 − 50 = 40
+
+#### VARIÂNCIA E DESVIO PADRÃO
+
+A **variância** mede o **quanto os valores se afastam da média**.  
+O **desvio padrão** é a **raiz quadrada da variância** e expressa a **dispersão na mesma unidade dos dados**.
+
+##### VARIÂNCIA POPULACIONAL
+σ² = Σ(xᵢ − μ)² / N
+
+##### VARIÂNCIA AMOSTRAL
+s² = Σ(xᵢ − x̄)² / (n − 1)
+
+##### DESVIO PADRÃO POPULACIONAL
+σ = √σ²
+
+##### DESVIO PADRÃO AMOSTRAL
+s = √s²
+
+##### EXEMPLO
+Dados: 10, 12, 15  
+Média = 12.33  
+
+Cálculos dos desvios ao quadrado:  
+(10 − 12.33)² = 5.43  
+(12 − 12.33)² = 0.11  
+(15 − 12.33)² = 7.11  
+
+Variância amostral:  
+s² = (5.43 + 0.11 + 7.11) / 2 = 6.325  
+
+Desvio padrão amostral:  
+s = √6.325 ≈ 2.51
+
+#### COEFICIENTE DE VARIAÇÃO (CV)
+
+O coeficiente de variação mede a **dispersão relativa**, indicando **quanto o desvio padrão representa em relação à média**.
+
+##### FÓRMULA
+CV = (Desvio Padrão / Média) × 100
+
+##### EXEMPLO 1
+Média = 100  
+Desvio padrão = 5  
+CV = 5%
+
+##### EXEMPLO 2
+Média = 20  
+Desvio padrão = 3  
+CV = 15%
+
+#### TABELA DE VARIAVÉIS
+
+| Conceito        | População | Amostra |
+|-----------------|-----------|---------|
+| Média           | μ         | x̄       |
+| Tamanho         | N         | n       |
+| Variância       | σ²        | s²      |
+| Desvio padrão   | σ         | s       |
+| Denominador     | N         | n − 1   |
