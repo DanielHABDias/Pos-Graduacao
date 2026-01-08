@@ -89,6 +89,51 @@
     - [13. DISTRIBUIÇÃO EXPONENCIAL](#13-distribuição-exponencial)
         - [Onde:](#onde-5)
     - [CONCLUSÃO DA UNIDADE 02](#conclusão-da-unidade-02)
+  - [UNIDADE 03 – INFERÊNCIA ESTATÍSTICA E ESTIMAÇÃO DE PARÂMETROS](#unidade-03--inferência-estatística-e-estimação-de-parâmetros)
+    - [1. INFERÊNCIA ESTATÍSTICA](#1-inferência-estatística)
+      - [1.1 O que é](#11-o-que-é)
+      - [1.2 Por que usar?](#12-por-que-usar)
+      - [1.3 Tipos de Inferência](#13-tipos-de-inferência)
+    - [2. ESTIMAÇÃO DE PARÂMETROS ESTATÍSTICOS](#2-estimação-de-parâmetros-estatísticos)
+      - [2.1 O que é](#21-o-que-é)
+      - [2.2 Tipos de Estimação](#22-tipos-de-estimação)
+    - [3. ESTIMAÇÃO PONTUAL](#3-estimação-pontual)
+      - [3.1 O que é](#31-o-que-é)
+      - [3.2 Estimadores Comuns](#32-estimadores-comuns)
+        - [3.2.1 Estimador da Média Populacional](#321-estimador-da-média-populacional)
+        - [3.2.2 Estimador da Proporção Populacional](#322-estimador-da-proporção-populacional)
+        - [3.2.3 Estimador da Variância Populacional](#323-estimador-da-variância-populacional)
+      - [3.3 Propriedades dos Estimadores](#33-propriedades-dos-estimadores)
+      - [3.4 Exemplo Resolvido](#34-exemplo-resolvido)
+    - [4. INTERVALOS DE CONFIANÇA](#4-intervalos-de-confiança)
+      - [4.1 O que é](#41-o-que-é)
+      - [4.2 Interpretação](#42-interpretação)
+      - [4.3 Intervalo de Confiança para a Média Populacional (σ Conhecido)](#43-intervalo-de-confiança-para-a-média-populacional-σ-conhecido)
+        - [4.3.1 Fórmula](#431-fórmula)
+        - [4.3.2 Exemplo Resolvido](#432-exemplo-resolvido)
+      - [4.4 Intervalo de Confiança para a Média Populacional (σ Desconhecido)](#44-intervalo-de-confiança-para-a-média-populacional-σ-desconhecido)
+        - [4.4.1 Fórmula](#441-fórmula)
+        - [4.4.2 Exemplo Resolvido](#442-exemplo-resolvido)
+      - [4.5 Intervalo de Confiança para a Proporção Populacional](#45-intervalo-de-confiança-para-a-proporção-populacional)
+        - [4.5.1 Fórmula](#451-fórmula)
+        - [4.5.2 Exemplo Resolvido](#452-exemplo-resolvido)
+      - [4.6 Fatores que Afetam a Amplitude do Intervalo](#46-fatores-que-afetam-a-amplitude-do-intervalo)
+    - [5. GRAU DE CONFIANÇA](#5-grau-de-confiança)
+      - [5.1 O que é](#51-o-que-é)
+      - [5.2 Interpretação](#52-interpretação)
+      - [5.3 Valores Comuns](#53-valores-comuns)
+      - [5.4 Relação com o Nível de Significância](#54-relação-com-o-nível-de-significância)
+    - [6. CÁLCULO DO TAMANHO AMOSTRAL](#6-cálculo-do-tamanho-amostral)
+      - [6.1 O que é](#61-o-que-é)
+      - [6.2 Por que é Importante?](#62-por-que-é-importante)
+      - [6.3 Tamanho Amostral para a Média Populacional](#63-tamanho-amostral-para-a-média-populacional)
+        - [6.3.1 Fórmula (σ Conhecido)](#631-fórmula-σ-conhecido)
+        - [6.3.2 Exemplo Resolvido](#632-exemplo-resolvido)
+      - [6.4 Tamanho Amostral para a Proporção Populacional](#64-tamanho-amostral-para-a-proporção-populacional)
+        - [6.4.1 Fórmula](#641-fórmula)
+        - [6.4.2 Exemplo Resolvido](#642-exemplo-resolvido)
+      - [6.5 Considerações Finais](#65-considerações-finais)
+    - [CONCLUSÃO DA UNIDADE 03](#conclusão-da-unidade-03)
   
 ## UNIDADE 01
 
@@ -624,3 +669,249 @@ Propriedade importante: **ausência de memória**.
 A Unidade 02 apresentou os fundamentos da Probabilidade e das Variáveis Aleatórias, explicando não apenas como calcular probabilidades, mas principalmente **por que cada conceito e distribuição existe**. A correta compreensão das variáveis, parâmetros e condições de aplicação é essencial para evitar erros de modelagem e interpretação.
 
 As distribuições Binomial, Poisson, Normal e Exponencial representam diferentes tipos de fenômenos reais e constituem a base da Estatística Inferencial, da Ciência de Dados e do Aprendizado de Máquina. O domínio desses conceitos permite transformar incerteza em informação quantitativa confiável, apoiando decisões fundamentadas em dados.
+
+## UNIDADE 03 – INFERÊNCIA ESTATÍSTICA E ESTIMAÇÃO DE PARÂMETROS
+
+---
+
+### 1. INFERÊNCIA ESTATÍSTICA
+
+#### 1.1 O que é
+A **Inferência Estatística** é o ramo da Estatística que permite **generalizar resultados de uma amostra para a população** da qual ela foi retirada. Em vez de analisar toda a população (o que muitas vezes é impraticável), usamos amostras para fazer inferências sobre parâmetros populacionais, como média, proporção ou variância.
+
+#### 1.2 Por que usar?
+- Populações são frequentemente grandes ou infinitas, tornando impossível coletar dados de todos os elementos.
+- Permite estimar parâmetros desconhecidos e testar hipóteses com base em dados amostrais.
+- Apoia decisões em áreas como medicina, economia, engenharia e ciência de dados.
+
+#### 1.3 Tipos de Inferência
+- **Estimação**: Estimar valores de parâmetros populacionais (ex.: média ou proporção).
+- **Testes de Hipóteses**: Verificar se uma afirmação sobre a população é verdadeira ou não.
+
+Esta unidade foca na estimação de parâmetros.
+
+---
+
+### 2. ESTIMAÇÃO DE PARÂMETROS ESTATÍSTICOS
+
+#### 2.1 O que é
+A **estimação de parâmetros** envolve o uso de dados amostrais para aproximar valores desconhecidos da população, como a média (\$\mu\$), proporção (\$p\$) ou variância (\$\sigma^2\$).
+
+#### 2.2 Tipos de Estimação
+- **Pontual**: Fornece um único valor como estimativa (ex.: \$\bar{x}\$ para \$\mu\$).
+- **Intervalar**: Fornece um intervalo de valores plausíveis, com um nível de confiança associado.
+
+---
+
+### 3. ESTIMAÇÃO PONTUAL
+
+#### 3.1 O que é
+A **estimação pontual** fornece um **único valor** como estimativa do parâmetro populacional. É simples, mas não indica a precisão ou incerteza da estimativa.
+
+#### 3.2 Estimadores Comuns
+
+##### 3.2.1 Estimador da Média Populacional
+\$
+\hat{\mu} = \bar{x} = \frac{\sum x_i}{n}
+\$
+Onde:
+- \$\bar{x}\$: média amostral
+- \$n\$: tamanho da amostra
+
+##### 3.2.2 Estimador da Proporção Populacional
+\$
+\hat{p} = \frac{x}{n}
+\$
+Onde:
+- \$x\$: número de sucessos na amostra
+- \$n\$: tamanho da amostra
+
+##### 3.2.3 Estimador da Variância Populacional
+\$
+\hat{\sigma}^2 = s^2 = \frac{\sum (x_i - \bar{x})^2}{n-1}
+\$
+Onde:
+- \$s^2\$: variância amostral
+- \$n-1\$: graus de liberdade
+
+#### 3.3 Propriedades dos Estimadores
+- **Não viesado**: A média dos valores estimados ao longo de muitas amostras é igual ao parâmetro verdadeiro.
+- **Consistente**: À medida que \$n\$ aumenta, o estimador se aproxima do parâmetro verdadeiro.
+- **Eficiente**: Tem a menor variância possível entre estimadores não viesados.
+
+#### 3.4 Exemplo Resolvido
+Uma amostra de 10 funcionários de uma empresa tem salários médios de R$ 3.500. Qual é a estimativa pontual da média salarial da empresa?
+
+\$
+\hat{\mu} = 3500
+\$
+
+Essa é uma estimativa simples, mas não indica quão precisa ela é.
+
+---
+
+### 4. INTERVALOS DE CONFIANÇA
+
+#### 4.1 O que é
+Um **intervalo de confiança** fornece um **intervalo de valores** dentro do qual o parâmetro populacional provavelmente se encontra, com um determinado nível de confiança (ex.: 95%). Ele quantifica a incerteza associada à estimação.
+
+#### 4.2 Interpretação
+- Não significa que o parâmetro está dentro do intervalo com 95% de probabilidade (o parâmetro é fixo).
+- Significa que, se repetirmos o processo de amostragem muitas vezes, 95% dos intervalos calculados conterão o parâmetro verdadeiro.
+
+#### 4.3 Intervalo de Confiança para a Média Populacional (σ Conhecido)
+Usado quando o desvio padrão populacional (\$\sigma\$) é conhecido. Baseia-se na distribuição normal.
+
+##### 4.3.1 Fórmula
+\$
+\bar{x} \pm z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}}
+\$
+Onde:
+- \$\bar{x}\$: média amostral
+- \$z_{\alpha/2}\$: valor crítico da distribuição normal (ex.: 1,96 para 95% de confiança)
+- \$\sigma\$: desvio padrão populacional
+- \$n\$: tamanho da amostra
+
+##### 4.3.2 Exemplo Resolvido
+Uma amostra de 100 produtos tem peso médio de 500g, com \$\sigma = 20g\$. Construa um IC de 95% para a média populacional.
+
+\$
+z_{0.025} = 1.96
+\$
+
+\$
+500 \pm 1.96 \cdot \frac{20}{\sqrt{100}} = 500 \pm 3.92
+\$
+
+Intervalo: (496.08, 503.92)
+
+#### 4.4 Intervalo de Confiança para a Média Populacional (σ Desconhecido)
+Usado quando \$\sigma\$ é desconhecido. Baseia-se na distribuição t de Student.
+
+##### 4.4.1 Fórmula
+\$
+\bar{x} \pm t_{\alpha/2, n-1} \cdot \frac{s}{\sqrt{n}}
+\$
+Onde:
+- \$t_{\alpha/2, n-1}\$: valor crítico da distribuição t (graus de liberdade = n-1)
+- \$s\$: desvio padrão amostral
+
+##### 4.4.2 Exemplo Resolvido
+Uma amostra de 29 pacientes tem tempo médio de consulta de 30 minutos, com \$s = 7\$ minutos. Construa um IC de 95%.
+
+Graus de liberdade = 28, \$t_{0.025, 28} \approx 2.048\$
+
+\$
+30 \pm 2.048 \cdot \frac{7}{\sqrt{29}} \approx 30 \pm 2.66
+\$
+
+Intervalo: (27.34, 32.66)
+
+#### 4.5 Intervalo de Confiança para a Proporção Populacional
+Usado para estimar proporções (ex.: porcentagem de sucesso).
+
+##### 4.5.1 Fórmula
+\$
+\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\$
+Onde:
+- \$\hat{p}\$: proporção amostral
+- \$z_{\alpha/2}\$: valor crítico da distribuição normal
+
+##### 4.5.2 Exemplo Resolvido
+Em uma amostra de 200 pessoas, 120 aprovaram uma política. Construa um IC de 95% para a proporção populacional.
+
+\$\hat{p} = 120/200 = 0.6\$, \$z_{0.025} = 1.96\$
+
+\$
+0.6 \pm 1.96 \sqrt{\frac{0.6 \cdot 0.4}{200}} = 0.6 \pm 0.068
+\$
+
+Intervalo: (0.532, 0.668) ou (53.2%, 66.8%)
+
+#### 4.6 Fatores que Afetam a Amplitude do Intervalo
+- **Nível de confiança**: Maior confiança aumenta a amplitude.
+- **Tamanho da amostra (n)**: Maior n reduz a amplitude.
+- **Variabilidade dos dados**: Maior variância aumenta a amplitude.
+
+---
+
+### 5. GRAU DE CONFIANÇA
+
+#### 5.1 O que é
+O **grau de confiança** (ou nível de confiança) indica a probabilidade de que o intervalo de confiança contenha o parâmetro verdadeiro. É expresso em porcentagem (ex.: 95%).
+
+#### 5.2 Interpretação
+- Um IC de 95% significa que, em 95% das vezes, o intervalo cobrirá o parâmetro verdadeiro se o experimento for repetido.
+- Não é uma probabilidade para um intervalo específico.
+
+#### 5.3 Valores Comuns
+- 90%: \$z = 1.645\$
+- 95%: \$z = 1.96\$
+- 99%: \$z = 2.576\$
+
+#### 5.4 Relação com o Nível de Significância
+- Nível de confiança = 1 - nível de significância (\$\alpha\$).
+- Ex.: Para 95% de confiança, \$\alpha = 0.05\$.
+
+---
+
+### 6. CÁLCULO DO TAMANHO AMOSTRAL
+
+#### 6.1 O que é
+O **tamanho amostral** é o número mínimo de observações necessárias para estimar um parâmetro com uma precisão desejada, considerando o nível de confiança e a margem de erro.
+
+#### 6.2 Por que é Importante?
+- Evita amostras muito pequenas (baixa precisão) ou grandes (custos desnecessários).
+- Baseia-se em fórmulas matemáticas derivadas da teoria estatística.
+
+#### 6.3 Tamanho Amostral para a Média Populacional
+Usado quando estimamos a média (\$\mu\$).
+
+##### 6.3.1 Fórmula (σ Conhecido)
+\$
+n = \left( \frac{z_{\alpha/2} \cdot \sigma}{E} \right)^2
+\$
+Onde:
+- \$E\$: margem de erro desejada
+- \$\sigma\$: desvio padrão populacional
+
+##### 6.3.2 Exemplo Resolvido
+Queremos estimar a média de salários com erro máximo de R$ 100, confiança de 95% e \$\sigma = 500\$.
+
+\$z_{0.025} = 1.96\$, \$E = 100\$
+
+\$
+n = \left( \frac{1.96 \cdot 500}{100} \right)^2 = (9.8)^2 = 96.04 \approx 97
+\$
+
+#### 6.4 Tamanho Amostral para a Proporção Populacional
+Usado quando estimamos proporções (\$p\$).
+
+##### 6.4.1 Fórmula
+\$
+n = \frac{z_{\alpha/2}^2 \cdot p(1-p)}{E^2}
+\$
+Onde:
+- \$p\$: estimativa da proporção (use 0.5 se desconhecida para maximizar n)
+- \$E\$: margem de erro
+
+##### 6.4.2 Exemplo Resolvido
+Para estimar a proporção de satisfeitos com erro de 2.5%, confiança de 90%, sem estimativa prévia.
+
+\$z_{0.05} = 1.645\$, \$p = 0.5\$, \$E = 0.025\$
+
+\$
+n = \frac{(1.645)^2 \cdot 0.5 \cdot 0.5}{(0.025)^2} = \frac{2.706 \cdot 0.25}{0.000625} = \frac{0.6765}{0.000625} \approx 1082
+\$
+
+#### 6.5 Considerações Finais
+- Sempre arredonde n para cima.
+- Se \$\sigma\$ ou \$p\$ forem desconhecidos, use estimativas ou valores conservadores.
+- Considere fatores práticos como custo e acessibilidade.
+
+---
+
+### CONCLUSÃO DA UNIDADE 03
+
+A Unidade 03 apresentou os fundamentos da Inferência Estatística, com foco na estimação de parâmetros populacionais por meio de amostras. A estimação pontual oferece simplicidade, mas os intervalos de confiança fornecem uma visão mais robusta da incerteza, essencial para decisões informadas. O cálculo do tamanho amostral garante eficiência e precisão, evitando desperdícios ou imprecisões. Esses conceitos são pilares para aplicações em pesquisa, negócios e ciência de dados, permitindo transformar dados limitados em insights confiáveis sobre populações maiores.
