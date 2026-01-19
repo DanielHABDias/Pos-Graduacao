@@ -134,6 +134,45 @@
         - [6.4.2 Exemplo Resolvido](#642-exemplo-resolvido)
       - [6.5 Considerações Finais](#65-considerações-finais)
     - [CONCLUSÃO DA UNIDADE 03](#conclusão-da-unidade-03)
+  - [UNIDADE 04 — INFERÊNCIA ESTATÍSTICA E TESTES DE HIPÓTESES](#unidade-04--inferência-estatística-e-testes-de-hipóteses)
+    - [1. Inferência Estatística](#1-inferência-estatística-1)
+      - [O que é Inferência Estatística?](#o-que-é-inferência-estatística)
+      - [Exemplo](#exemplo-5)
+    - [2. Testes de Hipóteses](#2-testes-de-hipóteses)
+      - [O que é um Teste de Hipóteses?](#o-que-é-um-teste-de-hipóteses)
+    - [3. Hipótese Nula (H₀)](#3-hipótese-nula-h)
+      - [O que é a Hipótese Nula?](#o-que-é-a-hipótese-nula)
+      - [Exemplos](#exemplos-1)
+    - [4. Hipótese Alternativa (H₁)](#4-hipótese-alternativa-h)
+      - [O que é a Hipótese Alternativa?](#o-que-é-a-hipótese-alternativa)
+      - [Exemplos](#exemplos-2)
+    - [5. Hipótese Bilateral](#5-hipótese-bilateral)
+      - [O que é uma Hipótese Bilateral?](#o-que-é-uma-hipótese-bilateral)
+      - [Forma matemática](#forma-matemática)
+      - [Exemplo](#exemplo-6)
+    - [6. Hipótese Unilateral](#6-hipótese-unilateral)
+      - [O que é uma Hipótese Unilateral?](#o-que-é-uma-hipótese-unilateral)
+      - [Tipos](#tipos)
+        - [Unilateral à direita](#unilateral-à-direita)
+        - [Unilateral à esquerda](#unilateral-à-esquerda)
+      - [Exemplo](#exemplo-7)
+    - [7. Nível de Significância (α)](#7-nível-de-significância-α)
+      - [O que é o Nível de Significância?](#o-que-é-o-nível-de-significância)
+      - [Valores comuns](#valores-comuns)
+    - [8. Estatística de Teste](#8-estatística-de-teste)
+      - [O que é Estatística de Teste?](#o-que-é-estatística-de-teste)
+      - [Exemplo (Teste Z)](#exemplo-teste-z)
+    - [9. Decisão em Testes de Hipóteses](#9-decisão-em-testes-de-hipóteses)
+      - [Métodos de decisão](#métodos-de-decisão)
+        - [Região crítica](#região-crítica)
+        - [p-valor](#p-valor)
+    - [10. Comparação de Duas Variâncias](#10-comparação-de-duas-variâncias)
+      - [Para que serve?](#para-que-serve)
+      - [Hipóteses](#hipóteses)
+      - [Estatística de Teste (Distribuição F)](#estatística-de-teste-distribuição-f)
+      - [Exemplo](#exemplo-8)
+    - [11. Importância dos Testes de Hipóteses](#11-importância-dos-testes-de-hipóteses)
+    - [Conclusão da Unidade 04](#conclusão-da-unidade-04)
   
 ## UNIDADE 01
 
@@ -915,3 +954,219 @@ n = \frac{(1.645)^2 \cdot 0.5 \cdot 0.5}{(0.025)^2} = \frac{2.706 \cdot 0.25}{0.
 ### CONCLUSÃO DA UNIDADE 03
 
 A Unidade 03 apresentou os fundamentos da Inferência Estatística, com foco na estimação de parâmetros populacionais por meio de amostras. A estimação pontual oferece simplicidade, mas os intervalos de confiança fornecem uma visão mais robusta da incerteza, essencial para decisões informadas. O cálculo do tamanho amostral garante eficiência e precisão, evitando desperdícios ou imprecisões. Esses conceitos são pilares para aplicações em pesquisa, negócios e ciência de dados, permitindo transformar dados limitados em insights confiáveis sobre populações maiores.
+
+## UNIDADE 04 — INFERÊNCIA ESTATÍSTICA E TESTES DE HIPÓTESES
+
+### 1. Inferência Estatística
+
+#### O que é Inferência Estatística?
+
+A inferência estatística é o ramo da estatística que permite **tirar conclusões sobre uma população** a partir de **informações obtidas em uma amostra**.
+
+Como, na prática, quase nunca é possível analisar toda a população, utilizamos amostras e técnicas estatísticas para:
+- Estimar parâmetros populacionais
+- Testar suposições
+- Apoiar a tomada de decisões
+
+#### Exemplo
+
+Uma empresa deseja saber o tempo médio de atendimento ao cliente.  
+Em vez de analisar todos os atendimentos, coleta-se uma amostra e, a partir dela, faz-se uma inferência sobre a população.
+
+---
+
+### 2. Testes de Hipóteses
+
+#### O que é um Teste de Hipóteses?
+
+Um teste de hipóteses é um procedimento estatístico utilizado para **avaliar afirmações sobre parâmetros populacionais**, com base em dados amostrais.
+
+Em essência, trata-se de decidir se os dados fornecem **evidências suficientes** para rejeitar uma suposição inicial.
+
+---
+
+### 3. Hipótese Nula (H₀)
+
+#### O que é a Hipótese Nula?
+
+A hipótese nula representa a **situação padrão**, aquilo que se assume como verdadeiro até que haja evidência em contrário.
+
+📌 A hipótese nula **sempre contém igualdade**.
+
+#### Exemplos
+
+- H₀: μ = 30  
+- H₀: p = 0,40  
+- H₀: σ₁² = σ₂²  
+
+O objetivo do teste é verificar se existem evidências para **rejeitar H₀**.
+
+---
+
+### 4. Hipótese Alternativa (H₁)
+
+#### O que é a Hipótese Alternativa?
+
+A hipótese alternativa é a afirmação que **contradiz a hipótese nula**.  
+Ela representa aquilo que se deseja investigar ou comprovar.
+
+📌 Nunca possui sinal de igualdade.
+
+#### Exemplos
+
+- H₁: μ ≠ 30  
+- H₁: μ > 30  
+- H₁: μ < 30  
+
+---
+
+### 5. Hipótese Bilateral
+
+#### O que é uma Hipótese Bilateral?
+
+É utilizada quando se deseja verificar se o parâmetro é **diferente**, sem especificar se é maior ou menor.
+
+#### Forma matemática
+
+H₀: μ = μ₀  
+H₁: μ ≠ μ₀  
+
+#### Exemplo
+
+Verificar se o tempo médio de atendimento **mudou**, sem saber se aumentou ou diminuiu.
+
+---
+
+### 6. Hipótese Unilateral
+
+#### O que é uma Hipótese Unilateral?
+
+É utilizada quando o interesse está **apenas em um sentido da variação**.
+
+#### Tipos
+
+##### Unilateral à direita
+H₁: μ > μ₀  
+
+##### Unilateral à esquerda
+H₁: μ < μ₀  
+
+#### Exemplo
+
+Uma empresa quer saber se um novo método **reduziu** o tempo médio de produção.
+
+---
+
+### 7. Nível de Significância (α)
+
+#### O que é o Nível de Significância?
+
+O nível de significância representa a **probabilidade de rejeitar a hipótese nula quando ela é verdadeira**.
+
+Em outras palavras, é o **risco de cometer erro** ao rejeitar H₀.
+
+#### Valores comuns
+
+- α = 0,10 (10%)
+- α = 0,05 (5%)
+- α = 0,01 (1%)
+
+Quanto menor o valor de α, **mais rigoroso** é o teste.
+
+---
+
+### 8. Estatística de Teste
+
+#### O que é Estatística de Teste?
+
+A estatística de teste é um valor calculado a partir da amostra que indica **o quão distante o resultado observado está do valor assumido em H₀**.
+
+Ela permite comparar o resultado com valores críticos ou calcular o p-valor.
+
+#### Exemplo (Teste Z)
+
+Z = (x̄ − μ₀) / (σ / √n)
+
+Onde:
+- x̄: média amostral  
+- μ₀: média hipotética  
+- σ: desvio padrão populacional  
+- n: tamanho da amostra  
+
+---
+
+### 9. Decisão em Testes de Hipóteses
+
+#### Métodos de decisão
+
+##### Região crítica
+Compara-se a estatística de teste com valores críticos da tabela.
+
+##### p-valor
+- Se p ≤ α → rejeita-se H₀  
+- Se p > α → não se rejeita H₀  
+
+---
+
+### 10. Comparação de Duas Variâncias
+
+#### Para que serve?
+
+Serve para verificar se **duas populações possuem a mesma variabilidade**.
+
+É um passo importante antes de comparar médias.
+
+---
+
+#### Hipóteses
+
+H₀: σ₁² = σ₂²  
+H₁: σ₁² ≠ σ₂²  
+
+---
+
+#### Estatística de Teste (Distribuição F)
+
+F = s₁² / s₂²  
+
+Onde:
+- s₁²: maior variância amostral  
+- s₂²: menor variância amostral  
+
+📌 A maior variância deve sempre ficar no numerador.
+
+---
+
+#### Exemplo
+
+- Variância A: 16  
+- Variância B: 9  
+
+F = 16 / 9 ≈ 1,78  
+
+O valor calculado é comparado com o valor crítico da distribuição F.
+
+---
+
+### 11. Importância dos Testes de Hipóteses
+
+Os testes de hipóteses são fundamentais porque:
+- Permitem decisões baseadas em dados
+- Reduzem erros de julgamento
+- São amplamente utilizados em ciência, economia, engenharia e análise de dados
+
+Eles formam a base da **inferência estatística moderna**.
+
+### Conclusão da Unidade 04
+
+Nesta unidade, foram apresentados os principais conceitos da **Inferência Estatística** e dos **Testes de Hipóteses**, que têm como objetivo permitir a tomada de decisões sobre uma população a partir de informações obtidas em amostras. Esse processo é fundamental, pois na prática raramente é possível analisar todos os elementos de uma população.
+
+Inicialmente, compreendeu-se que a inferência estatística utiliza métodos formais para avaliar suposições e estimar parâmetros populacionais, reduzindo a incerteza por meio de critérios probabilísticos. Em seguida, foi introduzido o conceito de **teste de hipóteses**, no qual se estabelece uma hipótese nula, representando a situação padrão, e uma hipótese alternativa, que expressa a possibilidade de mudança ou diferença.
+
+Foram discutidos os diferentes tipos de hipóteses, destacando-se os testes **bilaterais**, utilizados quando se deseja verificar qualquer diferença, e os testes **unilaterais**, aplicados quando há interesse específico em apenas um sentido da variação. Também foi apresentado o **nível de significância (α)**, que define o risco máximo aceitável de rejeitar a hipótese nula quando ela é verdadeira, sendo um elemento central no processo de decisão.
+
+A unidade abordou ainda a **estatística de teste**, responsável por transformar os dados amostrais em um valor numérico que pode ser comparado com valores críticos ou utilizado no cálculo do p-valor. Esse mecanismo torna o processo decisório objetivo e fundamentado matematicamente.
+
+Por fim, foi estudada a **comparação de duas variâncias**, etapa importante para avaliar a homogeneidade da dispersão entre populações e frequentemente utilizada como pré-requisito para outros testes estatísticos. O uso da distribuição F foi apresentado como ferramenta adequada para esse tipo de análise.
+
+Assim, esta unidade fornece a base necessária para compreender como decisões estatísticas são construídas de forma racional e confiável, preparando o estudante para a análise crítica de dados, a validação de hipóteses e a aplicação desses conceitos em contextos acadêmicos, profissionais e científicos.
