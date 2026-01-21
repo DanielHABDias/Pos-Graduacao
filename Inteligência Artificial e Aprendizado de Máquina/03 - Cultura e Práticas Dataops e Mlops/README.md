@@ -9,6 +9,15 @@
       - [O que é DevOps?](#o-que-é-devops)
       - [Ciclo de vida em DevOps](#ciclo-de-vida-em-devops)
       - [Princípios de DevOps](#princípios-de-devops)
+  - [UNIDADE 02](#unidade-02)
+    - [Fundamentos de DataOps - Data Operations](#fundamentos-de-dataops---data-operations)
+      - [O que é DataOps?](#o-que-é-dataops)
+      - [Princípios de DataOps](#princípios-de-dataops)
+      - [Por que devemos aplicar DataOps?](#por-que-devemos-aplicar-dataops)
+      - [O que é Data Drift?](#o-que-é-data-drift)
+        - [Tipos de Drift](#tipos-de-drift)
+  - [UNIDADE 03](#unidade-03)
+  - [UNIDADE 04](#unidade-04)
 
 ## UNIDADE 01
 
@@ -64,3 +73,51 @@ A **operação** consiste na **fase de “fazer funcionar”** a entrega feita p
 - **Monitoramento Contínuo (Continuous Monitoring)**: com essa prática é possível ter visibilidade em tempo real sobre o estado de uma aplicação. Esse monitoramento é feito usando coletas de telemetria, metadados, criando alarmes em casos críticos, dentre outros;
 - **Comunicação & Colaboração (Agile)**: é prática de compartilhamento de informação dentro da equipe, o objetivo é facilitar a comunicação e compartilhamento de contexto, de conhecimento;
 - **Automação**: possibilita um ganho de velocidade nos processos da equipe, partindo do desenvolvimento, integração até os testes.
+  
+## UNIDADE 02
+
+### Fundamentos de DataOps - Data Operations
+
+#### O que é DataOps?
+
+É o termo que remete às **operações com dados** possuindo **origem baseada em DevOps**. O conceito tinha como proposta inicial ser um sistema de **melhores práticas com dados**, mas gradualmente amadureceu para uma **abordagem totalmente funcional** para lidar com a sua **análise**. Para sua implantação e execução com sucesso, existe uma sequência de princípio que direciona todas as práticas.
+
+#### Princípios de DataOps
+
+- **Satisfação contínua do cliente**: devem ser feitas entregas de valor, ou seja, que agreguem ao cliente e de forma contínua. Podem ser dados brutos para uma futura análise, dados agregados, relatórios ou até mesmo pipelines de dados;
+- **Foco em análises relevantes**: quando alguma análise ou insight for solicitado, ter foco naqueles que sejam úteis para o cliente;
+- **Abraçar a mudança**: é sempre importante considerar a necessidade dos clientes;
+- **Ser coletivo com auto-organização**: equipes de dados com diversos papéis trazem diversidade de ideias, ferramentas, arquiteturas e novas possibilidades. Acredita-se que dando liberdade para as equipes tomarem as melhores decisões elas poderão extrair os melhores qualidades/características de cada participante;
+- **Interações diárias**: interações diárias facilitam a comunicação e resolução de incidentes;
+- **Redução do heroísmo**: com as possibilidades de resolução dos problemas e a diversidade de problemas, as equipes devem focar em resolver um problema por vez, evitando o heroísmo de tentar resolver todos de uma vez e acabar não conseguindo sair do lugar;
+- **Ter reprodutibilidade**: é imprescindível que todos os processos sejam reprodutíveis para que em casos de falhas, o artefato de dado possa ser gerado novamente;
+- **Qualidade**: a qualidade das entregas deve ser um dos grandes focos, evitando qualquer tipo de retrabalho, principalmente pelo custo - envolvido. **Exemplo**: garantindo a qualidade de um pipeline de dados, evita o reprocessamento, principalmente quando o dado em questão for de um volume elevado;
+- **Aplicar monitoramento**: monitorando os processos de dados é possível corrigir alguma falha antes que o cliente perceba, garantindo a qualidade do dado entregue;
+- **Melhorar o cycle time**: ao se utilizar os princípios anteriores, o tempo de entrega acaba reduzindo como consequência da qualidade das entregas e dos próprios processos.
+
+> Embora haja algumas semelhanças entre DataOps e MLOps, como o uso de metodologias ágeis e a entrega contínua, eles têm objetivos e fluxos de trabalho diferentes. O **DataOps se concentra na gestão de dados em toda a organização**, enquanto o **MLOps se concentra na implantação e gerenciamento de modelos de aprendizado de máquina em produção**. Assista a seguir um vídeo abordando os conceitos deste módulo.
+
+#### Por que devemos aplicar DataOps?
+
+Existem **vários motivos** para **implantar a cultura DataOps** em uma empresa, incluindo:
+
+- **Processos mais ágeis**: O DataOps permite que as equipes de dados trabalhem de forma mais ágil, com entregas incrementais e com valor, o que pode levar a uma maior eficiência e produtividade.
+- **Insights em tempo real**: Com o DataOps, as equipes de dados podem fornecer insights em tempo real para a empresa, permitindo que ela tome decisões mais informadas e rápidas.
+- **Democratização das informações**: O DataOps pode ajudar a democratizar as informações, permitindo que as equipes de negócios acessem e usem dados de forma mais eficaz.
+- **Foco estratégico**: O DataOps pode ajudar a empresa a se concentrar em seus objetivos estratégicos, permitindo que as equipes de dados trabalhem em projetos que agreguem valor real à empresa.
+- **Alinhamento entre negócios e TI**: O DataOps pode ajudar a alinhar as equipes de negócios e de TI, permitindo que elas trabalhem juntas de forma mais eficaz para atingir os objetivos da empresa.
+
+#### O que é Data Drift?
+
+Data Drift é um **fenômeno** em que os **dados usados para treinar um modelo de ML mudam com o tempo**. Isso pode **levar a uma diminuição** nas **métricas do modelo**, uma vez que o **modelo pode não ser mais capaz de generalizar bem para novos dados**. Em outras palavras, o Data Drift **ocorre quando os dados de entrada do modelo mudam ao longo do tempo**, o que pode **afetar a precisão e a eficácia do modelo**. Para **lidar com o Data Drift**, é importante **monitorar os dados usados para treinar os modelos**, **atualizar os dados regularmente** e, **se necessário, refazer os modelos completamente**.
+
+##### Tipos de Drift
+
+- **Data Drift**: É um fenômeno em que os dados usados para treinar um modelo de Machine Learning mudam com o tempo. Isso pode levar a uma diminuição nas métricas do modelo, uma vez que o modelo pode não ser mais capaz de generalizar bem para novos dados.
+- **Concept Drift**: É um fenômeno em que a relação entre os dados e a variável alvo muda com o tempo. Isso pode levar a uma diminuição na precisão do modelo, uma vez que o modelo pode não ser mais capaz de capturar a relação entre os dados e a variável alvo de forma eficaz. O Concept Drift pode ser resolvido refazendo o modelo.
+
+![Drift Exemplos](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/draftExemplos.png)
+
+## UNIDADE 03
+
+## UNIDADE 04
