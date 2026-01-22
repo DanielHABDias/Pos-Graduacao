@@ -21,7 +21,7 @@
       - [Fases de MLOps](#fases-de-mlops)
       - [Princípios de MLOps](#princípios-de-mlops)
     - [Papel do Engenheiro de Dados](#papel-do-engenheiro-de-dados)
-  - [Papel do Engenheiro de Aprendizado de Máquina](#papel-do-engenheiro-de-aprendizado-de-máquina)
+    - [Papel do Engenheiro de Aprendizado de Máquina](#papel-do-engenheiro-de-aprendizado-de-máquina)
   - [UNIDADE 03](#unidade-03)
   - [UNIDADE 04](#unidade-04)
 
@@ -169,7 +169,7 @@ MLOps (Machine Learning Operations) é um **conjunto de práticas** que **une** 
   - Configuração e uso de clusters
 - Profissão **não regulamentada**, aberta a diversas formações, mas exige alto nível técnico
 
-## Papel do Engenheiro de Aprendizado de Máquina
+### Papel do Engenheiro de Aprendizado de Máquina
 
 - Atua de forma semelhante a **programadores e cientistas de dados**
 - Desenvolve sistemas capazes de **aprender com dados e gerar previsões**
