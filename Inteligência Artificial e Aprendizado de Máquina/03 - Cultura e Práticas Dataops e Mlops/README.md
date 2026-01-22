@@ -16,6 +16,12 @@
       - [Por que devemos aplicar DataOps?](#por-que-devemos-aplicar-dataops)
       - [O que é Data Drift?](#o-que-é-data-drift)
         - [Tipos de Drift](#tipos-de-drift)
+    - [Fundamentos de MLOps - Machine Learning Operations](#fundamentos-de-mlops---machine-learning-operations)
+      - [O que é MLOps?](#o-que-é-mlops)
+      - [Fases de MLOps](#fases-de-mlops)
+      - [Princípios de MLOps](#princípios-de-mlops)
+    - [Papel do Engenheiro de Dados](#papel-do-engenheiro-de-dados)
+  - [Papel do Engenheiro de Aprendizado de Máquina](#papel-do-engenheiro-de-aprendizado-de-máquina)
   - [UNIDADE 03](#unidade-03)
   - [UNIDADE 04](#unidade-04)
 
@@ -118,6 +124,67 @@ Data Drift é um **fenômeno** em que os **dados usados para treinar um modelo d
 
 ![Drift Exemplos](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/draftExemplos.png)
 
+### Fundamentos de MLOps - Machine Learning Operations
+
+#### O que é MLOps?
+
+MLOps (Machine Learning Operations) é um **conjunto de práticas** que **une** o **desenvolvimento de modelos de Machine Learning** (ML) com as **operações de TI** (DevOps) para **automatizar e gerencia**r todo o **ciclo de vida de ML**, desde a criação até a implantação e o monitoramento em produção, **garantindo** que os modelos sejam **confiáveis**, **escaláveis** e **eficientes**, **envolvendo cientistas de dados e engenheiros**.
+
+> Agora quando mudamos o artefato entregue para um modelo de ML, o desenvolvimento e operação de modelos recebe o nome de MLOps que a junção de Machine Learning + Operations.
+
+#### Fases de MLOps
+
+- **Projetar o aplicativo baseado em ML**: a primeira fase é dedicada ao entendimento do negócio, entendimento dos dados e projeto do software baseado em aprendizado de máquina. Nesta etapa, é identificado o usuário em potencial, projeta-se a solução de aprendizado de máquina para resolver seu problema e avalia-se o desenvolvimento do projeto.
+- **Experimentação e desenvolvimento de ML**: na segunda fase é verificada a aplicabilidade do aprendizado de máquina para o problema em questão, implementando a Prova de Conceito (POC). Nesta fase, executa-se etapas iterativamente diferentes, como identificar ou encontrar os melhores parâmetros do algoritmo adequado para o problema, engenharia de dados e/ou modelos. O objetivo principal nesta fase é fornecer um modelo de aprendizado de máquina de qualidade estável que será executado em produção.
+- **Operações de ML**: o foco principal da terceira fase é entregar o modelo de aprendizado de máquina desenvolvido anteriormente em produção usando práticas de DevOps estabelecidas, como por exemplo: teste, controle de versão, entrega contínua e monitoramento;
+
+#### Princípios de MLOps
+
+- **Automação**: O nível de automação dos pipelines de Dados, Modelo de ML e Código determina a maturidade do processo de ML. Com o aumento da maturidade, a velocidade para o treinamento de novos modelos também aumenta. O objetivo de uma equipe de MLOps é automatizar a implantação de modelos de ML no sistema de software principal ou como um componente de serviço. Isso significa automatizar as etapas completas do fluxo de trabalho de ML sem nenhuma intervenção manual.
+- **Continuous X**:
+  - **Integração Contínua (CI)** estende o código e os componentes de teste e validação, adicionando dados e modelos de teste e validação.
+  - **Entrega Contínua (CD)** se preocupa com a entrega de um pipeline de treinamento de ML que implanta automaticamente outro serviço de previsão do modelo de ML.
+  - **Treinamento Contínuo (CT)** é exclusivo da propriedade de sistemas de ML, que retreina automaticamente os modelos de ML para reimplantação.
+  - **Monitoramento Contínuo (CM)** se preocupa com o monitoramento de dados de produção e métricas de desempenho do modelo, que estão vinculados às métricas de negócios;
+- **Versionamento**: O objetivo do controle de versão é tratar scripts de treinamento de ML, modelos de ML e conjuntos de dados para treinamento de modelos como cidadãos de primeira classe nos processos de DevOps. Neste caso, rastreia-se modelos de ML e conjuntos de dados com sistemas de controle de versão; 
+- **Rastreio de Experimentos**: O desenvolvimento de Machine Learning é um processo altamente iterativo e centrado em pesquisa. Em contraste com o processo tradicional de desenvolvimento de software, no desenvolvimento de ML, vários experimentos de treinamento de modelos podem ser executados em paralelo antes de tomar a decisão de qual modelo será promovido para produção;
+- **Teste**: é a forma de garantir a qualidade e a “saúde”, os artefatos testados são os pipelines de dados, de treino de modelo e de disponibilização da aplicação, além dos dados em si, modelo e saúde da aplicação;
+- **Monitoramento**: Depois que o modelo for implantado, ele precisa ser acompanhado para garantir que o modelo funcione conforme o esperado;
+- **Reprodutibilidade**: A reprodutibilidade significa que todas as fases do processamento de dados, treinamento do modelo e implantação do modelo devem produzir resultados idênticos com a mesma entrada. Se temos os mesmos dados, mesmos modelos, mesmas configurações e mesmos ambientes, temos de ser capazes de produzir os mesmos artefatos;
+
+### Papel do Engenheiro de Dados
+
+- Atua como principal destaque nos processos de **DataOps**
+- Responsável por **projetar, implementar e manter** a infraestrutura de dados
+- Garante **alta performance, escalabilidade e confiabilidade** dos processos analíticos
+- Trabalha com **coleta, processamento e armazenamento de dados**
+- Dá suporte a equipes de negócio, gestão e dados
+- Possui perfil **técnico**, focado em infraestrutura e arquitetura de dados
+- Domina **cloud computing** (AWS, Azure, GCP)
+- Conhecimentos essenciais:
+  - Ciência da Computação
+  - Aplicações escaláveis
+  - Bancos de dados relacionais e não relacionais
+  - Processamento em lote e streaming
+  - Configuração e uso de clusters
+- Profissão **não regulamentada**, aberta a diversas formações, mas exige alto nível técnico
+
+## Papel do Engenheiro de Aprendizado de Máquina
+
+- Atua de forma semelhante a **programadores e cientistas de dados**
+- Desenvolve sistemas capazes de **aprender com dados e gerar previsões**
+- Cria e otimiza algoritmos de **Machine Learning e Inteligência Artificial**
+- Avalia, organiza dados e executa testes para melhorar o desempenho dos modelos
+- Responsável pela **disponibilização de modelos em produção**
+- Desenvolve e mantém **pipelines de treino e deploy**
+- Garante que os modelos resolvam corretamente os problemas propostos
+- Conhecimentos essenciais:
+  - Programação avançada
+  - Frameworks de ML e Deep Learning
+  - AutoML
+  - MLOps
+  - Engenharia de Dados
+  
 ## UNIDADE 03
 
 ## UNIDADE 04
