@@ -23,6 +23,8 @@
     - [Papel do Engenheiro de Dados](#papel-do-engenheiro-de-dados)
     - [Papel do Engenheiro de Aprendizado de Máquina](#papel-do-engenheiro-de-aprendizado-de-máquina)
   - [UNIDADE 03](#unidade-03)
+    - [Controle de Versão e CI](#controle-de-versão-e-ci)
+      - [GIT e GITHUB](#git-e-github)
   - [UNIDADE 04](#unidade-04)
 
 ## UNIDADE 01
@@ -186,5 +188,56 @@ MLOps (Machine Learning Operations) é um **conjunto de práticas** que **une** 
   - Engenharia de Dados
   
 ## UNIDADE 03
+
+### Controle de Versão e CI
+
+- **Controle de Versão**: É uma forma de gerenciar o histórico de alterações do código.
+- **Integração Contínua**: É uma prática de colaboração entre desenvolvedores para integrar suas alterações de forma mais eficiente.
+
+#### GIT e GITHUB
+
+**Git** é um **sistema de controle de versão distribuído**, que permite que **várias pessoas trabalhem em um mesmo projeto ao mesmo tempo**, sem que haja conflitos entre as alterações realizadas. Já o **GitHub** é uma **plataforma de hospedagem de código-fonte baseada em Git**, que permite que **desenvolvedores colaborem em projetos e compartilhem seu código com outras pessoas**. Em resumo, **Git é uma ferramenta de controle de versão**, enquanto **GitHub é uma plataforma de hospedagem de código-fonte que utiliza o Git como base**.
+
+**As principais características do Git são**:
+- Branching e Merging;
+- Pequeno e rápido;
+- Distribuído;
+- Staging Area;
+- Gratuito e Aberto.
+
+**Já para o GitHub, as principais características são**:
+- Colaborativo;
+- Automações e CI/CD;
+- Segurança;
+- Gerenciamento de Projetos;
+- Administração de Times;
+- Comunidade.
+
+O versionamento de código com Git trabalha de seguindo basicamente o fluxo da seguinte figura:
+
+![FluxoGit](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/fluxoGit.png)
+
+**Esse fluxo segue os seguintes princípios:**
+
+- **Branch Principal (Master/Main):** Quando você cria um repositório Git, ele começa com um branch principal, geralmente chamado "master" ou "main". Este branch representa a linha de base do seu projeto e geralmente contém o código estável e pronto para produção.
+- **Criação de Novas Branches**: Para desenvolver recursos, corrigir bugs ou realizar experimentos sem afetar o branch principal, você cria novas branches a partir do branch principal. Essas branches são cópias do estado atual do projeto no momento em que são criadas.
+- **Trabalho em Branches Secundárias**: Os desenvolvedores trabalham em suas branches secundárias, fazendo alterações, adicionando código e realizando testes. Cada branch secundária é isolada do branch principal e de outras branches secundárias, permitindo o desenvolvimento independente.
+- **Merging (Mesclagem)**: Quando um desenvolvedor conclui seu trabalho em uma branch secundária e está satisfeito com as alterações, ele pode mesclar (merge) essa branch de volta ao branch principal. Isso incorpora as alterações da branch secundária ao código principal do projeto.
+- **Resolução de Conflitos**: Em algumas situações, pode ocorrer um conflito durante a mesclagem, especialmente quando duas branches alteraram a mesma parte do código. Nesse caso, os desenvolvedores precisam resolver os conflitos manualmente, decidindo qual versão das alterações será mantida.
+- **Branches de Recursos e de Manutenção**: Além das branches de desenvolvimento de recursos, é comum criar branches de manutenção (como "hotfix" para correção rápida de bugs) e branches de recursos (como "feature" ou "develop" para desenvolvimento de novas funcionalidades).
+- **Histórico Linear**: O Git mantém um histórico linear de commits para cada branch. Isso significa que, mesmo que você tenha várias branches de desenvolvimento, o histórico de cada branch é independente e organizado de forma linear.
+- **Branches Remotas**: Além das branches locais, o Git permite criar e trabalhar com branches remotas, que estão em um repositório remoto (como no GitHub). Você pode empurrar (push) branches locais para um repositório remoto e puxar (pull) branches remotas para seu repositório local.
+
+**Alguns comandos para serem utilizados no Git:**
+- git init: inicializa um repositório Git em um diretório;
+- git add: adiciona arquivos ao staging area;
+- git commit: cria um novo commit com as alterações adicionadas ao staging area;
+- git push: envia as alterações locais para um repositório remoto;
+- git pull: baixa as alterações de um repositório remoto para o repositório local;
+- git branch: lista, cria ou deleta branches;
+- git merge: mescla alterações de uma branch em outra;
+- git clone: clona um repositório remoto para o repositório local;
+- git status: mostra o status atual do repositório (mostra o que está em staging e o que está mudado);
+- git log: mostra o histórico de commits do repositório;
 
 ## UNIDADE 04
