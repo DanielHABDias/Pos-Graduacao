@@ -38,6 +38,15 @@
         - [GitHub Actions](#github-actions)
           - [Criação de uma Pipeline no GitHub Actions](#criação-de-uma-pipeline-no-github-actions)
   - [UNIDADE 04](#unidade-04)
+    - [Containers](#containers)
+      - [Containers Docker - Fundamentos](#containers-docker---fundamentos)
+      - [Criando uma Imagem Docker Customizada](#criando-uma-imagem-docker-customizada)
+    - [APIs - Application Programming Interface](#apis---application-programming-interface)
+      - [Protocolos de comunicação utilizados nas APIs](#protocolos-de-comunicação-utilizados-nas-apis)
+        - [Métodos HTTP](#métodos-http)
+      - [FastAPI](#fastapi)
+    - [Testes de Carga](#testes-de-carga)
+      - [Teste de carga com Locust](#teste-de-carga-com-locust)
 
 ## UNIDADE 01
 
@@ -398,3 +407,132 @@ Um exemplo de uma pipeline feita para executar o treino de um modelo a cada push
 ![Pipeline Exemplo](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/pipelineExemplo.png)
 
 ## UNIDADE 04
+
+### Containers
+
+**Containers** são **unidades isoladas de software** que **empacotam todas as dependências** e **bibliotecas** necessárias para executar um aplicativo. Eles **fornecem** uma maneira **consistente e portátil** de implantar aplicativos em **diferentes ambientes**. Os **containers** **permitem** **isolamento** de aplicativos, **portabilidade**, **eficiência** de recursos, **escalabilidade** e **facilidade de implantação**.
+
+Em outras palavras, os containers são uma forma de empacotar um aplicativo e todas as suas dependências em um único pacote, que pode ser executado em qualquer ambiente que suporte containers. Isso torna mais fácil e eficiente implantar e executar aplicativos em diferentes ambientes, sem se preocupar com as diferenças entre eles. Além disso, os containers permitem que os aplicativos sejam isolados uns dos outros, o que aumenta a segurança e a estabilidade do sistema como um todo.
+
+Existem várias ferramentas de containers disponíveis, cada uma com suas próprias vantagens e casos de uso específicos. **Além do Docker**, algumas das **ferramentas mais conhecidas** e amplamente utilizadas como: **Podman, K8s, containerd, rkt e OpenShift**.
+
+Agora, em relação à **vantagem de usar o Docker**, ele é amplamente adotado e amplamente reconhecido por várias razões:
+
+- **Padronização**: O Docker estabeleceu um padrão de fato para contêineres, o que significa que os contêineres Docker são altamente portáteis e podem ser executados em qualquer lugar que suporte Docker, independentemente do sistema operacional ou da infraestrutura subjacente.
+- **Ampla Comunidade e Ecossistema**: O Docker possui uma comunidade enorme e um ecossistema rico em ferramentas, imagens e recursos. Isso torna mais fácil encontrar suporte, documentação e soluções para uma variedade de casos de uso.
+- **Simplicidade de Uso**: O Docker fornece uma interface de linha de comando intuitiva e uma configuração relativamente simples, o que o torna acessível para iniciantes, bem como para usuários avançados.
+- **Eficiência de Recursos**: O Docker é conhecido por sua eficiência em termos de recursos, o que significa que os contêineres têm um impacto mínimo no desempenho do sistema, tornando-os ideais para ambientes de desenvolvimento e produção.
+- **Segurança**: O Docker implementa várias camadas de segurança, isolando os contêineres uns dos outros e do sistema hospedeiro. Isso ajuda a evitar vazamentos de dados e outros problemas de segurança.
+- **Gerenciamento de Recursos**: O Docker oferece recursos de gerenciamento avançados, como Docker Compose para orquestração de aplicativos de vários contêineres e Docker Swarm para clusters de contêineres.
+
+> Em resumo, o Docker é uma escolha popular devido à sua ampla adoção, facilidade de uso, portabilidade e ecossistema robusto. No entanto, a escolha da ferramenta de contêiner depende dos requisitos específicos do seu projeto e das preferências da sua equipe. Outras ferramentas mencionadas também têm suas próprias vantagens e podem ser mais adequadas para cenários específicos.
+
+#### Containers Docker - Fundamentos
+
+Os fundamentos do Docker incluem:
+
+- **Imagem Docker**: é uma representação estática de um aplicativo e seu ambiente de execução. Ela contém todas as dependências e configurações necessárias para executar o aplicativo.
+- **Dockerfile**: é um arquivo que contém as instruções para criar uma imagem Docker. Ele descreve como o aplicativo deve ser configurado e quais dependências devem ser instaladas.
+- **Container**: é uma instância em execução de uma imagem Docker. Ele contém o aplicativo e todas as suas dependências, isolados do restante do sistema.
+- **Kernel do sistema host**: ao contrário das VMs tradicionais, que emulam todo um sistema operacional, os containers compartilham o kernel do sistema host. Isso torna os containers mais leves, eficientes e rápidos de iniciar.
+
+Esses são os principais fundamentos do Docker, que permitem criar, executar e gerenciar aplicativos em containers de forma eficiente e portátil. **A principal diferença entre containers e máquinas virtuais** é que os **containers compartilham o kernel do sistema host**, enquanto as **máquinas virtuais emulam todo um sistema operacional**. Isso torna os **containers mais leves**, **eficientes** e **rápidos de iniciar do que as máquinas virtuais**. Além disso, os **containers permitem que os aplicativos sejam isolados uns dos outros**, enquanto as **máquinas virtuais isolam todo o sistema operacional**. Isso torna os **containers mais flexíveis** e **escaláveis** do que as máquinas virtuais, especialmente em ambientes de nuvem e de microserviços. No entanto, as m**áquinas virtuais ainda são úteis em alguns casos**, como quando é necessário **isolar completamente um sistema operacional** ou **executar diferentes sistemas operacionais em um mesmo host**.
+
+![Diferença entre Contêiners e Aplicações em VMs](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/direferencaConteinersXAplicacoesVms.png)
+
+#### Criando uma Imagem Docker Customizada
+
+Para criar uma imagem Docker customizada, você pode seguir os seguintes passos:
+
+1) Crie um arquivo Dockerfile que descreva como a imagem deve ser construída. O Dockerfile contém as instruções para instalar as dependências, copiar os arquivos do aplicativo e configurar o ambiente de execução. Você pode usar comandos como FROM, RUN, COPY, CMD e outros para definir a imagem.
+2) Coloque o Dockerfile em um diretório vazio junto com os arquivos do aplicativo que você deseja incluir na imagem.
+3) Abra um terminal e navegue até o diretório onde o Dockerfile está localizado.
+4) Execute o comando "docker build -t nome-da-imagem ." para criar a imagem. O parâmetro "-t" define o nome da imagem e o ponto final "." indica que o Dockerfile está no diretório atual.
+5) Aguarde até que a imagem seja construída. Isso pode levar alguns minutos, dependendo do tamanho da imagem e da velocidade da conexão com a internet.
+6) Verifique se a imagem foi criada com sucesso executando o comando "docker images". A imagem customizada deve aparecer na lista de imagens disponíveis.
+
+Com esses passos, você pode criar uma imagem Docker customizada para o seu aplicativo. Lembre-se de que você pode personalizar o Dockerfile de acordo com as necessidades do seu aplicativo e ambiente de execução. Abaixo segue um exemplo de arquivo Dockerfile usado para criar uma imagem customizada:
+
+![Dockerfile](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/dockerfile.png)
+
+### APIs - Application Programming Interface
+
+Uma **API** (Application Programming Interface) é um **conjunto de regras e protocolos que define como diferentes softwares podem interagir entre si**. Ela fornece uma interface padronizada para acessar recursos e funcionalidades de um software, permitindo que outros aplicativos possam se integrar e interagir com ele de forma programática.
+
+As **APIs** são amplamente **utilizadas** na indústria de software para **permitir a comunicação entre diferentes sistemas e serviços**. Elas são usadas para **obter informações, enviar/receber dados e acessar recursos, como bancos de dados, serviços de nuvem, redes sociais, entre outros**.
+
+A **principal vantagem** de usar APIs é que elas **permitem que diferentes aplicativos se comuniquem de forma padronizada e automatizada**, sem a necessidade de intervenção manual. Isso torna a **integração entre sistemas mais fácil, rápida e confiável**, reduzindo o tempo e o custo de desenvolvimento de software. Além disso, as **APIs promovem a reutilização de código** e **aceleram o desenvolvimento de software**, permitindo que os desenvolvedores se concentrem em criar novas funcionalidades em vez de reinventar a roda.
+
+#### Protocolos de comunicação utilizados nas APIs
+
+É um **estilo arquitetural de aplicações** que define um conjunto de princípios para projetar sistemas distribuídos baseados em recursos da web. Ele foi criado para padronizar a forma como as APIs são projetadas e implementadas, tornando-as mais simples, escaláveis e interoperáveis.
+
+O **padrão REST** apresenta alguns **princípios** de estilo, como a **separação clara entre cliente e servidor**, a não armazenagem de estado no servidor (**stateless**), o **uso consistente de métodos HTTP** e manipulação de recursos por meio de identificadores (**URLs**), a transferência de estado representacional (as respostas do servidor contêm representações do estado atual do recurso solicitado) e a possibilidade de usar uma arquitetura em camadas para escalabilidade e desempenho.
+
+Uma **API RESTful** é aquela que **adere** estritamente aos **princípios e restrições do estilo arquitetural REST**, permitindo que diferentes sistemas possam se comunicar de forma padronizada e interoperável.
+
+##### Métodos HTTP
+
+Os principais métodos HTTP usados em APIs são:
+
+1) **GET**: Método genérico para qualquer requisição que busca dados do servidor;
+2) **POST**: Método genérico para qualquer requisição que envia dados ao servidor;
+3) **PUT**: Método específico para atualização de dados no servidor;
+4) **DELETE**: Método específico para remoção de dados no servidor.
+
+Esses **métodos** são usados para **manipular recursos em um servidor web**, permitindo que os **clientes possam enviar e receber dados de forma padronizada e segura**. O método GET é usado para recuperar informações de um recurso, enquanto o POST é usado para enviar informações para um recurso. O método PUT é usado para atualizar um recurso existente, enquanto o DELETE é usado para remover um recurso existente.
+
+Além desses métodos, existem outros métodos HTTP menos comuns, como **HEAD, OPTIONS, TRACE e CONNECT**, que são usados para fins específicos, como obter **informações sobre um recurso, verificar a disponibilidade de um servidor ou estabelecer uma conexão segura**.
+
+#### FastAPI
+
+**FastAPI é um framework** web de alto desempenho para **construção de APIs com Python 3.6+** baseado em padrões abertos e padrões da web, como o **padrão REST** e o protocolo HTTP. Ele foi lançado em 2018 e tem como principais características a rapidez no desenvolvimento, a facilidade de uso, a robustez e a alta performance.
+
+**FastAPI é construído sobre o framework ASGI** (Asynchronous Server Gateway Interface), que permite que as **APIs sejam executadas de forma assíncrona e escalável**, aproveitando ao máximo o poder do Python assíncrono. Ele também usa o **Pydantic para validação de dados** e geração automática de documentação interativa, tornando o processo de desenvolvimento mais rápido e menos propenso a erros.
+
+FastAPI é uma opção popular para desenvolvedores que buscam uma solução rápida e eficiente para construção de APIs em Python, especialmente para aplicações de alta performance e escalabilidade.
+
+A figura à seguir mostra um exemplo de código usando o FastAPI no qual a aplicação é utilizada e uma rota básica é criada.
+
+![Exemplo de FastAPI](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/exemploFastAPI.png)
+
+### Testes de Carga
+
+Os testes de carga (ou load tests, em inglês) em **modelos de ML referem-se à avaliação do desempenho e capacidade de um modelo em lidar com grandes volumes de dados ou requisições simultâneas**. **Em vez de avaliar a precisão ou acurácia do modelo, os testes de carga visam entender como o modelo se comporta sob carga intensa**.
+
+Aqui estão alguns **aspectos importantes** sobre testes de carga em modelos de machine learning:
+
+1) **Simulação de Cargas Elevadas**: Esses testes envolvem simular situações onde o modelo é submetido a um grande número de requisições ou um volume alto de dados de uma só vez. Por exemplo, em uma aplicação de recomendação de produtos, isso poderia ser simulado por um grande número de usuários acessando a plataforma simultaneamente.
+2) **Monitoramento de Desempenho**: Durante o teste de carga, métricas como tempo de resposta, latência e taxa de erro podem ser monitoradas. Essas métricas ajudam a avaliar se o modelo está conseguindo lidar com a carga de maneira eficiente.
+3) **Identificação de Estrangulamentos**: Testes de carga podem revelar possíveis pontos de estrangulamento no sistema. Por exemplo, pode ficar evidente que o modelo está sendo sobrecarregado ou que o servidor de aplicação está tendo dificuldades para lidar com as requisições.
+4) **Escalonamento e Otimização**: Com base nos resultados dos testes de carga, é possível realizar ajustes no ambiente de execução do modelo, como escalonamento horizontal ou vertical, otimização de código, entre outros, para melhorar a capacidade de resposta sob carga.
+5) **Garantia de Confiabilidade**: Ao submeter o modelo a testes de carga, é possível garantir que ele seja capaz de lidar com situações de pico sem falhar ou degradar significativamente o desempenho.
+6) **Planejamento de Capacidade**: Os resultados dos testes de carga podem ser usados para determinar os recursos necessários para suportar uma determinada carga esperada no ambiente de produção.
+7) **Simulação de Cenários Extremos**: Em alguns casos, é importante entender como o modelo se comporta em cenários extremos. Por exemplo, um modelo de processamento de linguagem natural pode ser submetido a uma grande quantidade de dados de entrada muito longos.
+
+Lembrando que os testes de carga em modelos de machine learning são especialmente relevantes em aplicações que envolvem inferência em tempo real, onde a capacidade de resposta do modelo é crucial para uma boa experiência do usuário.
+
+#### Teste de carga com Locust
+
+O **Locust** é outra poderosa ferramenta para realizar **testes de carga e estresse em aplicações web**, incluindo serviços de **machine learning que disponibilizam uma API HTTP**. O Locust é bastante popular devido à sua **simplicidade** de uso e **escalabilidade**.
+
+Para criar um teste de carga com o Locust, primeiro, é essencial garantir que a biblioteca esteja instalada. Se ainda não o fez, você pode instalá-la utilizando o comando ```pip install locust```.
+
+Em seguida, crie um arquivo Python, por exemplo ```meu_teste_de_carga.py```, onde você irá escrever o script do teste. Dentro deste arquivo, **importe a classe** ```HttpUser``` do Locust, que servirá como a base para o seu teste. É a partir dessa classe que você irá definir o comportamento dos usuários virtuais.
+
+Agora, **adicione tarefas ao seu teste**. As tarefas são funções Python decoradas com ```@task``` que representam os diferentes tipos de requisições que você deseja simular. **Cada tarefa deve conter a lógica para realizar uma requisição**, utilizando ```self.client.get``` ou ```self.client.post``` para interagir com a aplicação. Por exemplo:
+
+![Exemplo de Locust](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/03%20-%20Cultura%20e%20Práticas%20Dataops%20e%20Mlops/images/exemploLocust.png)
+
+Além disso, você **pode definir o comportamento dos usuários virtuais** através da configuração de um tempo de espera (```wait_time```). **Isso indica quanto tempo cada usuário virtual aguarda entre as requisições**. Por exemplo, ```wait_time = between(1, 5)``` significa que o **tempo de espera varia aleatoriamente entre 1 e 5 segundos**.
+
+Para **iniciar o teste**, abra um terminal, navegue até o diretório onde está o arquivo Python do seu teste de carga e execute o comando ```locust -f meu_teste_de_carga.py```.
+
+Isso **abrirá uma interface gráfica do Locust no navegador**, onde você **poderá configurar o teste**. Você pode **definir o número total de usuários virtuais**, a **taxa de usuários gerados por segundo**, o **endereço da aplicação a ser testada**, e o **tempo máximo de execução do teste**.
+
+Ao clicar em **"Start Swarming"**, o Locust **começará a simular a carga**, **enviando requisições à aplicação conforme definido no script**.
+
+Enquanto o teste está em execução, na **interface do Locust você poderá monitorar métricas como o número de requisições por segundo e o tempo de resposta médio**.
+
+**Em resumo, ao seguir esses passos, você criará e executará um teste de carga utilizando o Locust, proporcionando a capacidade de avaliar o desempenho da sua aplicação sob diferentes cargas simuladas.**
+
