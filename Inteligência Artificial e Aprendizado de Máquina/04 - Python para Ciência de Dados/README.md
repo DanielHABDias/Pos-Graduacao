@@ -1,0 +1,1 @@
+Modulo que apenas ensina a utilizar python e suas estruturas de dados (com metodos e atributos de cada estrutura), e ensina Pandas, Dataset, Dataframe, como gerar graficos outras coisas.
