@@ -122,7 +122,7 @@ Exemplo de ETL: Projeto de Web Scrapping que coleta os dados, normaliza e salva 
 
 #### T - Transform
 
-[Flux do ETL](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/05%20-%20Preparação%20e%20Integração%20de%20Dados/images/fluxoETL.png)
+[Fluxo do ETL](//Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/05%20-%20Preparação%20e%20Integração%20de%20Dados/images/fluxoETL.png)
 
 - Definindo Dados com Qualidade:
     - Correto.
@@ -136,3 +136,64 @@ Exemplo de ETL: Projeto de Web Scrapping que coleta os dados, normaliza e salva 
 
 - A fase de transformação consiste em aplicar uma série de regras ou funções sobre os dados extraídos.
 - Essas regras são baseadas nos requisitos de negócios levantados.
+
+#### L - Load
+
+Cargas: 
+
+Incremental X Completa: Primeiro acontece de forma programada e o segundo acontece completamente.
+
+- Batch:
+    - Bancos relacionais e arquivos
+    - Alta latência
+- Near RealTime
+    - Soluções como CDC
+    - Geralmente bancos relacionais
+    - Delta de transformações
+- RealTime
+    - Baixa latência
+    - Transformações em memória
+    - Fontes diversas
+
+Visão Data Warehouse:
+
+> Fase de ETL desde a extração do dado até sua carga em um modelo dimensional consome, pelo menos, 70% do tempo, esforço e despesa da maioria dos projetos de Data Warehouse. (Kimball)
+
+- Um Data Warehouse é um sistema que extrai, limpa, transforma, e carrega os dados de fontes operacionais (ETL) em uma estrutura de armazenamento de dados dimensionais e, em seguida, apoia e implementa consulta e análise para fins de tomada de decisão.
+
+Visão Self Service BI - SSBI:
+
+- Os dados podem ser amazenados nos repositórios internos das ferramentas SSBI, que tem por caracterísitca ter alto poder de compressão, índices otimizados.
+
+![Visões ETL](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/05%20-%20Preparação%20e%20Integração%20de%20Dados/images/visoesETL.png)
+
+#### Ferramentas ETL
+
+- Power BI (Microsoft)
+- Tableau
+- Qlik
+- ThoughtSpot
+
+### ESTRUTURAS DE DADOS
+
+- *Estruturados*
+    ex: banco relacional
+- *SemiEstruturados*
+    ex: XML, JSON
+- *Não Estruturados*
+    ex: Texto com vários dados, Vídeos, Áudios...
+
+![Diferença entre estruturas de dados](/Inteligência%20Artificial%20e%20Aprendizado%20de%20Máquina/05%20-%20Preparação%20e%20Integração%20de%20Dados/images/diffEstruturasDados.png)
+
+## UNIDADE 03
+
+### TEMAS ABORDADOS
+
+- Projeto ETL com carga acessando Múltiplas fontes de dados
+    - Entendimento do cenário
+    - Criação do conceito único de cliente
+    - Criação do conceito único de pedidos
+    - Agendamento de carga – Usando Gateway
+    - Publicação do dados
+
+
