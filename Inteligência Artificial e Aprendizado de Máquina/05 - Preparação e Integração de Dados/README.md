@@ -196,4 +196,54 @@ Visão Self Service BI - SSBI:
     - Agendamento de carga – Usando Gateway
     - Publicação do dados
 
+> Obs: Módulo foi totalmente prático, sobre criação de um projeto ETL com power BI.
 
+## UNIDADE 04
+
+### TEMAS ABORDADOS
+
+- Estudo de Caso: Carga Vendas por Região ( projeto baseado em uma realidade)
+    - Projeto ETL com carga acessando Múltiplas fontes de dados
+        - Entendimento do cenário
+        - Criação do conceito único de cliente
+        - Criação do conceito único de pedidos
+        - Criando gráfico Tableau Desktop
+- Implementação: Projetos ETL
+    - Testes e Operação
+
+> Obs: Módulo foi totalmente prático, sobre criação de um projeto ETL com Tableau. Dando Overview nas ferramentas do Tableau (Como Tableau Prep.).
+
+### IMPLEMENTAÇÃO
+#### TESTES E OPERAÇÃO
+
+PASSOS:
+- Execução de testes unitários.
+- Criação de um ambiente de produção estável (necessária equipe de TI).
+- Programar os schedules de cargas incremental.
+- Monitoramento do ambiente por um tempo determinado.
+- Entrega dos documentos de procedimentos de recuperação de falha.
+
+- Para fazer a migração/publicação para a produção tão simples quanto possível, certifique-se de criar documentos de apoio à produção (pois nem sempre quem criou é que vai fazer manutenção), tais como:
+    - Relatório final que identifica todos os artefatos produzidos ao logo do processo de desenvolvimento.
+    - Documento de detalhes sobre schedules da carga.
+
+- A missão da equipe de ETL, no nível mais alto é o de construir os bastidores de uma solução de analytics:
+    - Fornecer dados de forma mais eficaz para o negócio.
+    - Agregar valor dos dados nos passos de limpeza e transformação.
+    - Proteger e documentar o fluxo dos dados.
+
+- Para que a missão ocorra são ncessárias 4 fases:
+    1. *Extração* de dados das fontes originais.
+    2. Garantir a qualidade e *limpeza* de dados.
+    3. *Transformar* os dados para atender os requisitos de negocio, mantendo coerência com as fontes originais.
+    4. *Carregar* os dados no repositório da ferramenta, proporcionando consulta, relatórios, e painéis.
+
+- Responsabilidades da equipe de ETL:
+    - Definir escopo do processo ETL.
+    - Analisar performance do sistema de origem.
+    - Definir uma estratégia de qualidade dos dados.
+    - Documentar as regras de negócio.
+    - Desenvolver os códigos físicos dos processos de carga.
+    - Criar e executar testes de carga.
+    - Acompanhar processos quando migrados para produção.
+    - Realizar manutenção dos processos de carga.
