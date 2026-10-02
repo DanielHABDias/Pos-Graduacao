@@ -55,7 +55,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     subparsers.add_parser(
         "complete",
-        help="Marca como concluídos somente itens manuais e não avaliativos.",
+        help="Conclui itens manuais ou de visualização, exceto avaliações.",
     )
     return parser
 
@@ -65,11 +65,12 @@ def _print_courses(courses: Sequence[Course]) -> None:
         print("Nenhum curso encontrado.")
         return
 
-    headers = ("ID", "CURSO", "CÓDIGO", "PERÍODO", "ESTADO")
+    headers = ("ID", "CURSO", "PROGRESSO", "CÓDIGO", "PERÍODO", "ESTADO")
     rows = [
         (
             str(course.id),
             course.name,
+            _course_progress_label(course),
             course.course_code or "-",
             course.term_name or "-",
             course.workflow_state,
@@ -83,6 +84,16 @@ def _print_courses(courses: Sequence[Course]) -> None:
     for row in rows:
         print("  ".join(value.ljust(widths[index]) for index, value in enumerate(row)))
     print(f"\nTotal: {len(courses)} disciplina(s).")
+
+
+def _course_progress_label(course: Course) -> str:
+    if course.completion_percentage is None:
+        return "indisponível"
+    return f"{course.completion_percentage}%"
+
+
+def _course_selection_label(course: Course) -> str:
+    return f"{course.name} — {_course_progress_label(course)}"
 
 
 def _print_programs(programs: Sequence[Program]) -> None:
@@ -139,7 +150,7 @@ def _print_completion_result(result: CompletionResult) -> None:
     print(f"  Marcados agora: {result.marked}")
     print(f"  Já estavam concluídos: {result.already_completed}")
     print(f"  Provas/atividades ignoradas: {result.assessments_skipped}")
-    print(f"  Sem opção manual de conclusão: {result.without_manual_completion}")
+    print(f"  Sem requisito de conclusão compatível: {result.without_manual_completion}")
     print(f"  Bloqueados ou indisponíveis: {result.unavailable}")
     for title in result.unavailable_items:
         print(f"    - {title}")
@@ -182,7 +193,7 @@ def _crawl_menu(client: CanvasClient, settings: Settings, catalog: CourseCatalog
             course = _choose_option(
                 "Selecione a disciplina que será baixada",
                 program.courses,
-                lambda item: item.name,
+                _course_selection_label,
             )
             confirmation = input(
                 f'\nBaixar e organizar "{course.name}"? [s/N]: '
@@ -253,7 +264,7 @@ def _completion_menu(client: CanvasClient, catalog: CourseCatalog) -> None:
             course = _choose_option(
                 "Selecione a disciplina",
                 program.courses,
-                lambda item: item.name,
+                _course_selection_label,
             )
             confirmation = input(
                 f'\nMarcar os itens manuais de "{course.name}" como concluídos? [s/N]: '
@@ -357,7 +368,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 course = _choose_option(
                     "Selecione a disciplina",
                     program.courses,
-                    lambda item: item.name,
+                    _course_selection_label,
                 )
                 modules = client.list_modules(course.id)
                 module = _choose_option(

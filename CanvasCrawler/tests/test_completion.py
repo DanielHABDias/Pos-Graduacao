@@ -31,13 +31,15 @@ def item(
 class FakeClient:
     def __init__(self) -> None:
         self.marked: list[int] = []
+        self.read: list[int] = []
         self.items = [
             item(1, "Page", "must_mark_done", False),
             item(2, "Page", "must_mark_done", True),
             item(3, "Quiz", "must_mark_done", False),
             item(4, "Page", "must_view", False),
-            item(5, "File", None, None),
+            item(5, "File", "must_view", False),
             item(6, "Page", "must_mark_done", False),
+            item(7, "File", None, None),
         ]
 
     def list_modules(self, _: int) -> list[Module]:
@@ -51,6 +53,9 @@ class FakeClient:
             raise CanvasApiError("bloqueado")
         self.marked.append(item_id)
 
+    def mark_module_item_read(self, _: int, __: int, item_id: int) -> None:
+        self.read.append(item_id)
+
 
 class CompletionServiceTests(unittest.TestCase):
     def test_marks_only_incomplete_manual_non_assessment_items(self) -> None:
@@ -60,10 +65,11 @@ class CompletionServiceTests(unittest.TestCase):
         result = CourseCompletionService(client).complete(course)  # type: ignore[arg-type]
 
         self.assertEqual(client.marked, [1])
-        self.assertEqual(result.marked, 1)
+        self.assertEqual(client.read, [4, 5])
+        self.assertEqual(result.marked, 3)
         self.assertEqual(result.already_completed, 1)
         self.assertEqual(result.assessments_skipped, 1)
-        self.assertEqual(result.without_manual_completion, 2)
+        self.assertEqual(result.without_manual_completion, 1)
         self.assertEqual(result.unavailable, 1)
 
 

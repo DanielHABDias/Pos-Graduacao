@@ -40,6 +40,10 @@ class CanvasClientTests(unittest.TestCase):
                         "course_code": "IA02",
                         "workflow_state": "available",
                         "term": {"name": "2026/2"},
+                        "course_progress": {
+                            "requirement_count": 20,
+                            "requirement_completed_count": 16,
+                        },
                     },
                     {
                         "id": 1,
@@ -54,6 +58,8 @@ class CanvasClientTests(unittest.TestCase):
 
         self.assertEqual([course.id for course in courses], [1, 2])
         self.assertEqual(courses[1].term_name, "2026/2")
+        self.assertEqual(courses[1].completion_percentage, 80)
+        self.assertIsNone(courses[0].completion_percentage)
 
     def test_follows_canvas_pagination(self) -> None:
         requests: list[str] = []
@@ -149,6 +155,18 @@ class CanvasClientTests(unittest.TestCase):
 
         client = self.build_client(httpx.MockTransport(handler))
         client.mark_module_item_done(10, 20, 30)
+
+    def test_marks_module_item_read_with_post(self) -> None:
+        def handler(request: httpx.Request) -> httpx.Response:
+            self.assertEqual(request.method, "POST")
+            self.assertEqual(
+                request.url.path,
+                "/api/v1/courses/10/modules/20/items/30/mark_read",
+            )
+            return httpx.Response(204)
+
+        client = self.build_client(httpx.MockTransport(handler))
+        client.mark_module_item_read(10, 20, 30)
 
     def test_gets_sessionless_launch_url_from_canvas(self) -> None:
         def handler(request: httpx.Request) -> httpx.Response:

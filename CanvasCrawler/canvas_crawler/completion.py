@@ -21,10 +21,11 @@ class CompletionResult:
 
 
 class CourseCompletionService:
-    """Marca somente itens que exibem a ação manual de conclusão ao aluno."""
+    """Conclui itens seguros com requisitos manuais ou de visualização."""
 
     _ASSESSMENT_TYPES = {"Assignment", "Quiz", "Discussion"}
     _MANUAL_REQUIREMENT = "must_mark_done"
+    _VIEW_REQUIREMENT = "must_view"
 
     def __init__(self, client: CanvasClient) -> None:
         self._client = client
@@ -51,7 +52,10 @@ class CourseCompletionService:
                 if item.type in self._ASSESSMENT_TYPES:
                     result.assessments_skipped += 1
                     continue
-                if item.completion_requirement != self._MANUAL_REQUIREMENT:
+                if item.completion_requirement not in {
+                    self._MANUAL_REQUIREMENT,
+                    self._VIEW_REQUIREMENT,
+                }:
                     result.without_manual_completion += 1
                     continue
                 if item.completion_requirement_met is True:
@@ -59,7 +63,10 @@ class CourseCompletionService:
                     continue
 
                 try:
-                    self._client.mark_module_item_done(course.id, module.id, item.id)
+                    if item.completion_requirement == self._VIEW_REQUIREMENT:
+                        self._client.mark_module_item_read(course.id, module.id, item.id)
+                    else:
+                        self._client.mark_module_item_done(course.id, module.id, item.id)
                 except CanvasCrawlerError:
                     # Itens bloqueados, não publicados ou recusados pelo Canvas são ignorados.
                     result.unavailable += 1

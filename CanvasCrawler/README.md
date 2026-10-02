@@ -317,15 +317,17 @@ reaproveita os caminhos e arquivos já presentes no acervo.
 
 ## Marcar itens como concluídos
 
-Essa função é separada do crawler e sempre exige confirmação no menu. Ela usa somente o endpoint
-`PUT /courses/:course_id/modules/:module_id/items/:id/done`, destinado aos itens cujo requisito é
-`must_mark_done` — isto é, aqueles que mostram ao aluno a opção manual de conclusão.
+Essa função é separada do crawler e sempre exige confirmação no menu. Para requisitos
+`must_mark_done`, usa `PUT /courses/:course_id/modules/:module_id/items/:id/done`. Para itens
+`must_view`, incluindo arquivos de slides, usa
+`POST /courses/:course_id/modules/:module_id/items/:id/mark_read` para registrar a visualização.
 
 O serviço:
 
 - nunca conclui `Quiz`, `Assignment` ou `Discussion`;
 - não envia outra requisição para itens que já estejam concluídos;
-- ignora itens sem requisito ou com requisitos como `must_view`, `must_submit` e `min_score`;
+- registra como visualizados itens `must_view`, como páginas e arquivos de slides;
+- ignora itens sem requisito ou com requisitos como `must_submit` e `min_score`;
 - ignora e informa itens bloqueados, não publicados ou recusados pelo Canvas;
 - permite escolher uma disciplina ou todas as disciplinas de uma formação escolhida;
 - permanece no submenu até a opção de voltar ser escolhida.

@@ -129,6 +129,14 @@ class CanvasClient:
             f"/api/v1/courses/{course_id}/modules/{module_id}/items/{item_id}/done",
         )
 
+    def mark_module_item_read(self, course_id: int, module_id: int, item_id: int) -> None:
+        """Registra a visualização de um item com requisito ``must_view``."""
+
+        self._request(
+            "POST",
+            f"/api/v1/courses/{course_id}/modules/{module_id}/items/{item_id}/mark_read",
+        )
+
     def get_sessionless_launch_url(self, course_id: int, target_url: str) -> str:
         """Obtém no Canvas uma URL LTI temporária sem compartilhar o bearer token."""
 
