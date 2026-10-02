@@ -1,0 +1,226 @@
+---
+title: "Seleção de Variáveis com Stepwise e Lasso no R"
+output: html_notebook
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+# Seleção de Variáveis com Stepwise e Lasso no R
+
+A seleção de variáveis é uma etapa crucial na modelagem estatística.
+Dois métodos comuns são:
+
+## Stepwise (AIC)
+
+Algoritmo iterativo que inclui ou remove variáveis com base no critério de informação de Akaike (AIC).
+O AIC penaliza modelos muito complexos e favorece os mais parcimoniosos.
+
+-   **Forward**: começa sem variáveis e vai adicionando uma a uma.
+-   **Backward**: começa com todas e vai removendo.
+-   **Both**: combina as duas abordagens.
+
+## Lasso (Least Absolute Shrinkage and Selection Operator)
+
+Técnica de regularização que impõe uma penalidade L1 sobre os coeficientes.
+Essa penalização reduz alguns coeficientes a exatamente zero, realizando seleção de variáveis.
+É especialmente útil quando temos muitas variáveis correlacionadas.
+
+#### Carregando bibliotecas necessárias
+
+```{r}
+library(MASS)         # stepAIC
+library(glmnet)       # Lasso
+library(caret)        # Pré-processamento
+library(dplyr)        # Manipulação de dados
+library(ggplot2)      # Visualização
+library(tibble)
+library(tidyr)        # Para pivot_longer
+library(GGally)       # Análise gráfica de correlação
+```
+
+### Carregando a base Boston (disponível no pacote MASS)
+
+```{r}
+data("Boston", package = "MASS")
+df <- Boston
+str(df)
+```
+
+Detalhamento da Base de Dados
+
+A base **Boston** possui 506 observações e 14 variáveis numéricas:
+
+-   **crim**: taxa de criminalidade per capita.
+
+-   **zn**: proporção de terrenos residenciais com lotes maiores que 25.000 pés quadrados.
+
+-   **indus**: proporção de hectares de negócios não varejistas por cidade.
+
+-   **chas**: variável binária (1 se faz limite com o rio Charles; 0 caso contrário).
+
+-   **nox**: concentração de óxidos nítricos (partes por 10 milhões).
+
+-   **rm**: número médio de cômodos por residência.
+
+-   **age**: proporção de unidades ocupadas por proprietários construídas antes de 1940.
+
+-   **dis**: distâncias ponderadas para cinco centros de emprego de Boston.
+
+-   **rad**: índice de acessibilidade às rodovias radiais.
+
+-   **tax**: taxa de imposto de propriedade por \$10.000.
+
+-   **ptratio**: razão aluno/professor por cidade.
+
+-   **black**: 1000(Bk - 0.63)\^2 onde Bk é a proporção de negros por cidade.
+
+-   **lstat**: % de status baixo da população.
+
+-   **medv**: valor médio das casas ocupadas pelos proprietários (alvo).
+
+```{r}
+summary(df$crim)
+```
+
+Histograma - Distribuiçãod e dados
+
+```{r}
+
+par(mfrow = c(4, 4), mar = c(3, 3, 2, 1))
+for (var in names(df)) {
+  hist(df[[var]], main = paste("Histograma de", var), xlab = var, col = "skyblue", border = "white")
+}
+par(mfrow = c(1, 1))
+```
+
+### Correlação
+
+```{r}
+cor_matrix <- cor(df)
+round(cor_matrix["medv",], 2)
+
+# Visualizando graficamente a correlação
+GGally::ggcorr(df, label = TRUE, label_round = 2, label_size = 3, hjust = 0.75) +
+  ggtitle("Correlação entre variáveis")
+```
+
+# Separando variável resposta e preditoras
+
+```{r}
+y <- df$medv  # variável resposta: valor médio das casas
+X <- df %>% select(-medv)
+```
+
+# Stepwise com stepAIC (modelo linear)
+
+```{r}
+modelo_full <- lm(medv ~ ., data = df)
+modelo_step <- stepAIC(modelo_full, direction = "both", trace = FALSE)
+summary(modelo_step)
+```
+
+## Avaliação do modelo Stepwise
+
+```{r}
+pred_step <- predict(modelo_step, newdata = df)
+mse_step <- mean((y - pred_step)^2)
+r2_step <- 1 - sum((y - pred_step)^2) / sum((y - mean(y))^2)
+aic_step <- AIC(modelo_step)
+cat("MSE Stepwise:", mse_step, "\nR² Stepwise:", r2_step, "\nAIC:", aic_step, "\n")
+```
+
+# Padronizando as variáveis preditoras
+
+Podemos obsevar que as escalas entre as preditores alteram muito, por isso é sugerido que se realize o escalonamento.
+
+```{r}
+X_scaled <- scale(X)
+```
+
+# Lasso com glmnet
+
+```{r}
+set.seed(123)
+x_matrix <- as.matrix(X_scaled)
+y_vec <- as.numeric(y)
+cv_lasso <- cv.glmnet(x_matrix, y_vec, alpha = 1, nfolds = 10)
+plot(cv_lasso)
+```
+
+O gráfico mostra:
+
+-   O eixo x : valores de lambda (em escala log).
+
+-   O eixo y : erro médio de validação cruzada.
+
+-   As barras verticais indicam erro padrão.
+
+-   \-**lambda.min**: valor de lambda com menor erro médio.
+    `lambda.min` (modelo mais simples, porém robusto).
+
+```{r}
+cv_lasso$lambda.min
+log(cv_lasso$lambda.min)
+```
+
+# Melhor lambda e coeficientes
+
+```{r}
+best_lambda <- cv_lasso$lambda.min
+modelo_lasso <- glmnet(x_matrix, y_vec, alpha = 1, lambda = best_lambda)
+coef_lasso <- coef(modelo_lasso)
+coef_lasso
+```
+
+# Avaliação do modelo Lasso
+
+```{r}
+pred_lasso <- predict(modelo_lasso, s = best_lambda, newx = x_matrix)
+mse_lasso <- mean((y_vec - pred_lasso)^2)
+r2_lasso <- 1 - sum((y_vec - pred_lasso)^2) / sum((y_vec - mean(y_vec))^2)
+aic_lasso <- length(y_vec) * log(mse_lasso) + 2 * sum(coef_lasso != 0)
+cat("MSE Lasso:", mse_lasso, "\nR² Lasso:", r2_lasso, "\nAIC:", aic_lasso, "\n")
+```
+
+# Comparação
+
+```{r}
+resultados <- tibble(
+  Modelo = c("Stepwise", "Lasso"),
+  MSE = c(mse_step, mse_lasso),
+  R2 = c(r2_step, r2_lasso),
+  AIC = c(aic_step, aic_lasso)
+)
+
+print(resultados)
+
+# Visualização
+resultados %>% 
+  pivot_longer(cols = c(MSE, R2, AIC), names_to = "Metrica", values_to = "Valor") %>% 
+  ggplot(aes(x = Modelo, y = Valor, fill = Modelo)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~Metrica, scales = "free") +
+  labs(title = "Comparação entre Stepwise e Lasso") +
+  theme_minimal()
+```
+
+# Variáveis Selecionadas por Cada Método
+
+```{r}
+variaveis_step <- names(coef(modelo_step))[-1]  # exclui intercepto
+variaveis_lasso <- rownames(coef_lasso)[which(coef_lasso[,1] != 0)][-1]  # exclui intercepto
+
+cat("Variáveis Stepwise:\n"); print(variaveis_step)
+cat("\nVariáveis Lasso:\n"); print(variaveis_lasso)
+```
+
+# Considerações Finais
+
+Conclusões:
+
+-   O modelo Stepwise escolheu variáveis baseado no critério AIC, usando técnica de inclusão/remoção de variáveis.
+
+-   O Lasso utilizou validação cruzada para encontrar a penalização ótima que zera coeficientes irrelevantes.
+
+-   Comparando MSE, R² e AIC, avaliamos a qualidade e parcimônia dos modelos.

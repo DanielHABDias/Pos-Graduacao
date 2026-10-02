@@ -1,0 +1,126 @@
+---
+title:"Transformação de Variáveis em R"
+output: html_notebook
+---
+
+Carregamento de pacotes
+
+```{r}
+library(tidyverse)     # manipulação e visualização de dados
+library(caret)         # dummyVars para One-Hot Encoding
+library(scales)        # rescale para normalização
+```
+
+## 1. Carregar os dados
+
+Nesta etapa, carregamos o dataset `adult.data.csv`, que é um clássico conjunto de dados usado em machine learning.
+
+```{r}
+adult <- read.csv("adult.data.csv", header = TRUE)
+head(adult)
+```
+
+## 2. Separar preditoras e alvo
+
+Dividimos as variáveis independentes (X) da variável dependente (y).
+
+```{r}
+variaveis_preditoras <- adult[, 1:14]
+alvo <- adult$income
+```
+
+## 3. Codificação da variável alvo com LabelEncoder
+
+Convertendo a variável alvo para 0 e 1.
+
+```{r}
+alvo <- factor(alvo)
+alvo <- as.numeric(alvo) - 1
+table(alvo)
+```
+
+Obs.: factor() é usado para transformar variáveis categóricas (nominais ou ordinais) em um tipo especial de vetor chamado fator, que contempla níveis.
+
+## 🔴 Exemplo: Por que não usar LabelEncoder em variáveis nominais não dicotômicas
+
+Neste exemplo, aplicamos um LabelEncoder na variável categórica `workclass`. Vamos visualizar os valores codificados.
+
+```{r}
+
+workclass_cod <- as.numeric(factor(variaveis_preditoras$workclass))
+
+# Visualizando os códigos atribuídos
+levels_workclass <- levels(factor(variaveis_preditoras$workclass))
+data.frame(categoria = levels_workclass, codigo = seq_along(levels_workclass))
+
+```
+
+## 4. One-Hot Encoding de variáveis categóricas
+
+Transforma variáveis categóricas em colunas binárias (dummies).
+
+```{r}
+categoricas <- c("workclass", "education", "marital.status", "occupation",
+                 "relationship", "race", "gender", "native.country")
+
+variaveis_dummies <- dummyVars("~ .", data = variaveis_preditoras[, categoricas])
+dummies_df <- as.data.frame(predict(variaveis_dummies, variaveis_preditoras))
+dummies_df
+```
+
+```{r}
+variaveis_numericas <- variaveis_preditoras[, setdiff(names(variaveis_preditoras), categoricas)]
+variaveis_transformadas <- cbind(variaveis_numericas, dummies_df)
+variaveis_transformadas
+```
+
+## 5. Padronização com z-score
+
+Centraliza os dados em média 0 e desvio padrão 1.
+
+```{r}
+padronizadas <- scale(variaveis_transformadas)
+padronizadas_df <- as.data.frame(padronizadas)
+padronizadas_df
+```
+
+```{r}
+print(summary(padronizadas_df$capital.loss))
+```
+
+## 6. Normalização com Min-Max
+
+Escala os dados para o intervalo entre 0 e 1.
+
+```{r}
+normalizadas_df <- as.data.frame(lapply(variaveis_transformadas, rescale))
+normalizadas_df
+```
+
+```{r}
+summary(normalizadas_df$capital.loss)
+```
+
+## 7. Visualização comparativa (histograma)
+
+Compara distribuições das variáveis antes/depois da transformação usando histogramas.
+
+```{r}
+vars_num <- c("age", "fnlwgt", "educational.num", "capital.gain", "capital.loss", "hours.per.week")
+
+for (var in vars_num) {
+  par(mfrow = c(1, 3))
+  hist(variaveis_transformadas[[var]], main = paste("Original -", var), col = "skyblue", xlab = var)
+  hist(padronizadas_df[[var]], main = paste("Padronizado -", var), col = "orange", xlab = var)
+  hist(normalizadas_df[[var]], main = paste("Normalizado -", var), col = "green", xlab = var)
+  par(mfrow = c(1, 1))
+}
+```
+
+## ✅ Conclusões
+
+-   **LabelEncoder**: Adequado apenas para variáveis binárias.
+-   **One-hot**: Obrigatório para variáveis categóricas nominais.
+-   **Padronização**: Melhora performance de modelos como regressão e PCA.
+-   **Normalização**: Necessária para KNN, SVM e redes neurais.
+-   **Visualização**: Fundamental para compreender alterações na distribuição dos dados.

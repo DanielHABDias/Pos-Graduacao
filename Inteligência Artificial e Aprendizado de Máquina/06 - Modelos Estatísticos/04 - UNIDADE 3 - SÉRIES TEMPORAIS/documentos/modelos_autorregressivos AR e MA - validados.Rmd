@@ -1,0 +1,402 @@
+---
+title: "Modelos Autorregressivos (AR) e de Médias Móveis (MA)"
+output: html_notebook
+---
+
+# Modelos Autorregressivos (AR) e de Médias Móveis (MA)
+
+Nesta aula, vamos nos aprofundar em dois tipos fundamentais de modelos para séries temporais estacionárias: os modelos Autorregressivos (AR) e os modelos de Médias Móveis (MA). Entender como identificar a ordem desses processos a partir da Função de Autocorrelação (FAC) e da Função de Autocorrelação Parcial (FACP) é crucial para a modelagem de séries temporais.
+
+## Identificação de um Processo Autorregressivo (AR)
+
+Um processo Autorregressivo de ordem $p$, denotado por AR($p$), modela o valor atual de uma série temporal como uma combinação linear de seus $p$ valores passados, acrescido de um termo de erro aleatório. Matematicamente, um AR($p$) pode ser escrito como:
+
+$$X_t = c + \phi_1 X_{t-1} + \phi_2 X_{t-2} + \dots + \phi_p X_{t-p} + \epsilon_t$$
+
+onde $X\_t$ é o valor da série no tempo $t$, $c$ é uma constante, $\phi\_1, \dots, \phi\_p$ são os coeficientes autorregressivos, e $\epsilon\_t$ é um ruído branco com média zero e variância constante $\sigma^2$.
+
+Para identificar a ordem $p$ de um processo AR a partir da análise da FAC e da FACP de uma série estacionária:
+
+-   **Função de Autocorrelação (FAC)**: A FAC de um processo AR($p$) teoricamente decai de forma exponencial ou senoidal amortecida para zero à medida que o lag aumenta.
+-   **Função de Autocorrelação Parcial (FACP)**: A FACP de um processo AR($p$) terá valores significativamente diferentes de zero para os primeiros $p$ lags e, teoricamente, será zero para lags maiores que $p$. Portanto, observamos um "corte" abrupto após o lag $p$.
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+```
+
+### Processo AR(2)
+
+Vamos simular e analisar um processo AR(2).
+
+#### Simulação do Processo AR(2)
+
+Um processo AR(2) tem a forma: $X\_t = c + \phi\_1 X\_{t-1} + \phi\_2 X\_{t-2} + \epsilon\_t$.
+
+No nosso exemplo, definimos $c=0$, $\phi\_1 = 0.5$, $\phi\_2 = 0.4$ e $\epsilon\_t \sim N(0, 9)$
+
+```{r}
+set.seed(123)
+n <- 200
+X_ar2 <- numeric(n)
+X_ar2[1:2] <- 0 # Valores iniciais
+phi1 <- 0.5
+phi2 <- 0.4
+sigma_sq <- 9
+for(i in 3:n){
+  X_ar2[i] <- phi1 * X_ar2[i-1] + phi2 * X_ar2[i-2] + rnorm(1, 0, sqrt(sigma_sq))
+}
+```
+
+```{r}
+plot_ts_ar2 <- ggplot(data.frame(tempo = 1:n, valor = X_ar2), aes(x = tempo, y = valor)) +
+  geom_line(color = "steelblue") +
+  labs(title = "Processo AR(2) Simulado", x = "Tempo", y = "Valor") +
+  theme_bw()
+
+acf_ar2 <- acf(X_ar2, lag.max = 10, plot = FALSE)
+plot_acf_ar2 <- ggplot(data.frame(lag = 1:length(acf_ar2$acf[-1]), acf = acf_ar2$acf[-1]), aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") + # Limites de significância aproximados
+  labs(title = "Função de Autocorrelação (FAC)", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_ar2 <- pacf(X_ar2, lag.max = 10, plot = FALSE)
+plot_pacf_ar2 <- ggplot(data.frame(lag = 1:length(pacf_ar2$acf)), aes(x = lag, y = pacf_ar2$acf)) +
+  geom_bar(stat = "identity", fill = "lightcoral") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") + # Limites de significância aproximados
+  labs(title = "Função de Autocorrelação Parcial (FACP)", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+grid.arrange(plot_ts_ar2, plot_acf_ar2, plot_pacf_ar2, ncol = 3)
+```
+
+-   No gráfico da **série temporal**, observamos o comportamento da série AR(2) simulada.
+
+-   No gráfico da **FAC**, vemos um decaimento gradual das autocorrelações, característico de processos AR.
+
+-   No gráfico da **FACP**, notamos que as autocorrelações parciais são significativas para os lags 1 e 2, e depois caem rapidamente para dentro dos limites de não significância (as linhas tracejadas vermelhas). Isso sugere um processo AR de ordem 2.
+
+#### Teste de Estacionaridade
+
+É fundamental verificar se a série é estacionária antes de tentar identificar sua ordem AR ou MA. Vamos aplicar os testes KPSS e ADF.
+
+```{r}
+library(urca)
+
+# Teste KPSS
+kpss_test_ar2 <- ur.kpss(X_ar2)
+summary(kpss_test_ar2)
+```
+
+Se a Estatística do Teste for **MAIOR** que o Valor Crítico para um dado nível de significância, nós **REJEITAMOS a Hipótese Nula (H0)**. Se a Estatística do Teste for **MENOR ou IGUAL**, **FALHAMOS em rejeitar H0**.
+
+```{r}
+# Teste ADF (pacote tseries)
+library(tseries)
+adf_test_ar2 <- adf.test(X_ar2)
+print(adf_test_ar2)
+
+```
+
+**Conclusão (para 5%):** Como o p-valor (0.08854) é **MAIOR** que 0.05, nós **FALHAMOS em rejeitar a hipótese nula (H0)**. Isso significa que, a um nível de significância de 5%, **não temos evidências suficientes para concluir que a série `X_ar2` é estacionária**. Pelo contrário, a evidência sugere que ela **não é estacionária**.
+
+Os testes de estacionaridade (KPSS e ADF) devem indicar que a série simulada é estacionária para que a análise da FAC e FACP seja válida para identificar a ordem do processo AR.
+
+### Processo AR(3)
+
+Agora, vamos simular e analisar um processo AR(3).
+
+#### Simulação do Processo AR(3)
+
+Um processo AR(3) tem a forma: $X\_t = c + \phi\_1 X\_{t-1} + \phi\_2 X\_{t-2} + \phi\_3 X\_{t-3} + \epsilon\_t$. Aqui, definimos $c=0$, $\phi\_1 = 0.3$, $\phi\_2 = 0.4$, $\phi\_3 = 0.2$ e $\epsilon\_t \sim N(0, 3)$.
+
+```{r}
+set.seed(456)
+n <- 200
+X_ar3 <- numeric(n)
+X_ar3[1:3] <- 0 # Valores iniciais
+phi1 <- 0.3
+phi2 <- 0.4
+phi3 <- 0.2
+sigma_sq <- 3
+for(i in 4:n){
+  X_ar3[i] <- phi1 * X_ar3[i-1] + phi2 * X_ar3[i-2] + phi3 * X_ar3[i-3] + rnorm(1, 0, sqrt(sigma_sq))
+}
+```
+
+```{r}
+plot_ts_ar3 <- ggplot(data.frame(tempo = 1:n, valor = X_ar3), aes(x = tempo, y = valor)) +
+  geom_line(color = "darkorange") +
+  labs(title = "Processo AR(3) Simulado", x = "Tempo", y = "Valor") +
+  theme_bw()
+
+acf_ar3 <- acf(X_ar3, lag.max = 10, plot = FALSE)
+plot_acf_ar3 <- ggplot(data.frame(lag = 1:length(acf_ar3$acf[-1]), acf = acf_ar3$acf[-1]), aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", fill = "orange") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação (FAC)", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_ar3 <- pacf(X_ar3, lag.max = 10, plot = FALSE)
+plot_pacf_ar3 <- ggplot(data.frame(lag = 1:length(pacf_ar3$acf)), aes(x = lag, y = pacf_ar3$acf)) +
+  geom_bar(stat = "identity", fill = "coral") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação Parcial (FACP)", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+grid.arrange(plot_ts_ar3, plot_acf_ar3, plot_pacf_ar3, ncol = 3)
+```
+
+#### Teste de Estacionaridade
+
+Vamos verificar a estacionaridade da série AR(3) simulada.
+
+```{r}
+# Teste KPSS
+kpss_test_ar3 <- ur.kpss(X_ar3)
+summary(kpss_test_ar3)
+```
+
+Se a Estatística do Teste for **MAIOR** que o Valor Crítico para um dado nível de significância, nós **REJEITAMOS a Hipótese Nula (H0)**. Se a Estatística do Teste for **MENOR ou IGUAL**, **FALHAMOS em rejeitar H0**.
+
+```{r}
+# Teste ADF
+adf_test_ar3 <- adf.test(X_ar3)
+print(adf_test_ar3)
+```
+
+**Conclusão (para 5%):** Como o p-valor (0.08854) é **MAIOR** que 0.05, nós **FALHAMOS em rejeitar a hipótese nula (H0)**. Isso significa que, a um nível de significância de 5%, **não temos evidências suficientes para concluir que a série `X_ar2` é estacionária**. Pelo contrário, a evidência sugere que ela **não é estacionária**.
+
+**Interpretação:**
+
+-   A **FAC** da série AR(3) também mostra um decaimento gradual.
+-   A **FACP** exibe autocorrelações parciais significativas para os lags 1, 2 e 3, com os valores caindo dentro dos limites de não significância após o lag 3. Isso indica um processo AR de ordem 3.
+
+## Modelos de Médias Móveis (MA)
+
+Um processo de Médias Móveis de ordem $q$, denotado por MA($q$), modela o valor atual de uma série temporal como uma combinação linear dos $q$ erros aleatórios passados, acrescido do erro aleatório atual. Matematicamente, um MA($q$) pode ser escrito como:
+
+$$X_t = \mu + \theta_1 \epsilon_{t-1} + \theta_2 \epsilon_{t-2} + \dots + \theta_q \epsilon_{t-q} + \epsilon_t$$
+
+onde $\mu$ é a média da série (frequentemente assumida como zero para séries centradas), $\theta\_1, \dots, \theta\_q$ são os coeficientes das médias móveis, e $\epsilon\_t$ é um ruído branco com média zero e variância constante $\sigma^2$.
+
+Para identificar a ordem $q$ de um processo MA a partir da análise da FAC e da FACP de uma série estacionária:
+
+-   **Função de Autocorrelação (FAC)**: A FAC de um processo MA($q$) terá valores significativamente diferentes de zero para os primeiros $q$ lags e, teoricamente, será zero para lags maiores que $q$. Observamos um "corte" abrupto após o lag $q$.
+-   **Função de Autocorrelação Parcial (FACP)**: A FACP de um processo MA($q$) teoricamente decai de forma exponencial ou senoidal amortecida para zero à medida que o lag aumenta.
+
+### Processo MA(1)
+
+Vamos analisar dois exemplos de processos MA(1) com diferentes sinais para o coeficiente.
+
+#### Simulação do Processo MA(1) (Coeficiente Positivo)
+
+Um processo MA(1) tem a forma: $X\_t = \mu + \theta\_1 \epsilon\_{t-1} + \epsilon\_t$. Aqui, definimos $\mu = 0$, $\theta\_1 = 0.7$ e $\epsilon\_t \sim N(0, 9)$.
+
+```{r}
+set.seed(789)
+n <- 200
+E_ma1_pos <- rnorm(n, 0, sqrt(9))
+X_ma1_pos <- numeric(n)
+X_ma1_pos[1] <- E_ma1_pos[1] # Valor inicial
+theta1 <- 0.7
+for(i in 2:n){
+  X_ma1_pos[i] <- E_ma1_pos[i] + theta1 * E_ma1_pos[i-1]
+}
+```
+
+```{r}
+plot_ts_ma1_pos <- ggplot(data.frame(tempo = 1:n, valor = X_ma1_pos), aes(x = tempo, y = valor)) +
+  geom_line(color = "forestgreen") +
+  labs(title = "Processo MA(1) Simulado (θ = 0.7)", x = "Tempo", y = "Valor") +
+  theme_bw()
+
+acf_ma1_pos <- acf(X_ma1_pos, lag.max = 10, plot = FALSE)
+plot_acf_ma1_pos <- ggplot(data.frame(lag = 1:length(acf_ma1_pos$acf[-1]), acf = acf_ma1_pos$acf[-1]), aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", fill = "lightgreen") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação (FAC)", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_ma1_pos <- pacf(X_ma1_pos, lag.max = 10, plot = FALSE)
+plot_pacf_ma1_pos <- ggplot(data.frame(lag = 1:length(pacf_ma1_pos$acf)), aes(x = lag, y = pacf_ma1_pos$acf)) +
+  geom_bar(stat = "identity", fill = "seagreen") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação Parcial (FACP)", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+grid.arrange(plot_ts_ma1_pos, plot_acf_ma1_pos, plot_pacf_ma1_pos, ncol = 3)
+```
+
+#### Teste de Estacionaridade
+
+```{r}
+# Teste KPSS
+kpss_test_ma1_pos <- ur.kpss(X_ma1_pos)
+summary(kpss_test_ma1_pos)
+```
+
+Se a Estatística do Teste for **MAIOR** que o Valor Crítico para um dado nível de significância, nós **REJEITAMOS a Hipótese Nula (H0)**. Se a Estatística do Teste for **MENOR ou IGUAL**, **FALHAMOS em rejeitar H0**.
+
+```{r}
+# Teste ADF
+adf_test_ma1_pos <- adf.test(X_ma1_pos)
+print(adf_test_ma1_pos)
+```
+
+**Conclusão (para 5%):** Como o p-valor (0.08854) é **MAIOR** que 0.05, nós **FALHAMOS em rejeitar a hipótese nula (H0)**. Isso significa que, a um nível de significância de 5%, **não temos evidências suficientes para concluir que a série `X_ar2` é estacionária**. Pelo contrário, a evidência sugere que ela **não é estacionária**.
+
+**Interpretação:**
+
+-   A **FAC** mostra um pico significativo apenas no lag 1, com os valores caindo rapidamente para dentro dos limites de não significância após esse lag. Isso é característico de um processo MA(1).
+-   A **FACP** exibe um decaimento gradual das autocorrelações parciais.
+
+#### Simulação do Processo MA(1) (Coeficiente Negativo)
+
+Aqui, usamos $\\theta\_1 = -0.7$.
+
+```{r}
+set.seed(1011)
+n <- 200
+E_ma1_neg <- rnorm(n, 0, sqrt(9))
+X_ma1_neg <- numeric(n)
+X_ma1_neg[1] <- E_ma1_neg[1] # Valor inicial
+theta1 <- -0.7
+for(i in 2:n){
+  X_ma1_neg[i] <- E_ma1_neg[i] + theta1 * E_ma1_neg[i-1]
+}
+
+```
+
+```{r}
+labs(title = "Processo MA(1) Simulado (θ = -0.7)", x = "Tempo", y = "Valor") +
+  theme_bw()
+
+plot_ts_ma1_neg <- ggplot(data.frame(time = 1:n, value = X_ma1_neg), aes(x = time, y = value)) +
+  geom_line(color = "violet") + # Desenha a linha da série
+  labs(title = "Processo MA(1) Simulado (θ = -0.7)", x = "Tempo", y = "Valor") +
+  theme_bw() # Aplica um tema visual
+
+acf_ma1_neg <- acf(X_ma1_neg, lag.max = 10, plot = FALSE)
+plot_acf_ma1_neg <- ggplot(data.frame(lag = 1:length(acf_ma1_neg$acf[-1]), acf = acf_ma1_neg$acf[-1]), aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", fill = "plum") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação (FAC)", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_ma1_neg <- pacf(X_ma1_neg, lag.max = 10, plot = FALSE)
+plot_pacf_ma1_neg <- ggplot(data.frame(lag = 1:length(pacf_ma1_neg$acf)), aes(x = lag, y = pacf_ma1_neg$acf)) +
+  geom_bar(stat = "identity", fill = "violet") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação Parcial (FACP)", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+grid.arrange(plot_ts_ma1_neg, plot_acf_ma1_neg, plot_pacf_ma1_neg, ncol = 3)
+```
+
+#### **Teste de Estacionaridade**
+
+```{r}
+# Teste KPSS
+kpss_test_ma1_neg <- ur.kpss(X_ma1_neg)
+summary(kpss_test_ma1_neg)
+```
+
+Se a Estatística do Teste for **MAIOR** que o Valor Crítico para um dado nível de significância, nós **REJEITAMOS a Hipótese Nula (H0)**. Se a Estatística do Teste for **MENOR ou IGUAL**, **FALHAMOS em rejeitar H0**.
+
+```{r}
+# Teste ADF
+adf_test_ma1_neg <- adf.test(X_ma1_neg)
+print(adf_test_ma1_neg)
+```
+
+**Conclusão (para 5%):** Como o p-valor é **MAIOR** que 0.05, nós **FALHAMOS em rejeitar a hipótese nula (H0)**. Isso significa que, a um nível de significância de 5%, **não temos evidências suficientes para concluir que a série é estacionária**. Pelo contrário, a evidência sugere que ela **não é estacionária**.
+
+**Interpretação**
+
+-   Novamente, a **FAC** exibe um pico significativo apenas no lag 1, indicando um processo MA(1). O sinal do coeficiente theta_1 afeta o sinal da autocorrelação no lag 1.
+
+-   A **FACP** mostra um decaimento gradual.
+
+### **Processo MA(2)**
+
+Vamos agora simular e analisar um processo MA(2).
+
+#### **Simulação do Processo MA(2)**
+
+Um processo MA(2) tem a forma: X_t=mu+theta_1epsilon_t−1+theta_2epsilon_t−2+epsilon_t. Aqui, definimos mu=0, theta_1=0.5, theta_2=−0.4 e epsilon_tsimN(0,9).
+
+**Snippet de código**
+
+```{r}
+set.seed(1234)
+n <- 200
+E_ma2 <- rnorm(n, 0, sqrt(9))
+X_ma2 <- numeric(n)
+X_ma2[1:2] <- 0 # Valores iniciais
+theta1 <- 0.5
+theta2 <- -0.4
+for(i in 3:n){
+  X_ma2[i] <- E_ma2[i] + theta1 * E_ma2[i-1] + theta2 * E_ma2[i-2]
+}
+
+plot_ts_ma2 <- ggplot(data.frame(tempo = 1:n, valor = X_ma2), aes(x = tempo, y = valor)) +
+  geom_line(color = "firebrick") +
+  labs(title = "Processo MA(2) Simulado", x = "Tempo", y = "Valor") +
+  theme_bw()
+
+acf_ma2 <- acf(X_ma2, lag.max = 10, plot = FALSE)
+plot_acf_ma2 <- ggplot(data.frame(lag = 1:length(acf_ma2$acf[-1]), acf = acf_ma2$acf[-1]), aes(x = lag, y = acf)) +
+  geom_bar(stat = "identity", fill = "salmon") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação (FAC)", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_ma2 <- pacf(X_ma2, lag.max = 10, plot = FALSE)
+plot_pacf_ma2 <- ggplot(data.frame(lag = 1:length(pacf_ma2$acf)), aes(x = lag, y = pacf_ma2$acf)) +
+  geom_bar(stat = "identity", fill = "tomato") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(n), 1.96/sqrt(n)), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação Parcial (FACP)", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+grid.arrange(plot_ts_ma2, plot_acf_ma2, plot_pacf_ma2, ncol = 3)
+```
+
+#### **Teste de Estacionaridade**
+
+**Snippet de código**
+
+```{r}
+# Teste KPSS
+kpss_test_ma2 <- ur.kpss(X_ma2)
+summary(kpss_test_ma2)
+
+# Teste ADF
+adf_test_ma2 <- adf.test(X_ma2)
+print(adf_test_ma2)
+```
+
+**Interpretação:**
+
+-   Na **FAC**, observamos picos significativos nos lags 1 e 2, com os valores caindo para dentro dos limites de não significância após o lag 2. Isso caracteriza um processo MA(2).
+
+-   A **FACP** mostra um decaimento gradual das autocorrelações parciais.
+
+**Em resumo:**
+
+-   Para processos **AR(**p**)**: A FAC decai gradualmente, enquanto a FACP tem um corte abrupto após o lag p.
+
+-   Para processos **MA(**q**)**: A FAC tem um corte abrupto após o lag q, enquanto a FACP decai gradualmente.
+
+A análise combinada da FAC e da FACP é uma ferramenta poderosa para identificar a ordem dos modelos AR e MA em séries temporais estacionárias, que são os pilares para a construção de modelos ARMA e ARIMA para séries mais complexas.

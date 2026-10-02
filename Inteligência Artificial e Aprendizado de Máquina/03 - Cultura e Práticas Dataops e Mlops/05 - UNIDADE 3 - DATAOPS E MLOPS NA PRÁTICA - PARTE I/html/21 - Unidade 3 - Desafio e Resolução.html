@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="https://instructure-uploads.s3.amazonaws.com/account_117480000000000001/attachments/5994795/pucminas_prod.mobile.css"><div style="text-align: justify;">
+<div id="banner"><img style="min-width: 100%;" src="https://pucminas.instructure.com/courses/230797/files/14442286/download?verifier=e69YRGj0C75HOJwBx5BMrOOnKGj9kzgr6ak7JkRj&amp;wrap=1" alt="" width="100%" height="272" data-decorative="true" data-api-endpoint="https://pucminas.instructure.com/api/v1/courses/230797/files/14442286" data-api-returntype="File" loading="lazy"></div>
+<div><hr></div>
+<div class="grid-row ">
+<div id="texto-box" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+<div style="text-align: justify;">
+<div style="text-align: justify;">
+<h4><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;">Desafio 3 - Uso do MLflow com DagsHub<br></span></strong></h4>
+</div>
+</div>
+</div>
+</div>
+<p><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;"><span style="color: #0f3f62;"><span style="color: #333333; font-size: 14pt;">Enunciado</span></span></span></strong></p>
+</div>
+<div style="text-align: justify;"><span>Como podemos utilizar o pacote do MLflow em conjunto com DagsHub para monitorar o treino de um modelo de <em>Machine Learning</em><br></span>
+<div style="text-align: justify;">
+<p><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;"><span style="color: #0f3f62;"><span style="color: #333333; font-size: 14pt;">Resolução</span></span></span></strong></p>
+</div>
+<div style="text-align: justify;">
+<p>Para integrar um treinamento de um modelo usando MLflow com a plataforma Dagshub, é importante primeiro garantir que o pacote Dagshub esteja devidamente instalado. Isso pode ser feito através do comando <code>pip install dagshub</code>.</p>
+<p>Com o ambiente devidamente configurado para trabalhar com MLflow, inicie o processo de vinculação ao Dagshub. No script de treinamento onde o MLflow é utilizado, comece por inicializar um experimento no Dagshub utilizando o método <code>dagshub.init()</code>. Isso estabelece a conexão entre o ambiente de treinamento e a plataforma do Dagshub.</p>
+<p>Em seguida, proceda com o treinamento do modelo, registrando parâmetros e métricas como de costume com o MLflow. O MLflow é uma ferramenta essencial para o rastreamento de experimentos, e sua integração com o Dagshub facilita a organização e visualização dos resultados.</p>
+<p>Ao finalizar o experimento, certifique-se de encerrar tanto a execução no MLflow quanto no Dagshub. Utilize <code>mlflow.end_run()</code> para encerrar o experimento no MLflow e <code>dagshub.end()</code> para finalizar a execução no Dagshub.</p>
+<p>Garanta que suas credenciais do Dagshub estejam devidamente configuradas através das variáveis de ambiente <code>DAGSHUB_USERNAME</code> e <code>DAGSHUB_API_KEY*</code>. Para obter as credenciais, crie uma conta no <a class="inline_disabled" href="https://dagshub.com" target="_blank">DagsHub</a>.</p>
+<p>Por fim, execute o script de treinamento normalmente. O Dagshub irá capturar e registrar os experimentos do MLflow na plataforma, proporcionando uma visão organizada e acessível dos resultados.</p>
+<p>Ao seguir esses passos, você conseguirá vincular com facilidade o treinamento do seu modelo de Machine Learning com Scikit-learn e MLflow à plataforma Dagshub, permitindo um registro organizado e visualização dos experimentos na plataforma. Essa integração é valiosa para o gerenciamento eficiente de experimentos e resultados em projetos de machine learning.</p>
+<p><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;"><span style="color: #0f3f62;"><span style="color: #333333; font-size: 14pt;">*Resolução Adicional</span></span></span></strong></p>
+<p>Para obter a sua <code>DAGSHUB_API_KEY</code>, siga os passos abaixo:</p>
+<ol style="list-style-type: decimal;">
+<li>Acesse novamente o site do <a class="inline_disabled" title="Link" href="https://dagshub.com/" target="_blank">Dagshub.</a></li>
+<li>Faça login na sua conta Dagshub ou crie uma nova conta se ainda não tiver uma.</li>
+<li>Após fazer login, clique no seu avatar no canto superior direito da página e selecione "Settings" no menu suspenso.</li>
+<li>Na página de configurações, vá para a seção "API &amp; Keys".</li>
+<li>Você encontrará a sua <code>DAGSHUB_API_KEY</code> listada lá. Clique no ícone de olho para revelá-la. Lembre-se de mantê-la em local seguro, pois é uma chave confidencial.</li>
+</ol>
+</div>
+</div>

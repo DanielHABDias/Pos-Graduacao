@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="https://instructure-uploads.s3.amazonaws.com/account_117480000000000001/attachments/5994795/pucminas_prod.mobile.css"><div class="content-box" id="topo" style="margin-top: 0;">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="geral">
+<div id="banner"><img alt="" data-api-endpoint="https://pucminas.instructure.com/api/v1/courses/230797/files/14442286" data-api-returntype="File" data-decorative="true" height="272" src="https://pucminas.instructure.com/courses/230797/files/14442286/download?verifier=e69YRGj0C75HOJwBx5BMrOOnKGj9kzgr6ak7JkRj&amp;wrap=1" style="min-width: 100%;" width="100%" loading="lazy"></div>
+<div><hr></div>
+<div class="grid-row">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="texto-box">
+<div style="text-align: justify;">
+<h4><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;">Registro de Modelos e Ciclo de Vida<br></span></strong></h4>
+</div>
+<div style="text-align: justify;">Um registro de modelos de ML, também conhecido como controle de versão de modelos ou <em>model registry</em>, é uma ferramenta que permite centralizar todas as informações sobre modelos de <em>Machine Learning</em>, incluindo detalhes sobre parâmetros, métricas de desempenho e versões anteriores do modelo. Ele também permite reverter alterações feitas em modelos e escolher qual modelo é o melhor para ser utilizado em produção. Alguma das ferramentas que podem ser utilizadas para se registrar os modelos são o <em>MLflow</em> e <em>Wandb. </em>A seguir, acompanhe a aula sobre o tema:</div>
+<div style="text-align: center;"><iframe allow="geolocation *; microphone *; camera *; midi *; encrypted-media *; autoplay *; clipboard-write *; display-capture *" allowfullscreen="allowfullscreen" class="lti-embed" data-studio-convertible-to-link="true" data-studio-resizable="true" data-studio-tray-enabled="true" height="398" loading="lazy" mozallowfullscreen="mozallowfullscreen" src="https://pucminas.instructure.com/courses/230797/external_tools/retrieve?display=borderless&amp;url=https%3A%2F%2Fpucminas.instructuremedia.com%2Flti%2Flaunch%3Fcustom_arc_launch_type%3Dbare_embed%26custom_arc_media_id%3D37846d15-eab7-4207-ac64-44894543dc46-239887%26custom_arc_start_at%3D0" style="width: 620px; height: 398px; display: inline-block;" title="Registro de Modelos" webkitallowfullscreen="webkitallowfullscreen" width="620"></iframe></div>
+<div style="text-align: justify;">O código a seguir apresenta uma forma de ser feito o log de uma métrica e principalmente, fazer o registro do modelo.<br>
+<p><img alt="image.png" data-api-endpoint="https://pucminas.instructure.com/api/v1/courses/230797/files/13226726" data-api-returntype="File" height="398" src="https://pucminas.instructure.com/courses/230797/files/13226726/preview?verifier=KAuKuXD8symkol96rzBDYa4qXfi4OFbtP9ookmZx" style="display: block; margin-left: auto; margin-right: auto;" width="620" loading="lazy"></p>
+<p>O código faz a seguinte sequência de passos</p>
+<ul style="list-style-type: square;">
+<li><strong>Importação de Bibliotecas:</strong> No início, importamos as bibliotecas necessárias para o código. O MLflow é a biblioteca principal que usamos para registrar métricas e modelos treinados. Scikit-learn é uma biblioteca popular para aprendizado de máquina em Python.</li>
+<li><strong>Inicialização da Execução do MLflow: </strong>Inicializamos a execução do MLflow com <code>mlflow.start_run()</code>, garante o experimento seja inicializado.</li>
+<li><strong>Treinamento do Modelo:</strong> Aqui, criamos um modelo de classificação chamado "RandomForestClassifier" com 100 árvores de decisão. O modelo é treinado com os dados de treinamento.</li>
+<li><strong>Fazendo Previsões e Calculando a Métrica:</strong> Usamos o modelo treinado para fazer previsões no conjunto de teste e calculamos a métrica de acurácia. A acurácia mede a proporção de previsões corretas em relação ao total de previsões.</li>
+<li><strong>Registro da Métrica no MLflow:</strong> Utilizamos o MLflow para registrar a métrica de acurácia. Isso nos permite acompanhar o desempenho do modelo ao longo do tempo.</li>
+<li><strong>Salvando o Modelo Treinado:</strong> O modelo treinado é salvo no MLflow com um nome específico, "random_forest_model". Isso permite que você reutilize o modelo posteriormente.</li>
+<li><strong>Encerramento da Execução do MLflow:</strong> Finalizamos a execução do MLflow com <code>mlflow.end_run()</code>, garantindo que todas as métricas e registros do modelo sejam armazenados corretamente.</li>
+</ul>
+<p>No geral, este código demonstra como treinar um modelo de classificação, avaliar seu desempenho, registrar métricas e salvar o modelo treinado usando o MLflow, uma ferramenta poderosa para gerenciamento de projetos de aprendizado de máquina.</p>
+<h4><span style="color: #464545;"><strong><span style="font-family: sans-serif; font-size: 14pt;">Ciclo de Vida e Ambientes<br></span></strong></span></h4>
+<p>Os ambientes de teste, homologação e produção são ambientes utilizados no processo de implementação de modelos de <em>Machine Learning</em> para gerenciar o ciclo de vida de um modelo. O <strong>ambiente de teste</strong> é onde são realizados os testes iniciais, em um ambiente semelhante ao de produção, para identificar problemas iniciais. O <strong>ambiente de homologação</strong> é onde são realizados testes mais amplos, utilizando dados reais e, em alguns casos, clientes podem validar o modelo. Já o <strong>ambiente de produção</strong> é onde o modelo é liberado para utilização, utilizando dados reais e em várias situações.</p>
+</div>
+</div>
+</div>
+</div>
+</div>

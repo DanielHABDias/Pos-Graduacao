@@ -1,0 +1,377 @@
+---
+title: "Modelo Sarima e previsões"
+output: html_notebook
+---
+
+## Modelo SARIMA (p,d,q)x(P,D,Q)[s]
+
+O modelo SARIMA (Seasonal Autoregressive Integrated Moving Average) é uma extensão do modelo ARIMA que lida explicitamente com a componente sazonal em uma série temporal. Ele é definido por seis parâmetros:
+
+-   **(p, d, q)**: As ordens dos componentes autorregressivo (AR), de diferenciação (I) e de média móvel (MA) para a parte não sazonal do modelo.
+-   **(P, D, Q)**: As ordens dos componentes AR, diferenciação e MA para a parte sazonal do modelo.
+-   **s**: O período da sazonalidade (por exemplo, 12 para dados mensais com sazonalidade anual, 4 para dados trimestrais com sazonalidade anual).
+
+A estrutura multiplicativa do SARIMA permite modelar tanto as dependências dentro de um período sazonal quanto as dependências entre diferentes períodos sazonais.
+
+## Utilizando a série de Passageiros de uma companhia aérea temos o seguinte comportamento:
+
+```{r}
+library(tseries)
+library(forecast)
+library(ggplot2)
+
+x <- AirPassengers
+ggplot(data.frame(Ano = time(x), Passageiros = as.numeric(x)), aes(x = Ano, y = Passageiros)) +
+  geom_line(color = "steelblue") +
+  labs(title = "Número de Passageiros de Companhia Aérea", ylab = "Passageiros (milhares)", xlab = "Ano") +
+  theme_bw()
+```
+
+Esta série temporal claramente exibe uma **tendência de crescimento** ao longo dos anos, indicando que o número de passageiros tem aumentado. Além disso, observa-se uma **sazonalidade anual** pronunciada, com picos de passageiros provavelmente durante os meses de verão (hemisfério norte) e vales nos meses de inverno. Essa combinação de tendência e sazonalidade sugere que um modelo SARIMA pode ser apropriado para analisar e prever essa série.
+
+## Verificação da Estacionaridade da Série
+
+Para aplicar modelos SARIMA, a série temporal precisa ser estacionária. Isso significa que suas propriedades estatísticas (média, variância) não devem mudar ao longo do tempo. A tendência e a sazonalidade são formas de não estacionariedade.
+
+### Teste KPSS
+
+O teste KPSS é um teste de hipótese para verificar a estacionariedade em torno de uma média constante ou uma tendência.
+
+-   **Hipótese Nula (H0)**: A série é estacionária.
+-   **Hipótese Alternativa (Ha)**: A série não é estacionária.
+
+Um p-valor baixo (tipicamente \< 0.05) nos leva a rejeitar a hipótese nula, indicando que a série provavelmente não é estacionária.
+
+```{r}
+kpss_test <- kpss.test(x)
+print(kpss_test)
+```
+
+Como esperado, o p-valor é muito baixo, o que nos leva a rejeitar a hipótese nula. Concluímos que a série `AirPassengers` não é estacionária. A presença da tendência de crescimento é uma das principais razões para essa não estacionariedade.
+
+## Primeira Diferenciação
+
+A primeira diferenciação simples é uma técnica comum para remover tendências lineares em séries temporais. Ela consiste em subtrair cada observação da observação anterior: $\\Delta X\_t = X\_t - X\_{t-1}$.
+
+```{r}
+serie_dif <- diff(x)
+ggplot(data.frame(Ano = time(serie_dif), Diferença = as.numeric(serie_dif)), aes(x = Ano, y = Diferença)) +
+  geom_line(color = "darkorange") +
+  labs(title = "Série Diferenciada (1ª diferença)", ylab = "Diferença", xlab = "Ano") +
+  theme_bw()
+
+
+```
+
+```{r}
+acf_dif <- acf(serie_dif, lag.max = 5*12, plot = FALSE)
+plot_acf_dif <- ggplot(data.frame(Lag = 1:(5*12), ACF = acf_dif$acf[-1]), aes(x = Lag, y = ACF)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(length(serie_dif)), 1.96/sqrt(length(serie_dif))), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação (ACF) da Série Diferenciada", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_dif <- pacf(serie_dif, lag.max = 5*12, plot = FALSE)
+plot_pacf_dif <- ggplot(data.frame(Lag = 1:(5*12), PACF = pacf_dif$acf), aes(x = Lag, y = PACF)) +
+  geom_bar(stat = "identity", fill = "lightcoral") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(length(serie_dif)), 1.96/sqrt(length(serie_dif))), linetype = "dashed", color = "red") +
+  labs(title = "Função de Autocorrelação Parcial (PACF) da Série Diferenciada", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+gridExtra::grid.arrange(plot_acf_dif, plot_pacf_dif, ncol = 2)
+```
+
+```{r}
+acf(serie_dif, lag.max = 5*12)
+pacf(serie_dif, lag.max = 5*12)
+```
+
+Após a primeira diferenciação, a tendência parece ter sido removida, mas a sazonalidade anual ainda é bastante visível na série diferenciada. No gráfico da ACF, as autocorrelações nos lags múltiplos de 12 (12, 24, 36, etc.) ainda são significativamente diferentes de zero e decaem lentamente, o que indica a presença de não estacionariedade sazonal.
+
+### Verificação da Estacionaridade da Série Diferenciada
+
+```{r}
+kpss_test_dif <- kpss.test(serie_dif)
+print(kpss_test_dif)
+```
+
+O p-valor do teste KPSS ainda é baixo, sugerindo que a série diferenciada (apenas com uma diferença simples) ainda não é estacionária. Isso reforça a ideia de que a sazonalidade precisa ser tratada separadamente. É importante notar que o teste KPSS pode ter dificuldades em detectar não estacionariedade em séries com forte sazonalidade.
+
+## Verificação da Necessidade de Diferenciação Sazonal
+
+A função `nsdiffs` do pacote `forecast` utiliza testes estatísticos (por padrão, o teste de Canova-Hansen) para determinar o número de diferenciações sazonais necessárias para tornar a série estacionária.
+
+```{r}
+nsdiffs_test <- nsdiffs(serie_dif)
+print(nsdiffs_test)
+```
+
+Aplicando `nsdiffs` na série original:
+
+```{r}
+nsdiffs_orig <- nsdiffs(x)
+print(nsdiffs_orig)
+```
+
+Ambos os resultados indicam a necessidade de uma diferenciação sazonal (D=1) para remover a não estacionariedade causada pela sazonalidade anual.
+
+## Aplicação da Diferenciação Sazonal
+
+A diferenciação sazonal subtrai a observação do período sazonal anterior. Para dados mensais com sazonalidade anual (s=12), a diferenciação sazonal é $\\nabla\_{12} X\_t = X\_t - X\_{t-12}$. Aplicamos essa diferenciação à série já diferenciada para remover a tendência.
+
+```{r}
+serie_dif_s <- diff(serie_dif, lag = 12)
+ggplot(data.frame(Ano = time(serie_dif_s), Diferença_Sazonal = as.numeric(serie_dif_s)), aes(x = Ano, y = Diferença_Sazonal)) +
+  geom_line(color = "purple") +
+  labs(title = "Série Diferenciada Sazonalmente ($\\nabla \nabla_{12}$)", ylab = "Diferença Sazonal", xlab = "Ano") +
+  theme_bw()
+```
+
+```{r}
+acf_dif_s <- acf(serie_dif_s, lag.max = 5*12, plot = FALSE)
+plot_acf_dif_s <- ggplot(data.frame(Lag = 1:(5*12), ACF = acf_dif_s$acf[-1]), aes(x = Lag, y = ACF)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(length(serie_dif_s)), 1.96/sqrt(length(serie_dif_s))), linetype = "dashed", color = "red") +
+  labs(title = "ACF da Série Diferenciada Sazonalmente", x = "Lag", y = "Autocorrelação") +
+  theme_bw()
+
+pacf_dif_s <- pacf(serie_dif_s, lag.max = 5*12, plot = FALSE)
+plot_pacf_dif_s <- ggplot(data.frame(Lag = 1:(5*12), PACF = pacf_dif_s$acf), aes(x = Lag, y = PACF)) +
+  geom_bar(stat = "identity", fill = "lightcoral") +
+  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = c(-1.96/sqrt(length(serie_dif_s)), 1.96/sqrt(length(serie_dif_s))), linetype = "dashed", color = "red") +
+  labs(title = "PACF da Série Diferenciada Sazonalmente", x = "Lag", y = "Autocorrelação Parcial") +
+  theme_bw()
+
+gridExtra::grid.arrange(plot_acf_dif_s, plot_pacf_dif_s, ncol = 2)
+```
+
+Após a diferenciação sazonal, a série parece muito mais estacionária. Os gráficos de ACF e PACF agora mostram autocorrelações que geralmente caem dentro dos limites de não significância após algumas defasagens, tanto nos lags não sazonais quanto nos sazonais.
+
+## Identificação da Ordem do Modelo
+
+Com $d = 1$ (uma diferenciação simples) e $D = 1$ (uma diferenciação sazonal), precisamos identificar as ordens $p$, $q$, $P$ e $Q$ observando os padrões nos gráficos de ACF e PACF da série diferenciada sazonalmente.
+
+-   **p**: Ordem do componente AR não sazonal. Olhamos para a PACF para identificar o número de defasagens iniciais significativas. Um corte abrupto após o lag $p$ sugere um AR($p$).
+-   **q**: Ordem do componente MA não sazonal. Olhamos para a ACF para identificar o número de defasagens iniciais significativas. Um corte abrupto após o lag $q$ sugere um MA($q$).
+-   **P**: Ordem do componente AR sazonal. Olhamos para a PACF nos lags múltiplos do período sazonal ($s=12$). Um pico significativo no lag 12 seguido por um corte sugere um AR sazonal de ordem 1 (SAR($P=1$)).
+-   **Q**: Ordem do componente MA sazonal. Olhamos para a ACF nos lags múltiplos do período sazonal. Um pico significativo no lag 12 seguido por um corte sugere um MA sazonal de ordem 1 (SMA($Q=1$)).
+
+Analisando a ACF e PACF de `serie_dif_s`:
+
+-   A ACF mostra um decaimento nas primeiras defasagens não sazonais e também picos significativos nos lags sazonais (12, 24).
+-   A PACF mostra um pico significativo no lag 1 e talvez no lag 2, e também picos nos lags sazonais (12).
+
+Com base nessa análise visual inicial, suas sugestões de modelos candidatos são razoáveis.
+
+Modelos Candidatos:
+
+-   SARIMA(1,1,0) x (0,1,0)[12]
+-   SARIMA(1,1,1) x (0,1,0)[12]
+
+Vamos ajustar esses modelos e analisar seus resíduos.
+
+## Modelo 1: SARIMA(1,1,0) x (0,1,0)[12]
+
+```{r}
+modelo1 <- arima(x, order = c(1,1,0), seasonal = list(order = c(0,1,0), period = 12), include.mean = FALSE)
+print(modelo1)
+```
+
+### Análise de Resíduos
+
+```{r}
+E_mod1 <- ts(modelo1$residuals, frequency = 12, start = start(x))
+plot(E_mod1, main="Resíduos do Modelo SARIMA(1,1,0) x (0,1,0)[12]", ylab="Resíduos", xlab="Ano")
+```
+
+A inicialização do modelo com diferenciação sazonal (D=1 com período 12) faz com que os primeiros 12 resíduos sejam `NA` (Not Available) porque não há observações suficientes para calcular a primeira diferença sazonal. Ao invés de serem exatamente zero, eles são tratados como valores ausentes pelo R.
+
+Para a análise de resíduos, é importante remover esses valores iniciais ausentes para não afetar os testes estatísticos.
+
+```{r}
+E_mod1_ajustado <- E_mod1[!is.na(E_mod1)]
+plot(E_mod1_ajustado, main="Resíduos Ajustados do Modelo SARIMA(1,1,0) x (0,1,0)[12]", ylab="Resíduos Ajustados", xlab="Ano")
+```
+
+### Análise Gráfica das Suposições dos Resíduos
+
+```{r}
+acf(E_mod1_ajustado, main="ACF dos Resíduos do Modelo SARIMA(1,1,0) x (0,1,0)[12]", lag.max = 36)
+pacf(E_mod1_ajustado, main="PACF dos Resíduos do Modelo SARIMA(1,1,0) x (0,1,0)[12]", lag.max = 36)
+qqnorm(E_mod1_ajustado)
+qqline(E_mod1_ajustado, col = "red")
+```
+
+Analisando os gráficos de ACF e PACF dos resíduos, procuramos por autocorrelações significativas. Se houver picos que ultrapassam os limites de significância (geralmente não plotados por padrão, mas podemos imaginar as linhas em torno de zero), isso indicaria que o modelo não capturou toda a dependência nos dados. O QQ-plot ajuda a verificar se a distribuição dos resíduos se aproxima de uma normal.
+
+### Testes Estatísticos dos Resíduos
+
+#### Teste de Estacionaridade
+
+Aplicamos o teste KPSS aos resíduos para verificar se eles são estacionários (o que é esperado se o modelo for adequado).
+
+```{r}
+kpss_test_mod1 <- kpss.test(E_mod1_ajustado)
+print(kpss_test_mod1)
+```
+
+#### Teste de Independência
+
+O teste de Ljung-Box verifica se há autocorrelação significativa nos resíduos até um certo número de lags. A hipótese nula é que os resíduos são independentes (não correlacionados). Um p-valor baixo sugere que há autocorrelação significativa, indicando um possível problema com o modelo. O parâmetro `fitdf` representa os graus de liberdade perdidos devido aos parâmetros estimados no modelo (1 para o AR(1) neste caso).
+
+```{r}
+box_test_mod1 <- Box.test(E_mod1_ajustado, lag = 15, type = "Ljung-Box", fitdf = 1)
+print(box_test_mod1)
+```
+
+#### Teste de Normalidade
+
+O teste de Shapiro-Wilk verifica se os resíduos seguem uma distribuição normal. A hipótese nula é que os dados são normalmente distribuídos. Um p-valor baixo sugere que os resíduos não são normalmente distribuídos.
+
+```{r}
+shapiro_test_mod1 <- shapiro.test(E_mod1_ajustado)
+print(shapiro_test_mod1)
+```
+
+## Modelo 2: SARIMA(1,1,1) x (0,1,0)[12]
+
+```{r}
+modelo2 <- arima(x, order = c(1,1,1), seasonal = list(order = c(0,1,0), period = 12), include.mean = FALSE)
+print(modelo2)
+```
+
+### Análise de Resíduos
+
+```{r}
+E_mod2 <- ts(modelo2$residuals, frequency = 12, start = start(x))
+plot(E_mod2, main="Resíduos do Modelo SARIMA(1,1,1) x (0,1,0)[12]", ylab="Resíduos", xlab="Ano")
+```
+
+Novamente, os primeiros 12 resíduos serão `NA`.
+
+```{r}
+E_mod2_ajustado <- E_mod2[!is.na(E_mod2)]
+plot(E_mod2_ajustado, main="Resíduos Ajustados do Modelo SARIMA(1,1,1) x (0,1,0)[12]", ylab="Resíduos Ajustados", xlab="Ano")
+```
+
+### Análise Gráfica das Suposições dos Resíduos
+
+```{r}
+acf(E_mod2_ajustado, main="ACF dos Resíduos do Modelo SARIMA(1,1,1) x (0,1,0)[12]", lag.max = 36)
+pacf(E_mod2_ajustado, main="PACF dos Resíduos do Modelo SARIMA(1,1,1) x (0,1,0)[12]", lag.max = 36)
+qqnorm(E_mod2_ajustado)
+qqline(E_mod2_ajustado, col = "red")
+```
+
+Similarmente ao Modelo 1, analisamos os gráficos de ACF e PACF dos resíduos do Modelo 2 em busca de padrões de autocorrelação significativos. O QQ-plot nos ajuda a avaliar a normalidade dos resíduos.
+
+### Testes Estatísticos dos Resíduos
+
+#### Teste de Estacionaridade
+
+```{r}
+kpss_test_mod2 <- kpss.test(E_mod2_ajustado)
+print(kpss_test_mod2)
+```
+
+#### Teste de Independência
+
+Aqui, o `fitdf` será 2, pois temos um parâmetro AR(1) e um parâmetro MA(1) na parte não sazonal do modelo.
+
+```{r}
+box_test_mod2 <- Box.test(E_mod2_ajustado, lag = 15, type = "Ljung-Box", fitdf = 2)
+print(box_test_mod2)
+```
+
+#### Teste de Normalidade
+
+```{r}
+shapiro_test_mod2 <- shapiro.test(E_mod2_ajustado)
+print(shapiro_test_mod2)
+```
+
+## Comparação dos Modelos
+
+Para comparar os modelos, podemos observar os critérios de informação como o AIC (Akaike Information Criterion) e o BIC (Bayesian Information Criterion). Modelos com valores menores de AIC e BIC geralmente são preferíveis, pois oferecem um bom ajuste com menor complexidade. Também consideramos a análise dos resíduos.
+
+### Modelo 1: SARIMA(1,1,0) x (0,1,0)[12]
+
+```{r}
+print(modelo1)
+```
+
+### Modelo 2: SARIMA(1,1,1) x (0,1,0)[12]
+
+```{r}
+print(modelo2)
+```
+
+Analisando os valores de AIC e BIC para ambos os modelos, podemos ter uma ideia de qual deles se ajusta melhor aos dados, penalizando a complexidade (número de parâmetros). Além disso, os resultados dos testes de resíduos (estacionariedade, independência e normalidade) nos ajudam a avaliar a adequação de cada modelo.
+
+# Previsão
+
+Uma vez que um modelo SARIMA adequado é selecionado, podemos usá-lo para fazer previsões para o futuro.
+
+O R oferece a função `predict` para gerar previsões a partir de um objeto `arima`. No entanto, a função `forecast` do pacote `forecast` é geralmente mais conveniente, pois também fornece intervalos de confiança para as previsões.
+
+Gerando 1 ano de previsão (12 meses) usando o `predict`:
+
+```{r}
+previsao_mod1_predict <- predict(modelo1, n.ahead = 12)
+print(previsao_mod1_predict$pred)
+```
+
+Utilizando a função `forecast` da biblioteca `forecast`:
+
+```{r}
+forecast_mod1 <- forecast(modelo1, h = 12, level = 95)
+plot(forecast_mod1, main = "Previsão com Modelo SARIMA(1,1,0) x (0,1,0)[12]", ylab = "Passageiros (milhares)", xlab = "Ano")
+```
+
+Modelo `auto.arima`:
+
+A função `auto.arima` do pacote `forecast` pode automaticamente selecionar a ordem de um modelo ARIMA ou SARIMA para uma dada série temporal, tentando encontrar o melhor ajuste com base em critérios de informação.
+
+```{r}
+modelo3 <- auto.arima(AirPassengers)
+print(modelo3)
+forecast_mod3 <- forecast(modelo3, h = 12, level = 95)
+plot(forecast_mod3, main = paste("Previsão com Modelo auto.arima (", format(modelo3$model$call), ")"), ylab = "Passageiros (milhares)", xlab = "Ano")
+```
+
+A saída de `auto.arima` nos mostra a ordem do modelo SARIMA selecionado automaticamente. Em seguida, usamos a função `forecast` para gerar previsões com esse modelo, incluindo os intervalos de confiança de 95%.
+
+### Testes Estatísticos dos Resíduos
+
+#### Teste de Estacionaridade
+
+```{r}
+kpss_test_mod2 <- kpss.test(E_mod2_ajustado)
+print(kpss_test_mod2)
+```
+
+#### Teste de Independência
+
+Aqui, o `fitdf` será 2, pois temos um parâmetro AR(1) e um parâmetro MA(1) na parte não sazonal do modelo.
+
+```{r} box_test_mod2 <- Box.test(E_mod2_ajustado, lag = 15, type = "Ljung-Box", fitdf = 2) print(box_test_mod2)}
+```
+
+#### Teste de Normalidade
+
+```{r} shapiro_test_mod2 <- shapiro.test(E_mod2_ajustado) print(shapiro_test_mod2)}
+```
+
+## 
+
+**Considerações sobre Previsões:**
+
+-   Os intervalos de confiança fornecem uma medida da incerteza em torno das previsões. Intervalos mais amplos indicam maior incerteza.
+-   A precisão das previsões depende da adequação do modelo aos dados históricos e da estabilidade dos padrões na série temporal.
+-   É sempre importante avaliar a performance do modelo em dados de teste (se disponíveis) antes de confiar nas previsões para tomadas de decisão.
+
+Esta aula teórica sobre modelos SARIMA e previsões fornece uma base sólida para entender e aplicar essas técnicas em análise de séries temporais com sazonalidade. A prática com diferentes séries temporais e a avaliação cuidadosa dos modelos e suas previsões são passos cruciais para se tornar proficiente nessa área.

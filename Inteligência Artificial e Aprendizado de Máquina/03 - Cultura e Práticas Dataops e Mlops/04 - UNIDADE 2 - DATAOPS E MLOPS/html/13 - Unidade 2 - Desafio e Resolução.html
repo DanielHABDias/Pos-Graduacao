@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="https://instructure-uploads.s3.amazonaws.com/account_117480000000000001/attachments/5994795/pucminas_prod.mobile.css"><div id="topo" class="content-box" style="margin-top: 0;">
+<div id="geral" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+<div id="banner"><img style="min-width: 100%;" src="https://pucminas.instructure.com/courses/230797/files/14442286/download?verifier=e69YRGj0C75HOJwBx5BMrOOnKGj9kzgr6ak7JkRj&amp;wrap=1" alt="" width="100%" height="272" data-decorative="true" data-api-endpoint="https://pucminas.instructure.com/api/v1/courses/230797/files/14442286" data-api-returntype="File" loading="lazy"></div>
+<div><hr></div>
+<div class="grid-row ">
+<div id="texto-box" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+<div style="text-align: justify;">
+<div style="text-align: justify;">
+<h4><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;">Desafio 2 - Uso do MLflow<br></span></strong></h4>
+<p><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;"><span style="color: #0f3f62;"><span style="color: #333333; font-size: 14pt;">Enunciado</span></span></span></strong></p>
+</div>
+<div style="text-align: justify;">
+<p data-start="220" data-end="305">No ciclo de vida de projetos de Machine Learning, é comum enfrentarmos desafios como:</p>
+<ul data-start="307" data-end="595">
+<li data-start="307" data-end="412">
+<p data-start="309" data-end="412">Perda de rastreabilidade de experimentos (quais parâmetros foram usados? qual foi o melhor resultado?);</p>
+</li>
+<li data-start="413" data-end="475">
+<p data-start="415" data-end="475">Falta de padronização na organização dos modelos e métricas;</p>
+</li>
+<li data-start="476" data-end="534">
+<p data-start="478" data-end="534">Dificuldade de comparar e reproduzir treinos anteriores;</p>
+</li>
+<li data-start="535" data-end="595">
+<p data-start="537" data-end="595">Pouco controle sobre versões de modelos ao longo do tempo.</p>
+</li>
+</ul>
+<p data-start="597" data-end="879">À medida que os projetos crescem e se tornam mais colaborativos, essas limitações dificultam não apenas o desenvolvimento, mas também a entrega e manutenção de modelos em produção. É nesse contexto que entra uma das ferramentas mais utilizadas no ecossistema de MLOps: o <strong data-start="868" data-end="878">MLflow</strong>.</p>
+<p data-start="881" data-end="1152">O MLflow é uma plataforma open source que oferece suporte completo para gerenciar o ciclo de vida do ML, incluindo <strong data-start="996" data-end="1069">rastreamento de experimentos, registro de modelos e reprodutibilidade</strong>. Ele se integra facilmente com frameworks como Scikit-Learn, TensorFlow e PyTorch.</p>
+<p data-start="1282" data-end="1309">Neste desafio, você deverá:</p>
+<ul data-start="1311" data-end="1594">
+<li data-start="1311" data-end="1375">
+<p data-start="1313" data-end="1375">Instalar a biblioteca <code data-start="1335" data-end="1343">mlflow</code> no seu ambiente python (pip install mlflow);</p>
+</li>
+<li data-start="1376" data-end="1474">
+<p data-start="1378" data-end="1474">Utilizar o MLflow para registrar parâmetros, métricas e artefatos durante o treino de um modelo. Escolha o <em>dataset&nbsp;</em>e treine qualquer modelo com base nesses dados</p>
+</li>
+<li data-start="1475" data-end="1594">
+<p data-start="1477" data-end="1594">Avaliar como o uso dessa ferramenta pode melhorar a rastreabilidade e a gestão dos experimentos no contexto de MLOps.</p>
+</li>
+</ul>
+<p>Tente fazer sozinho inicialmente e caso queira, acompanhe a resolução abaixo.</p>
+<div style="text-align: justify;">
+<p><strong><span style="font-size: 14pt; color: #464545; font-family: 'Aleo regular', Verdana, Arial;"><span style="color: #0f3f62;"><span style="color: #333333; font-size: 14pt;">Resolução</span></span></span></strong></p>
+</div>
+<div style="text-align: justify;">
+<p>Para monitorar o treinamento de um modelo de <em>Machine Learning</em> com o pacote MLflow, o primeiro passo é garantir que o MLflow esteja devidamente instalado. Isso pode ser feito através do comando <code>pip install mlflow</code>. Em seguida, é preciso iniciar um experimento. Um experimento no MLflow é uma execução de treinamento específica, com seus próprios conjuntos de parâmetros e métricas. Isso é feito com o comando <code>mlflow.start_run()</code>.</p>
+<p style="text-align: center;"><img src="https://pucminas.instructure.com/courses/230797/files/13226789/preview?verifier=RJmtBsZ54rO400qn98hDkic8xytaJxgEq0NL4AdS" alt="image.png" width="640" height="594" data-api-endpoint="https://pucminas.instructure.com/api/v1/courses/230797/files/13226789" data-api-returntype="File" loading="lazy"></p>
+<p>Posteriormente, o treinamento do modelo pode ser realizado como de costume. No exemplo fornecido, uma regressão logística é treinada utilizando o conjunto de dados Iris. Durante o treinamento, é possível registrar parâmetros e métricas relevantes no MLflow. Por exemplo, os parâmetros do modelo podem ser registrados com <code>mlflow.log_param()</code> e as métricas de desempenho, como a acurácia, podem ser registradas com <code>mlflow.log_metric()</code>.</p>
+<p>Ao concluir o treinamento e registrar os parâmetros e métricas, é importante encerrar o experimento usando <code>mlflow.end_run()</code>. Isso assegura que o experimento seja finalizado adequadamente e os resultados sejam devidamente registrados.</p>
+<p>Para visualizar os resultados do experimento, o servidor web do MLflow pode ser iniciado com o comando <code>mlflow ui</code>. Isso abrirá uma interface no navegador, permitindo a visualização dos experimentos, métricas, modelos e outras informações relevantes.</p>
+<p>Adotando esses passos, os desenvolvedores podem efetivamente utilizar o MLflow para monitorar o treinamento de modelos de <em>Machine Learning</em>, mantendo um registro detalhado de parâmetros e métricas. Essa prática é essencial para o gerenciamento eficiente de experimentos no contexto de projetos de ML</p>
+</div>
+</div>
+<p>&nbsp;</p>
+</div>
+</div>
+</div>
+</div>
+</div>

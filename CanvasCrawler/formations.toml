@@ -1,0 +1,15 @@
+# O Canvas expõe disciplinas, não a formação acadêmica do aluno. Estas regras
+# associam as disciplinas retornadas pela API às formações reais.
+
+[[formations]]
+key = "ads"
+name = "Tecnologia em Análise e Desenvolvimento de Sistemas"
+term_prefixes = [
+  "Graduação Presencial",
+  "Semipresencial",
+]
+
+[[formations]]
+key = "ia-pos"
+name = "Inteligência Artificial e Aprendizado de Máquina"
+account_ids = [14586]

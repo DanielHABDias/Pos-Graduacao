@@ -1,0 +1,35 @@
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+
+# IDE e sistema operacional
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Coleta local do Canvas. O material revisado fica nas pastas das disciplinas.
+/CanvasCrawler/acervo/
+*.part
+*.tmp
+*.log
+
+# Materiais reconstruídos a partir de arquivos-grandes/ (acima de 100 MB)
+/Inteligência Artificial e Aprendizado de Máquina/06 - Modelos Estatísticos/03 - UNIDADE 2 - MODELOS LINEARES GENERALIZADOS/documentos/covid_doencas_preexistentes.csv
+/Inteligência Artificial e Aprendizado de Máquina/06 - Modelos Estatísticos/03 - UNIDADE 2 - MODELOS LINEARES GENERALIZADOS/documentos/covid_doencas_preexistentes-canvas-14887837.csv
+/Inteligência Artificial e Aprendizado de Máquina/06 - Modelos Estatísticos/03 - UNIDADE 2 - MODELOS LINEARES GENERALIZADOS/documentos/04 - Regressão Binária com Python.ipynb
+/Inteligência Artificial e Aprendizado de Máquina/06 - Modelos Estatísticos/03 - UNIDADE 2 - MODELOS LINEARES GENERALIZADOS/documentos/04 - Regressão Binária com Python-canvas-14887846.ipynb
+/Inteligência Artificial e Aprendizado de Máquina/10 - Análise de Imagem e Visão Computacional/05 - UNIDADE 4 - APLICAÇÕES COM REDES NEURAIS CONVOLUCIONAIS/documentos/yolov4-dataset_car_chair_book.zip

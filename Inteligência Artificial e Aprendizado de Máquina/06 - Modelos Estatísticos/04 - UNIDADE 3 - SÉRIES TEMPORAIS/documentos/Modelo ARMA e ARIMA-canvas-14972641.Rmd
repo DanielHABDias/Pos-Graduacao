@@ -1,0 +1,414 @@
+---
+title: "Modelos ARMA e ARIMA"
+output: html_notebook
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# Adequação de Modelos
+
+Nesta aula, vamos discutir a metodologia para adequar modelos ARMA
+(Autorregressivo Média Móvel) e ARIMA (Autorregressivo Integrado Média
+Móvel) a séries temporais. Esses modelos são poderosos para descrever e
+prever o comportamento de dados sequenciais ao longo do tempo.
+
+```{r}
+# Carregando as bibliotecas necessárias
+# install.packages('forecast') # 
+library(forecast) # Contém funções para análise e previsão de séries temporais, incluindo auto.arima
+library(tseries) # Fornece funções para análise de séries temporais, como testes de estacionariedade (KPSS)
+library(ggplot2) # Útil para criar gráficos de alta qualidade
+```
+
+## Simulação de um Modelo ARIMA
+
+Um modelo ARIMA é definido por três parâmetros: p, d e q, onde:
+
+-   p: Ordem do componente autorregressivo (AR). Indica quantos valores
+    passados da série são usados para prever o valor atual.
+-   d: Ordem da diferenciação (I - de "Integrated"). Representa o número
+    de vezes que a série precisa ser diferenciada para se tornar
+    estacionária.
+-   q: Ordem do componente de média móvel (MA). Indica quantos erros de
+    previsão passados são usados para prever o valor atual. A parte AR
+    modela a dependência da série em seus próprios valores passados,
+    enquanto a parte MA modela a dependência nos erros aleatórios
+    passados. A parte I lida com a não estacionariedade da série.
+
+Neste exemplo, simulamos uma série temporal que segue um modelo
+ARIMA(1,1,1). Isso significa que o valor atual depende do valor anterior
+(AR(1)), a série foi diferenciada uma vez para se tornar estacionária
+(I(1)), e o valor atual também depende do erro de previsão anterior
+(MA(1)).
+
+```{r}
+set.seed(99) # Define uma semente para garantir a reprodutibilidade da simulação
+# Simulando uma série com modelo ARIMA(1,1,1)
+# 'n' é o número de observações na série simulada
+# 'model' é uma lista que especifica a ordem (p, d, q) e os coeficientes dos componentes AR e MA
+# 'ar = 0.6' significa que o coeficiente do termo AR de primeira ordem é 0.6
+# 'ma = 0.5' significa que o coeficiente do termo MA de primeira ordem é 0.5
+x <- arima.sim(n = 1000, model = list(order = c(1,1,1), ar = 0.6 , ma = 0.5))
+plot.ts(x, main="Série Simulada ARIMA(1,1,1)", ylab="Valores", col="blue")
+```
+
+### *Teste de Estacionaridade* 
+
+A estacionariedade é uma propriedade crucial para aplicar modelos
+ARMA/ARIMA. Uma série temporal estacionária tem propriedades
+estatísticas (média e variância) que não mudam ao longo do tempo. Muitos
+modelos de séries temporais assumem estacionariedade.
+
+Teste KPSS O Teste KPSS (Kwiatkowski-Phillips-Schmidt-Shin) é um teste
+estatístico para verificar a hipótese nula de que uma série temporal é
+estacionária em torno de uma média constante ou uma tendência.
+
+Hipótese Nula (H0): A série é estacionária. Hipótese Alternativa (Ha): A
+série não é estacionária. Um p-valor baixo (tipicamente \< 0.05) nos
+leva a rejeitar a hipótese nula, indicando que a série provavelmente não
+é estacionária.
+
+```{r}
+kpss_result <- kpss.test(x)
+print(kpss_result)
+
+if (kpss_result$p.value < 0.05) {
+  print("Rejeitamos a hipótese nula: A série não é estacionária.")
+} else {
+  print("Falha ao rejeitar a hipótese nula: A série é estacionária.")
+}
+```
+
+Como a série simulada com um componente de integração (d=1) não é
+estacionária, precisamos transformá-la para torná-la estacionária.
+
+### Determinação do Número de Diferenciações Necessárias
+
+A diferenciação é uma técnica comum para remover a não estacionariedade
+causada por tendências. Diferenciar uma série significa subtrair o valor
+anterior do valor atual. A função `ndiffs` do pacote forecast estima o
+número de diferenciações necessárias para tornar uma série temporal
+estacionária usando o teste KPSS (por padrão, mas outros testes estão
+disponíveis). O parâmetro alpha define o nível de significância para o
+teste.
+
+```{r}
+d <- ndiffs(x, alpha = 0.05)
+print(paste("Número de diferenciações necessárias: ", d))
+```
+
+### Aplicando as Diferenciações
+
+Aplicamos a função diff com o número de diferenciações d para
+transformar a série original x em uma série estacionária w.
+
+```{r}
+w <- diff(x, differences = d)
+plot.ts(w, main="Série Estacionária (após diferenciação)", ylab="Valores", col="blue")
+```
+
+## Análise da Série Estacionária
+
+Uma vez que a série é estacionária, podemos analisar seus padrões de
+autocorrelação para nos ajudar a identificar as ordens apropriadas (p e
+q) para os componentes AR e MA.
+
+A Função de Autocorrelação (ACF) plota as correlações entre a série e
+seus próprios valores defasados no tempo. Ela nos ajuda a identificar a
+ordem do componente MA (q). Um corte abrupto na ACF após uma certa
+defasagem sugere essa ordem. Um decaimento gradual sugere um componente
+AR.
+
+A Função de Autocorrelação Parcial (PACF) plota as correlações entre a
+série e seus valores defasados, removendo o efeito das defasagens
+intermediárias. Ela é útil para identificar a ordem do componente AR
+(p). Um corte abrupto na PACF após uma certa defasagem sugere essa
+ordem. Um decaimento gradual sugere um componente MA.
+
+```{r}
+print(acf(w, main="Função de Autocorrelação (ACF)"))
+print(pacf(w, main="Função de Autocorrelação Parcial (PACF)"))
+```
+
+Na análise da ACF e PACF da série diferenciada simulada, os padrões
+podem não ser perfeitamente claros devido à natureza estocástica dos
+dados. No entanto, geralmente procuramos por defasagens significativas
+que ultrapassam os limites de confiança (as linhas azuis tracejadas).
+
+## Ajustando Modelos AR, MA e ARMA
+
+Com base na análise da ACF e PACF (e possivelmente em outros critérios
+como AIC e BIC), podemos tentar ajustar diferentes modelos AR, MA ou
+ARMA à série estacionária.
+
+Verificando um Modelo AR Um modelo Autorregressivo de ordem p (AR(p))
+assume que o valor atual da série é uma combinação linear dos seus p
+valores anteriores, mais um termo de erro aleatório.
+
+Supondo que, após analisar a PACF, observamos uma queda significativa
+após a quarta defasagem, poderíamos considerar um modelo AR(4).
+
+```{r}
+AR <- arima(w, order = c(4,0,0), include.mean = FALSE)
+E_AR <- AR$residuals
+```
+
+## Análise Gráfica dos Resíduos do Modelo AR
+
+Os resíduos de um bom modelo de série temporal devem se comportar como
+ruído branco: não devem apresentar padrões de autocorrelação, devem ter
+média zero e variância constante, e idealmente devem ser normalmente
+distribuídos.
+
+```{r}
+plot(E_AR, main="Resíduos do Modelo AR(4)", ylab="Resíduos", col="blue")
+acf(E_AR, main="ACF dos Resíduos AR(4)")
+pacf(E_AR, main="PACF dos Resíduos AR(4)")
+qqnorm(E_AR)
+qqline(E_AR, col = "red")
+```
+
+### Testes Estatísticos para Validar o Modelo AR
+
+Realizamos testes formais para verificar as propriedades dos resíduos.
+
+Temos que verificar se nossos resíduos são:
+
+-   Normais
+
+-   Independentes
+
+-   Estacionários
+
+#### Teste de Estacionaridade - KPSS
+
+```{r}
+kpss_result_AR <- kpss.test(E_AR)
+print(kpss_result_AR)
+```
+
+#### Teste de Independência - Ljung-Box
+
+O Teste de Ljung-Box é usado para verificar se há alguma autocorrelação
+significativa em um conjunto de dados de séries temporais. A hipótese
+nula é que os dados são independentemente distribuídos (ou seja, não há
+autocorrelação). Um p-valor baixo sugere que há autocorrelação
+significativa nos resíduos, o que indica que o modelo pode não ser
+adequado. O parâmetro lag especifica o número máximo de defasagens a
+serem consideradas, e fitdf representa o número de graus de liberdade
+perdidos devido aos parâmetros ajustados no modelo (neste caso, 4 para o
+AR(4)).
+
+```{r}
+box_result_AR <- Box.test(E_AR, lag = 20, type = "Ljung-Box", fitdf = 4)
+print(box_result_AR)
+if (box_result_AR$p.value > 0.05) {
+  print("Falha ao rejeitar a hipótese nula: Os resíduos são independentes.")
+} else {
+  print("Rejeitamos a hipótese nula: Os resíduos não são independentes.")
+}
+```
+
+#### Teste de Normalidade - Shapiro-Wilk
+
+O Teste de Shapiro-Wilk é um teste para verificar se uma amostra de
+dados veio de uma população normalmente distribuída. A hipótese nula é
+que os dados são normalmente distribuídos. Um p-valor baixo sugere que
+os resíduos não são normalmente distribuídos.
+
+```{r}
+shapiro_result_AR <- shapiro.test(E_AR)
+print(shapiro_result_AR)
+if (shapiro_result_AR$p.value > 0.05) {
+  print("Falha ao rejeitar a hipótese nula: Os resíduos seguem uma distribuição normal.")
+} else {
+  print("Rejeitamos a hipótese nula: Os resíduos não seguem uma distribuição normal.")
+}
+```
+
+### Verificando um Modelo MA
+
+Um modelo de Média Móvel de ordem q (MA(q)) assume que o valor atual da
+série é uma combinação linear dos q erros aleatórios passados.
+
+Supondo que, após analisar a ACF, observamos uma queda significativa
+após a sexta defasagem, poderíamos considerar um modelo MA(6).
+
+```{r}
+MA <- arima(w, order = c(0,0,6), include.mean = FALSE)
+E_MA <- MA$residuals
+```
+
+### Análise Gráfica dos Resíduos do Modelo MA
+
+Similar à análise dos resíduos do modelo AR, examinamos os gráficos de
+ACF, PACF e o QQ-plot dos resíduos do modelo MA para verificar se eles
+se aproximam do ruído branco.
+
+```{r}
+plot(E_MA, main="Resíduos do Modelo MA(6)", ylab="Resíduos", col="blue")
+acf(E_MA, main="ACF dos Resíduos MA(6)")
+pacf(E_MA, main="PACF dos Resíduos MA(6)")
+qqnorm(E_MA)
+qqline(E_MA, col = "red")
+```
+
+### Testes Estatísticos para Validar o Modelo MA
+
+Aplicamos os mesmos testes estatísticos (KPSS, Ljung-Box e Shapiro-Wilk)
+aos resíduos do modelo MA(6). O número de graus de liberdade para o
+teste de Ljung-Box agora é 6 (a ordem do modelo MA).
+
+#### Teste de Estacionaridade - KPSS
+
+```{r}
+kpss_result_MA <- kpss.test(E_MA)
+print(kpss_result_MA)
+```
+
+#### Teste de Independência - Ljung-Box
+
+```{r}
+box_result_MA <- Box.test(E_MA, lag = 20, type = "Ljung-Box", fitdf = 6)
+print(box_result_MA)
+if (box_result_MA$p.value > 0.05) {
+  print("Falha ao rejeitar a hipótese nula: Os resíduos são independentes.")
+} else {
+  print("Rejeitamos a hipótese nula: Os resíduos não são independentes.")
+}
+```
+
+#### Teste de Normalidade - Shapiro-Wilk
+
+```{r}
+shapiro_result_MA <- shapiro.test(E_MA)
+print(shapiro_result_MA)
+if (shapiro_result_MA$p.value > 0.05) {
+  print("Falha ao rejeitar a hipótese nula: Os resíduos seguem uma distribuição normal.")
+} else {
+  print("Rejeitamos a hipótese nula: Os resíduos não seguem uma distribuição normal.")
+}
+```
+
+### Verificando um Modelo ARMA
+
+Um modelo ARMA(p,q) combina os componentes autorregressivo (AR(p)) e de
+média móvel (MA(q)).
+
+Supondo que, após analisar a ACF e PACF, observamos padrões que sugerem
+a necessidade de ambos os componentes, e tentamos um modelo ARMA(1,1).
+
+```{r}
+ARMA <- arima(w, order = c(1,0,1), include.mean = FALSE)
+E_ARMA <- ARMA$residuals
+```
+
+### Análise Gráfica dos Resíduos do Modelo ARMA
+
+Novamente, analisamos graficamente os resíduos do modelo ARMA(1,1).
+
+```{r}
+plot(E_ARMA, main="Resíduos do Modelo ARMA(1,1)", ylab="Resíduos", col="blue")
+acf(E_ARMA, main="ACF dos Resíduos ARMA(1,1)")
+pacf(E_ARMA, main="PACF dos Resíduos ARMA(1,1)")
+qqnorm(E_ARMA)
+qqline(E_ARMA, col = "red")
+```
+
+### Testes Estatísticos para Validar o Modelo ARMA
+
+Aplicamos os testes estatísticos aos resíduos do modelo ARMA(1,1). O
+número de graus de liberdade para o teste de Ljung-Box agora é 1 (para o
+AR) + 1 (para o MA) = 2.
+
+#### Teste de Estacionaridade - KPSS
+
+```{r}
+kpss_result_ARMA <- kpss.test(E_ARMA)
+print(kpss_result_ARMA)
+```
+
+#### Teste de Independência - Ljung-Box
+
+```{r}
+box_result_ARMA <- Box.test(E_ARMA, lag = 20, type = "Ljung-Box", fitdf = 2)
+print(box_result_ARMA)
+if (box_result_ARMA$p.value > 0.05) {
+  print("Falha ao rejeitar a hipótese nula: Os resíduos são independentes.")
+} else {
+  print("Rejeitamos a hipótese nula: Os resíduos não são independentes.")
+}
+```
+
+#### Teste de Normalidade - Shapiro-Wilk
+
+```{r}
+shapiro_result_ARMA <- shapiro.test(E_ARMA)
+print(shapiro_result_ARMA)
+if (shapiro_result_ARMA$p.value > 0.05) {
+  print("Falha ao rejeitar a hipótese nula: Os resíduos seguem uma distribuição normal.")
+} else {
+  print("Rejeitamos a hipótese nula: Os resíduos não seguem uma distribuição normal.")
+}
+```
+
+### Comparação de Modelos
+
+Além da análise dos resíduos, podemos comparar diferentes modelos usando
+critérios de informação como o Critério de Informação de Akaike (AIC) e
+o Critério de Informação Bayesiano (BIC). Modelos com AIC e BIC menores
+são geralmente preferíveis, pois oferecem um bom ajuste com menor
+complexidade (penalizam modelos com muitos parâmetros).
+
+Modelo AR(4)
+
+```{r}
+AR
+```
+
+Modelo MA(6)
+
+```{r}
+MA
+```
+
+Modelo ARMA(1,1)
+
+```{r}
+ARMA
+```
+
+Analisando os valores de AIC e BIC desses modelos, podemos ter uma ideia
+de qual deles oferece o melhor compromisso entre ajuste aos dados e
+parcimônia.
+
+O sigma é uma medida da variabilidade não explicada pelo modelo. Quanto
+menor esse valor, menor a variância dos resíduos, e melhor o modelo se
+ajusta aos dados (assumindo que os resíduos sejam realmente ruído
+branco). Ele nos diz quanta "aleatoriedade" ou "ruído" ainda resta na
+série depois que foi modelado.
+
+Modelo de Séries Temporais auto.arima()
+
+A função auto.arima do pacote forecast tenta encontrar automaticamente a
+melhor ordem (p, d, q) para um modelo ARIMA para uma dada série
+temporal. Ela considera várias combinações de ordens e seleciona o
+modelo com o menor AIC (ou BIC, dependendo das configurações).
+
+```{r}
+auto_model <- auto.arima(x)
+summary(auto_model)
+```
+
+O resultado de summary(auto_model) mostrará a ordem ARIMA selecionada,
+os coeficientes estimados e outras informações relevantes sobre o modelo
+ajustado automaticamente.
+
+Exemplos com Bases Prontas do R Vamos agora aplicar esses conceitos a
+algumas bases de dados de séries temporais que já estão disponíveis no
+R.
+
+Exemplo 1: Série AirPassengers Esta série representa o número total
+mensal de passageiros de companhias aéreas internacionais (em milhares)
+entre 1949 e 1960. Ela é conhecida por ter uma tendência e sazonalidade.
